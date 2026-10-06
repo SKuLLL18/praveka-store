@@ -1,0 +1,80 @@
+/* SCRIPT.JS - the website's behaviour (search, filters, cart, product page).
+   You normally do NOT need to edit this file. Products live in products.js. */
+
+var CC={};CATS.forEach(function(c){CC[c[0]]=c[1]});
+var cat="All",term="",$=function(i){return document.getElementById(i)};
+var P=[];
+function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function setP(list){P=list.map(function(p){var q=JSON.parse(JSON.stringify(p));q.rn=q.n||"";["n","t","desc","mode","features","crops","pests","dose","brand","head","ftype","form","conc","apptype","phys","ptype","moq","video","brochure"].forEach(function(k){q[k]=esc(q[k]||"")});q.images=(q.images||[]).map(esc);q.sizes=q.sizes.map(function(z){return[esc(z[0]),z[1],z[2]]});q.col=CC[q.c]||"#3f8a4c";return q})}
+function rs(n){return "Rs. "+Math.round(n).toLocaleString("en-IN")}
+function bottle(c){return '<div class="pic" style="--tint:'+c+'"><div class="bottle"><i></i></div></div>'}
+function tiles(){$("tiles").innerHTML=CATS.map(function(c){var s=c[0].toLowerCase().replace(/[^a-z]+/g,"-").replace(/-$/,"");return '<a class="tile" href="#products" data-c="'+c[0]+'"><i style="--tint:'+c[1]+'"><img src="images/cat-'+s+'.jpg" alt="" loading="lazy"></i>'+c[0]+'</a>'}).join("")}
+function cats(){var a=["All"].concat(CATS.map(function(c){return c[0]}));
+$("cats").innerHTML=a.map(function(x){return '<button class="chip" aria-pressed="'+(x==cat)+'" data-c="'+x+'">'+x+'</button>'}).join("")}
+function grid(){var l=P.filter(function(p){return (cat=="All"||p.c==cat)&&(!term||(p.n+p.t+p.c).toLowerCase().indexOf(term)>-1)});
+$("grid").innerHTML=l.length?l.map(function(p){var s=p.sizes[0];
+return '<button class="card" data-id="'+p.id+'">'+(p.sale?'<span class="tag">Sale</span>':'')+pic(p)+'<div class="cb"><h3>'+p.n+'</h3><div class="tech">'+p.c+'</div><span class="price">From '+rs(s[1])+(s[2]>s[1]?'<s>'+rs(s[2])+'</s>':'')+'</span></div></button>'}).join(""):'<p class="ph">No products found.</p>'}
+function pic(p,i){var u=p.images&&p.images[i||0];return u?'<div class="pic"><img src="'+u+'" alt="'+p.n+'"></div>':bottle(p.col)}
+function specRows(p){var R=[["Formulation Type",p.ftype],["Form",p.form],["Concentration",p.conc],["Application Type",p.apptype],["Physical Form",p.phys],["Packaging Size",p.sizes.map(function(z){return z[0]}).join(", ")],["Brand",p.brand],["Dosage",p.dose],["Packaging Type",p.ptype],["Technical Name",p.t]];
+return R.filter(function(r){return r[1]}).map(function(r){return '<tr><td>'+r[0]+'</td><td><b>'+r[1]+'</b></td></tr>'}).join("")}
+function detailBody(p){var sp=specRows(p),h="";
+if(sp)h+='<table>'+sp+'</table>';
+if(p.head)h+='<h3 style="margin:14px 0 8px">'+p.head+'</h3>';
+if(p.desc)h+='<p style="max-width:75ch">'+p.desc+'</p>';
+var L=(p.features||"").split("\n").filter(function(x){return x.trim()});
+if(p.mode)L.push("Mode of Action: "+p.mode);if(p.pests)L.push("Targets: "+p.pests);if(p.crops)L.push("Ideal for crops like: "+p.crops);
+if(L.length)h+='<h3 style="margin:14px 0 6px">Key features</h3><ul class="kf">'+L.map(function(x){var m=x.match(/^([^:]{2,40}):\s*(.+)$/);return '<li>'+(m?'<b>'+m[1]+':</b> '+m[2]:x)+'</li>'}).join("")+'</ul>';
+if(!p.head&&!p.desc&&!L.length&&(sp.match(/<tr>/g)||[]).length<=1)h+='<p class="ph">Product details will appear here. Add them in the admin page, or import a CSV file.</p>';return h}
+function detail(id){var p=P.find(function(x){return x.id==id});if(!p){location.hash="products";return}
+var vi=0,q=1,im=0,pin="";
+function draw(){var pr=p.sizes[vi][1]*q,mp=p.sizes[vi][2]*q;
+var th=(p.images||[]).length>1?p.images.map(function(u,i){return '<button class="th" data-i="'+i+'" aria-pressed="'+(i==im)+'" aria-label="Image '+(i+1)+'"><img src="'+u+'" alt=""></button>'}).join(""):"";
+var sim=P.filter(function(x){return x.id!=p.id&&x.c==p.c}).concat(P.filter(function(x){return x.c!=p.c})).slice(0,4);
+$("detailView").innerHTML='<a href="#products">Back to products</a><div class="detail"><div>'+pic(p,im)+(th?'<div class="thumbs">'+th+'</div>':'')+(p.video?'<p><a href="'+p.video+'" target="_blank" rel="noopener">Watch product video</a></p>':'')+'</div><div><h1>'+p.n+'</h1>'+(p.brand?'<div class="tech">Brand: '+p.brand+'</div>':'')+'<div class="price" style="font-size:26px;margin-top:8px">'+rs(pr)+'<s>'+rs(mp)+'</s><span class="off">Saving '+rs(mp-pr)+'</span></div>'+(p.moq?'<p style="margin:4px 0">Minimum order quantity: <b>'+p.moq+'</b></p>':'')+(p.brochure?'<p style="margin:4px 0"><a href="'+p.brochure+'" target="_blank" rel="noopener">Product brochure (PDF)</a></p>':'')+'<div class="vars" role="group" aria-label="Pack size">'+p.sizes.map(function(v,i){return '<button class="var" data-v="'+i+'" aria-pressed="'+(i==vi)+'">'+v[0]+'</button>'}).join("")+'</div><div class="row"><span class="qty"><button data-q="-1" aria-label="Less">-</button><span>'+q+'</span><button data-q="1" aria-label="More">+</button></span><button class="btn" id="add">Add to cart</button></div><button class="btn alt w" id="buy">Buy now</button><div class="row" style="margin-top:10px"><button class="btn alt" id="enq">Get best quote</button><a class="btn alt" href="tel:+910000000000">Call now</a></div><div class="box"><b>Need bulk quantity?</b>Contact us for bulk order pricing. <a href="#contact">Contact us</a></div><div class="box"><b>Check delivery</b>Enter a 6-digit PIN code to see delivery options.<div class="pin"><input id="pc" inputmode="numeric" maxlength="6" placeholder="PIN code" value="'+pin+'" aria-label="PIN code"><button id="chk">Check</button></div><div id="pm" style="margin-top:6px"></div></div></div></div>'+
+'<h2 style="font-size:24px">Product details</h2>'+detailBody(p)+
+'<div class="trust"><div><b>Free shipping</b><span>Add details</span></div><div><b>Secure payments</b><span>Add details</span></div><div><b>Premium quality</b><span>Add details</span></div></div>'+
+'<h2 style="font-size:24px;margin:20px 0 10px">Customer reviews</h2><div class="rv">No reviews yet. Customer reviews will appear here.</div>'+
+'<h2 style="font-size:24px;margin:26px 0 10px">You may also like</h2><div class="grid">'+sim.map(function(s){return '<button class="card" data-id="'+s.id+'">'+pic(s)+'<div class="cb"><h3>'+s.n+'</h3><div class="tech">'+s.c+'</div><span class="price">From '+rs(s.sizes[0][1])+'</span></div></button>'}).join("")+'</div>';
+$("detailView").onclick=function(e){var b=e.target.closest("button");if(!b)return;
+if(b.dataset.v!=null){vi=+b.dataset.v;draw()}else if(b.dataset.i!=null){im=+b.dataset.i;draw()}else if(b.dataset.q){q=Math.max(1,q+ +b.dataset.q);draw()}
+else if(b.id=="add"){addCart(p.id,vi,q);toast(q+" x "+p.n+" ("+p.sizes[vi][0]+") added to cart")}
+else if(b.id=="enq"){var ta=document.querySelector("#contactForm textarea");if(ta)ta.value="Hello, I am interested in "+p.rn+" ("+p.sizes[vi][0]+"). Please share the best price.";location.hash="contact"}else if(b.id=="buy"){addCart(p.id,vi,q);location.hash="cart"}
+else if(b.id=="chk"){pin=$("pc").value;draw();$("pm").textContent=/^\d{6}$/.test(pin)?"Delivery available. Add your delivery time here.":"Invalid PIN code. Enter 6 digits."}
+else if(b.dataset.id){location.hash="p/"+b.dataset.id}}}
+draw()}
+function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("on")},2200)}
+var PAGES=["home","about","crops","products","contact","cart"];
+function counters(){document.querySelectorAll("[data-t]").forEach(function(el){var t=+el.dataset.t,st=null,fin=t.toLocaleString("en-IN")+"+";
+if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.textContent=fin;return}
+function f(ts){st=st||ts;var p=Math.min((ts-st)/1200,1);el.textContent=Math.round(t*p).toLocaleString("en-IN")+"+";if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)})}
+function route(){var h=location.hash.slice(1),m=h.match(/^p\/(.+)/),pg=m?"products":(PAGES.indexOf(h)>-1?h:"home"),key=m?"detail":pg;
+document.querySelectorAll(".pg").forEach(function(e){e.classList.toggle("hide",e.dataset.p.split(" ").indexOf(key)<0)});
+if(m)detail(m[1]);
+document.querySelectorAll(".links a").forEach(function(a){a.removeAttribute("aria-current");if(a.getAttribute("href")=="#"+pg)a.setAttribute("aria-current","page")});
+document.querySelector(".links").classList.remove("open");scrollTo(0,0);
+if(pg=="cart")renderCart();if(pg=="home"||pg=="about")counters()}
+document.addEventListener("click",function(e){var c=e.target.closest("[data-c]");if(c){cat=c.dataset.c;term="";$("q").value="";cats();grid();return}
+var k=e.target.closest("#grid .card,#fgrid .card");if(k)location.hash="p/"+k.dataset.id});
+$("sf").onsubmit=function(e){e.preventDefault();term=$("q").value.trim().toLowerCase();cat="All";cats();grid()};
+$("cartBtn").onclick=function(){location.hash="cart"};
+$("nf").onsubmit=function(e){e.preventDefault();var f=e.target;post("/api/subscribe",{email:f.elements.email.value}).then(function(){f.reset();toast("Thanks for subscribing")}).catch(errToast)};
+window.addEventListener("hashchange",route);
+function feat(){var CK=["Insecticide","Fungicide","Herbicide","Fertilizer","PGR & Nutrition"];var L=CK.map(function(c){var l=P.filter(function(p){return p.c==c});return l.filter(function(p){return p.images&&p.images.length}).concat(l)[0]}).filter(Boolean);$("fgrid").innerHTML=L.map(function(p){var s=p.sizes[0];return '<button class="card" data-id="'+p.id+'">'+(p.sale?'<span class="tag">Sale</span>':'')+pic(p)+'<div class="cb"><h3>'+p.n+'</h3><div class="tech">'+p.c+'</div><span class="price">From '+rs(s[1])+(s[2]>s[1]?'<s>'+rs(s[2])+'</s>':'')+'</span></div></button>'}).join("")}
+$("bg").onclick=function(){document.querySelector(".links").classList.toggle("open")};
+$("contactForm").onsubmit=function(e){e.preventDefault();var f=e.target,x=f.elements;post("/api/contact",{name:x.name.value,phone:x.phone.value,message:x.message.value}).then(function(){f.reset();toast("Thanks. We will contact you soon.")}).catch(errToast)};
+var CART=[];try{CART=JSON.parse(localStorage.getItem("pls_cart")||"[]")}catch(e){}
+function updateCnt(){$("cnt").textContent=CART.reduce(function(a,i){return a+i.q},0)}
+function saveCart(){try{localStorage.setItem("pls_cart",JSON.stringify(CART))}catch(e){}updateCnt()}
+function addCart(id,vi,q){var f=CART.find(function(i){return i.id==id&&i.s==vi});if(f)f.q+=q;else CART.push({id:id,s:vi,q:q});saveCart()}
+function post(u,b){return fetch(u,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||"Something went wrong");return j})})}
+function errToast(er){toast(er instanceof TypeError?"Could not reach the server. Start the backend and open the site from it.":er.message)}
+function renderCart(){var el=$("cartView"),rows=[];
+CART.forEach(function(i,k){var p=P.find(function(x){return x.id==i.id}),z=p&&p.sizes[i.s];if(z)rows.push({k:k,p:p,z:z,q:i.q})});
+if(!rows.length){el.innerHTML='<h2>Your cart</h2><p>Your cart is empty.</p><a class="btn" href="#products">Shop products</a>';return}
+var tot=rows.reduce(function(a,r){return a+r.z[1]*r.q},0);
+el.innerHTML='<h2>Your cart</h2><div class="cartgrid"><div>'+rows.map(function(r){return '<div class="crow"><div><b>'+r.p.n+'</b><div class="tech">'+r.z[0]+' &middot; '+rs(r.z[1])+' each</div></div><span class="qty"><button data-k="'+r.k+'" data-d="-1" aria-label="Less">-</button><span>'+r.q+'</span><button data-k="'+r.k+'" data-d="1" aria-label="More">+</button></span><b>'+rs(r.z[1]*r.q)+'</b><button class="ic" data-k="'+r.k+'" data-d="0">Remove</button></div>'}).join("")+'<p class="price" style="font-size:22px;margin-top:14px">Total: '+rs(tot)+'</p></div><form class="cform" id="co"><h3>Delivery details</h3><label>Full name<input name="name" required></label><label>Mobile number<input name="phone" type="tel" inputmode="numeric" required></label><label>Full address<textarea name="address" rows="3" required></textarea></label><label>PIN code<input name="pincode" inputmode="numeric" maxlength="6" required></label><p class="tech">Payment: cash on delivery.</p><button class="btn">Place order</button></form></div>';
+el.onclick=function(e){var b=e.target.closest("button[data-k]");if(!b)return;var k=+b.dataset.k,d=+b.dataset.d;if(d===0)CART.splice(k,1);else CART[k].q=Math.max(1,CART[k].q+d);saveCart();renderCart()};
+el.onsubmit=function(e){e.preventDefault();var f=e.target.elements;post("/api/orders",{name:f.name.value,phone:f.phone.value,address:f.address.value,pincode:f.pincode.value,items:CART.map(function(i){return{id:i.id,s:i.s,q:i.q}})}).then(function(j){CART=[];saveCart();el.innerHTML='<h2>Order placed</h2><p>Thank you. Your order number is <b>'+j.id+'</b>. We will call you to confirm delivery.</p><a class="btn" href="#products">Continue shopping</a>'}).catch(errToast)}}
+function start(list){setP(list);tiles();cats();grid();feat();route()}
+updateCnt();
+fetch("/api/products").then(function(r){if(!r.ok)throw 0;return r.json()}).then(start).catch(function(){start(PRODUCTS)});

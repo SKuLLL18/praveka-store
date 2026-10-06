@@ -1,0 +1,96 @@
+// SERVER.JS - Praveka Life Science backend (Express + JSON files).
+const express=require("express"),fs=require("fs"),path=require("path"),crypto=require("crypto");
+try{fs.readFileSync(path.join(__dirname,".env"),"utf8").split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);if(m&&!(m[1] in process.env))process.env[m[1]]=m[2]})}catch(e){}
+const PASS=process.env.ADMIN_PASSWORD||"",PORT=process.env.PORT||3000,HOST=process.env.HOST||"127.0.0.1";
+if(PASS.length<8||PASS==="change-this-password"){console.error("\nFirst copy .env.example to .env and set ADMIN_PASSWORD to your own password (8+ characters).\n");process.exit(1)}
+const D=path.join(__dirname,"data");fs.mkdirSync(D,{recursive:true});
+const rd=(n,d)=>{try{return JSON.parse(fs.readFileSync(path.join(D,n+".json"),"utf8"))}catch(e){return d}};
+const wr=(n,v)=>{const f=path.join(D,n+".json");fs.writeFileSync(f+".tmp",JSON.stringify(v,null,2));fs.renameSync(f+".tmp",f)};
+const s=(v,m)=>String(v==null?"":v).trim().slice(0,m);
+const wrap=f=>(q,r)=>{try{f(q,r)}catch(e){r.status(400).json({error:typeof e==="string"?e:"Invalid request"})}};
+const hits={};
+const limit=(max,ms)=>(q,r,n)=>{const k=q.ip+q.path,t=Date.now();hits[k]=(hits[k]||[]).filter(x=>t-x<ms);if(hits[k].length>=max)return r.status(429).json({error:"Too many requests. Please try again later."});hits[k].push(t);n()};
+const app=express();app.disable("x-powered-by");
+app.use(express.json({limit:"1mb"}));
+app.use((q,r,n)=>{r.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"same-origin"});n()});
+
+// ---- admin login ----
+const tokens=new Map();
+app.post("/api/contact",limit(10,3600e3),wrap((q,r)=>{
+  const name=s(q.body.name,80),phone=s(q.body.phone,20),message=s(q.body.message,1000),qty=s(q.body.quantity,30);
+  if(name.length<2)throw "Please enter your name";if(phone.replace(/\D/g,"").length<10)throw "Enter a valid phone number";
+  const pr=rd("products",[]).find(x=>x.id===s(q.body.product,150));
+  const QTY=["1","2","3","4","5","10","15","20","25","50","100","More than 100"];
+  const L=rd("messages",[]);L.unshift({date:new Date().toISOString(),name,phone,product:pr?pr.n:"",quantity:QTY.includes(qty)?qty:"",message});wr("messages",L);r.json({ok:true})}));
+const auth=(q,r,n)=>{const e=tokens.get(q.get("x-admin-token"));if(!e||e<Date.now())return r.status(401).json({error:"Please log in"});n()};
+
+// ---- products ----
+const url=v=>{v=s(v,300);if(!v)return"";if(!/^https:\/\/[^\s"'<>]+$/i.test(v))throw "Links must start with https://";return v};
+const img=v=>{v=s(v,300);if(!v)return"";if(/^https:\/\/[^\s"'<>]+$/i.test(v))return v;
+  if(/^(images\/)?[\w][\w\-. ]{0,100}\.(jpe?g|png|webp|gif)$/i.test(v))return v.startsWith("images/")?v:"images/"+v;
+  throw "Image must be a https link or a file name such as no-one.jpg (put the file in public/images)"};
+function cleanProduct(b){
+  const n=s(b.n,120);if(n.length<2)throw "Product name is required";
+  const sizes=(Array.isArray(b.sizes)?b.sizes:[]).slice(0,10).map(z=>[s(z[0],30),Number(z[1]),Number(z[2])]);
+  if(!sizes.length||sizes.some(z=>!z[0]||!(z[1]>0)||!(z[2]>=z[1])))throw "Each pack size needs a label, a price above 0, and an MRP not below the price";
+  const images=(Array.isArray(b.images)?b.images:[]).slice(0,4).map(img).filter(Boolean);
+  return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq:s(b.moq,60),
+    desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),sale:!!b.sale,sizes,images,video:url(b.video),brochure:url(b.brochure)}}
+app.get("/api/products",(q,r)=>r.json(rd("products",[])));
+app.post("/api/admin/products",auth,wrap((q,r)=>{const L=rd("products",[]),p=cleanProduct(q.body);
+  let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);
+  L.push({id,...p});wr("products",L);r.json({ok:true,id})}));
+
+// ---- bulk import from CSV (all rows are checked first; nothing is saved if any row is wrong) ----
+const CATS=["Insecticide","Fungicide","Herbicide","Fertilizer","PGR & Nutrition"];
+app.post("/api/admin/products/import",auth,wrap((q,r)=>{
+  const inc=q.body.products;if(!Array.isArray(inc)||!inc.length||inc.length>500)throw "The file has no products (or has more than 500)";
+  const L=rd("products",[]),seen=new Set();let added=0,updated=0;
+  inc.forEach((b,i)=>{const row="Row "+(i+2)+": ";
+    const cat=CATS.find(c=>c.toLowerCase()===s(b.c,40).toLowerCase());
+    if(!cat)throw row+"category must be one of: "+CATS.join(", ");
+    let p;try{p=cleanProduct({...b,c:cat})}catch(e){throw row+(typeof e==="string"?e:"invalid row")}
+    const key=p.n.toLowerCase();if(seen.has(key))throw row+"this product name appears twice in the file";seen.add(key);
+    const id0=s(b.id,80),ex=(id0&&L.find(x=>x.id===id0))||L.find(x=>x.n.toLowerCase()===key);
+    if(ex){Object.assign(ex,p);updated++}
+    else{let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);L.push({id,...p});added++}});
+  wr("products",L);r.json({ok:true,added,updated})}));
+app.put("/api/admin/products/:id",auth,wrap((q,r)=>{const L=rd("products",[]),i=L.findIndex(x=>x.id===q.params.id);
+  if(i<0)return r.status(404).json({error:"Product not found"});L[i]={id:L[i].id,...cleanProduct(q.body)};wr("products",L);r.json({ok:true})}));
+app.delete("/api/admin/products/:id",auth,wrap((q,r)=>{wr("products",rd("products",[]).filter(x=>x.id!==q.params.id));r.json({ok:true})}));
+
+// ---- orders (prices are always taken from the server, never from the browser) ----
+app.post("/api/orders",limit(20,3600e3),wrap((q,r)=>{
+  const b=q.body,name=s(b.name,80),address=s(b.address,300),pincode=s(b.pincode,6);
+  let phone=s(b.phone,20).replace(/\D/g,"");if(phone.length===12&&phone.startsWith("91"))phone=phone.slice(2);
+  if(name.length<2)throw "Please enter your name";
+  if(!/^[6-9]\d{9}$/.test(phone))throw "Enter a valid 10-digit mobile number";
+  if(address.length<10)throw "Please enter your full address";
+  if(!/^\d{6}$/.test(pincode))throw "Enter a valid 6-digit PIN code";
+  if(!Array.isArray(b.items)||!b.items.length||b.items.length>50)throw "Your cart is empty";
+  const P=rd("products",[]);
+  const items=b.items.map(i=>{const p=P.find(x=>x.id===i.id),z=p&&p.sizes[Number(i.s)],qty=Number(i.q);
+    if(!z||!Number.isInteger(qty)||qty<1||qty>100)throw "A product in your cart is no longer available. Please refresh and try again.";
+    return{id:p.id,name:p.n,size:z[0],qty,price:z[1]}});
+  const total=items.reduce((a,i)=>a+i.price*i.qty,0),L=rd("orders",[]),id="PLS-"+Date.now().toString(36).toUpperCase();
+  L.unshift({id,date:new Date().toISOString(),status:"New",payment:"Cash on delivery",customer:{name,phone,address,pincode},items,total});
+  wr("orders",L);r.json({ok:true,id,total})}));
+const ST=["New","Confirmed","Shipped","Delivered","Cancelled"];
+app.get("/api/admin/orders",auth,(q,r)=>r.json(rd("orders",[])));
+app.patch("/api/admin/orders/:id",auth,wrap((q,r)=>{const L=rd("orders",[]),o=L.find(x=>x.id===q.params.id);
+  if(!o)return r.status(404).json({error:"Order not found"});if(!ST.includes(q.body.status))throw "Invalid status";o.status=q.body.status;wr("orders",L);r.json({ok:true})}));
+
+// ---- contact form and newsletter ----
+app.post("/api/contact",limit(10,3600e3),wrap((q,r)=>{
+  const name=s(q.body.name,80),phone=s(q.body.phone,20),message=s(q.body.message,1000);
+  if(name.length<2)throw "Please enter your name";if(phone.replace(/\D/g,"").length<10)throw "Enter a valid phone number";
+  const L=rd("messages",[]);L.unshift({date:new Date().toISOString(),name,phone,message});wr("messages",L);r.json({ok:true})}));
+app.post("/api/subscribe",limit(10,3600e3),wrap((q,r)=>{
+  let phone=s(q.body.phone,20).replace(/\D/g,"");if(phone.length===12&&phone.startsWith("91"))phone=phone.slice(2);if(!/^[6-9]\d{9}$/.test(phone))throw "Enter a valid 10-digit mobile number";
+  const L=rd("subscribers",[]);if(!L.some(x=>x.phone===phone)){L.unshift({date:new Date().toISOString(),phone});wr("subscribers",L)}r.json({ok:true})}));
+app.get("/api/admin/messages",auth,(q,r)=>r.json({messages:rd("messages",[]),subscribers:rd("subscribers",[])}));
+
+app.use(express.static(path.join(__dirname,"public")));
+app.get("/admin",(q,r)=>r.sendFile(path.join(__dirname,"public","admin.html")));
+app.use((e,q,r,n)=>r.status(400).json({error:"Invalid request"}));
+app.listen(PORT,HOST,()=>console.log(`\nPraveka store running:\n  Website: http://localhost:${PORT}\n  Admin:   http://localhost:${PORT}/admin\n`));
