@@ -23,7 +23,7 @@
 <main>
 <!-- HOME -->
 <section class="hero pg" data-p="home"><div class="wrap">
-<div class="trust"><span class="iso"><b>ISO</b>9001:2015 &amp; 14001:2015 Certified Company</span><span class="hi" lang="hi">एक कदम समृद्धि की ओर</span></div>
+<div class="trust"><span class="hi" lang="hi">एक कदम समृद्धि की ओर</span></div>
 <div class="hero2">
 <div class="hcopy">
 <p class="eyebrow">Leaders in Innovation</p>
@@ -40,7 +40,7 @@
 <p class="more"><a class="btn" href="#products">View all products</a></p></div></section>
 
 <section class="sl alt pg" data-p="home"><div class="slw"><div class="split">
-<aside class="vcard"><span class="eyebrow">Our promise</span><p class="hi" lang="hi">एक कदम समृद्धि की ओर</p><p class="vq">To be the most trusted and ethical source of our products across the globe.</p><ul class="vl"><li>Customer satisfaction is our 1st priority</li><li>Never compromise with quality standards</li><li>Always strive for better quality</li><li>Building long-term professional relations</li></ul><div class="seal"><b>ISO</b><span>9001:2015 &amp; 14001:2015 certified company</span></div></aside>
+<aside class="vcard"><span class="eyebrow">Our promise</span><p class="hi" lang="hi">एक कदम समृद्धि की ओर</p><p class="vq">To be the most trusted and ethical source of our products across the globe.</p><ul class="vl"><li>Customer satisfaction is our 1st priority</li><li>Never compromise with quality standards</li><li>Always strive for better quality</li><li>Building long-term professional relations</li></ul><div class="seal"><b></b><span>certified company</span></div></aside>
 <div><h2>Why choose us</h2><p class="intro">Customer satisfaction is our first priority. We never compromise on quality and always strive to deliver better solutions for growers.</p>
 <div class="feat">
 <div><i class="dot"></i><h3>Quality Focused</h3><p>We never compromise on quality standards.</p></div>
@@ -67,16 +67,16 @@
 </div></div></section>
 
 <section class="sl pg" data-p="home"><div class="slw"><p class="eyebrow">Our range</p><h2>Complete crop care in one place</h2><p class="intro">Our product range, as listed in the Praveka brochure.</p>
-<div class="rg"><div><b>22</b>Insecticides</div><div><b>10</b>Fungicides</div><div><b>12</b>Herbicides</div><div><b>8</b>PGR &amp; Nutrition</div><div><b>13</b>Pramukh Fertilizers</div></div></div></section>
+<div class="rg"><div><b>22</b>Insecticides</div><div><b>10</b>Fungicides</div><div><b>12</b>Herbicides</div><div><b>8</b>PGRNutrition</div><div><b>13</b>Pramukh Fertilizers</div></div></div></section>
 
 <section class="sl alt pg" data-p="home"><div class="slw"><h2>Our Credentials</h2>
 <div class="creds">
     <div>
-        <strong>ISO 9001:2015</strong>
+        <strong> </strong>
         <span>Quality Management System</span>
     </div>
     <div>
-        <strong>ISO 14001:2015</strong>
+        <strong> </strong>
         <span>Environmental Management System</span>
     </div>
     <div>
@@ -114,11 +114,11 @@
 <h2>Our Credentials</h2>
 <div class="creds">
     <div>
-        <strong>ISO 9001:2015</strong>
+        <strong> </strong>
         <span>Quality Management System</span>
     </div>
     <div>
-        <strong>ISO 14001:2015</strong>
+        <strong> </strong>
         <span>Environmental Management System</span>
     </div>
     <div>
@@ -427,7 +427,7 @@
 <li><a href="#products" data-c="Insecticide"><i class="pf-dot" style="--c:#e8912f"></i>Insecticide</a></li>
 <li><a href="#products" data-c="Fungicide"><i class="pf-dot" style="--c:#6a40b0"></i>Fungicide</a></li>
 <li><a href="#products" data-c="Herbicide"><i class="pf-dot" style="--c:#4a7fd0"></i>Herbicide</a></li>
-<li><a href="#products" data-c="PGR &amp; Nutrition"><i class="pf-dot" style="--c:#c64779"></i>PGR and nutrition</a></li>
+<li><a href="#products" data-c="PGRNutrition"><i class="pf-dot" style="--c:#c64779"></i>PGR and nutrition</a></li>
 <li><a href="#products" data-c="Fertilizer"><i class="pf-dot" style="--c:#44917d"></i>Fertilizer</a></li>
 </ul></div>
 <div><h3>Company</h3><ul class="pf-list"><li><a href="#home">Home</a></li><li><a href="#about">About us</a></li><li><a href="#crops">Crops</a></li><li><a href="#contact">Contact</a></li></ul></div>
@@ -439,7 +439,7 @@
 </ul></div>
 </div>
 <div class="pf-newsrow"><span>Get farming tips and offers by email.</span><form class="news" id="nf"><input name="email" type="email" required placeholder="Your email" aria-label="Email address"><button>Subscribe</button></form></div>
-<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science &middot; GSTIN 24ABGFP7301L1Z6</span><span>ISO 9001:2015 &middot; ISO 14001:2015 certified company</span><span><a href="#home">Privacy</a> &middot; <a href="#home">Terms</a></span></div>
+<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science &middot; GSTIN 24ABGFP7301L1Z6</span><span></span><span><a href="#home">Privacy</a> &middot; <a href="#home">Terms</a></span></div>
 </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>

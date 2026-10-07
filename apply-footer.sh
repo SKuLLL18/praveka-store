@@ -37,7 +37,7 @@ cat > /tmp/praveka-footer.html <<'FOOTER_HTML'
 </ul></div>
 </div>
 <div class="pf-newsrow"><span>Get farming tips and offers by email.</span><form class="news" id="nf"><input name="email" type="email" required placeholder="Your email" aria-label="Email address"><button>Subscribe</button></form></div>
-<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science &middot; GSTIN 24ABGFP7301L1Z6</span><span>ISO 9001:2015 &middot; ISO 14001:2015 certified company</span><span><a href="#home">Privacy</a> &middot; <a href="#home">Terms</a></span></div>
+<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science</span><span><a href="#home">Privacy</a> &middot; <a href="#home">Terms</a></span></div>
 </div>
 </footer>
 FOOTER_HTML

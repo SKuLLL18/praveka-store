@@ -1,5 +1,9 @@
 node_modules
 .env
+.venv
+.DS_Store
+*.bak*
+apply-*.sh
 data/orders.json
 data/messages.json
 data/subscribers.json

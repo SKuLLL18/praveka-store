@@ -1,7 +1,7 @@
 [
   {
     "id": "no-one-novaluron-5-25-emamectin-benzoate-0-9-sc-insecticide",
-    "n": "No One Novaluron 5.25% Emamectin Benzoate 0.9 SC Insecticide",
+    "n": "Novaluron 5.25%+Emamectin Benzoate 0.9% SC",
     "c": "Insecticide",
     "brand": "NO One",
     "head": "Dual-Action Insecticide for Powerful Larval and Egg Stage Control",
@@ -20,6 +20,7 @@
     "pests": "Bollworms, fruit borers, pod borers, and other lepidopteran pests",
     "crops": "Cotton, brinjal, tomato, okra, red gram, and chickpea",
     "sale": true,
+    "deliverable": false,
     "sizes": [
       [
         "500 ml",
@@ -35,7 +36,7 @@
   },
   {
     "id": "torrento-tolfenpyrad-15-ec-insecticide",
-    "n": "Torrento Tolfenpyrad 15 EC Insecticide",
+    "n": "Tolfenpyrad 15% EC",
     "c": "Insecticide",
     "brand": "Torrento",
     "head": "Fast-Acting Insecticide for Broad-Spectrum Pest Knockdown",
@@ -69,7 +70,7 @@
   },
   {
     "id": "18-5-carat-chlorantraniliprole-18-5-ww-sc-insecticide",
-    "n": "18.5 Carat Chlorantraniliprole 18.5 WW SC Insecticide",
+    "n": "Chlorantraniliprole 18.5% SC",
     "c": "Insecticide",
     "brand": "18.5 CARAT",
     "head": "Long-Lasting Insecticide for Lepidopteran Pest Control",
@@ -103,7 +104,7 @@
   },
   {
     "id": "soldier-50-cartap-hydrochloride-50-sp-insecticide",
-    "n": "Soldier 50 Cartap Hydrochloride 50 SP Insecticide",
+    "n": "Cartap Hydrochloride 50% SP",
     "c": "Insecticide",
     "brand": "Soldier 50%",
     "head": "Systemic Insecticide for Stem Borers and Leaf Folder Control",
@@ -137,7 +138,7 @@
   },
   {
     "id": "aristha-5-lambda-cyhalothrin-5-ec-insecticide",
-    "n": "Aristha 5 Lambda Cyhalothrin 5 EC Insecticide",
+    "n": "Lambda Cyhalothrin 5% EC",
     "c": "Insecticide",
     "brand": "Aristha 5",
     "head": "Fast-Acting Contact and Stomach Insecticide for Broad-Spectrum Control",
@@ -171,7 +172,7 @@
   },
   {
     "id": "abuse-abamectin-1-9-ec-insecticide",
-    "n": "Abuse Abamectin 1.9 EC Insecticide",
+    "n": "Abamectin 1.9% EC",
     "c": "Insecticide",
     "brand": "Abuse",
     "head": "Dual-Action Miticide and Insecticide for Mites and Lepidopteran Larvae",
@@ -205,7 +206,7 @@
   },
   {
     "id": "peri-peri",
-    "n": "Peri Peri",
+    "n": "Pyriproxyfen 8% + Dinotefuran 5% + Diafenthiuron 18% SC",
     "c": "Insecticide",
     "brand": "Peri Peri",
     "head": "Peri Peri Pyriproxyfen 8 Dinotefuran 5 Diafenthiuron 18 SC Insecticide",
@@ -239,7 +240,7 @@
   },
   {
     "id": "foji-30",
-    "n": "Foji 30",
+    "n": "30% FS",
     "c": "Insecticide",
     "brand": "Foji 30",
     "head": "Foji 30 Thiamethoxam 30 FS Insecticide",
@@ -273,7 +274,7 @@
   },
   {
     "id": "thai-lem",
-    "n": "Thai Lem",
+    "n": "Lambda Cyhalothrin + Thiamethoxam",
     "c": "Insecticide",
     "brand": "Thai Lem",
     "head": "Thai Lem Thiamethoxam 12.6 Lambda Cyhalothrin 9.5 ZC Insecticide",
@@ -307,7 +308,7 @@
   },
   {
     "id": "thander",
-    "n": "Thander",
+    "n": "Emamectin Benzoate 1.9% EC",
     "c": "Insecticide",
     "brand": "Thander",
     "head": "Thander Emamectin Benzoate 1.9 EC Insecticide",
@@ -341,7 +342,7 @@
   },
   {
     "id": "ematon",
-    "n": "Ematon",
+    "n": "Emamectin Benzoate 5% SG",
     "c": "Insecticide",
     "brand": "Ematon",
     "head": "Ematon Emamectin Benzoate 5 SG Insecticide",
@@ -375,7 +376,7 @@
   },
   {
     "id": "targen-plus",
-    "n": "Targen Plus",
+    "n": "Imidacloprid 30.5% SC",
     "c": "Insecticide",
     "brand": "Targen Plus",
     "head": "Targen Plus Imidacloprid 30.5 SC Insecticide",
@@ -409,7 +410,7 @@
   },
   {
     "id": "aristha",
-    "n": "Aristha",
+    "n": "Lambda Cyhalothrin 4.9% CS",
     "c": "Insecticide",
     "brand": "Aristha",
     "head": "Aristha Lambda Cyhalothrin 4.9 CS Insecticide",
@@ -443,7 +444,7 @@
   },
   {
     "id": "foji-25",
-    "n": "Foji 25",
+    "n": "25% WG",
     "c": "Insecticide",
     "brand": "Foji 25",
     "head": "Foji 25 Thiamethoxam 25 WG Insecticide",
@@ -477,7 +478,7 @@
   },
   {
     "id": "fi-ime",
-    "n": "FI IME",
+    "n": "Imidacloprid 40% + Fipronil 40% WG",
     "c": "Insecticide",
     "brand": "FI IME",
     "head": "Fi Ime Fipronil 40 Imidacloprid 40 WG Insecticide",
@@ -511,7 +512,7 @@
   },
   {
     "id": "targen",
-    "n": "Targen",
+    "n": "Imidacloprid 17.8% SL",
     "c": "Insecticide",
     "brand": "Targen",
     "head": "Targen Imidacloprid 17.8 SL Systemic Insecticide",
@@ -545,7 +546,7 @@
   },
   {
     "id": "ampolos",
-    "n": "AMPOLOS",
+    "n": "Chlorantraniliprole 10% + Lambda-cyhalothrin 5% ZC",
     "c": "Insecticide",
     "brand": "AMPOLOS",
     "head": "AMPOLOS Chlorantraniliprole 10% + Lambda-cyhalothrin 5% ZC",
@@ -592,7 +593,7 @@
   },
   {
     "id": "peri-super-505",
-    "n": "PERI SUPER 505",
+    "n": "Chlorpyrifos 50% + Cypermethrin 5% EC",
     "c": "Insecticide",
     "brand": "PERI SUPER 505",
     "head": "PERI SUPER 505 Insecticide",
@@ -624,7 +625,7 @@
   },
   {
     "id": "pramukh-boron-20-di-sodium-octa-borate-tetra-hydrate-micro-nutrient-fertilizer",
-    "n": "Pramukh Boron 20 Di Sodium Octa Borate Tetra Hydrate Micro Nutrient Fertilizer",
+    "n": "Di-Sodium Octa Borate Tetrahydrate",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Boron 20 Di Sodium Octa Borate Tetra Hydrate Micro Nutrient Fertilizer",
@@ -658,7 +659,7 @@
   },
   {
     "id": "black-panther-seaweed-amino-alginic-acid-fertilizer",
-    "n": "Black Panther Seaweed Amino Alginic Acid Fertilizer",
+    "n": "Amino Acid, Humic Acid, Seaweed Extract, Fulvic Acid, Zyme",
     "c": "PGR & Nutrition",
     "brand": "Black Panther",
     "head": "Black Panther Seaweed Amino Alginic Acid Fertilizer",
@@ -692,7 +693,7 @@
   },
   {
     "id": "agricultural-micronutrients-fertilizer",
-    "n": "Agricultural Micronutrients Fertilizer",
+    "n": "Zinc 6% + Iron 4% + Manganese 1% + Copper 0.5% + Boron 0.5%",
     "c": "Fertilizer",
     "brand": "PRAMUKH PRIMIX",
     "head": "Agricultural Micronutrients Fertilizer",
@@ -724,7 +725,7 @@
   },
   {
     "id": "super-chana-special",
-    "n": "Super Chana Special",
+    "n": "Seaweed, amino, B6, vitamins, hormones, humic fulvic",
     "c": "PGR & Nutrition",
     "brand": "",
     "head": "Super Chana Special",
@@ -756,7 +757,7 @@
   },
   {
     "id": "pramukh-nutrizen-ferrous-sulphate-fertilizer",
-    "n": "Pramukh Nutrizen Ferrous Sulphate Fertilizer",
+    "n": "Ferrous sulphate",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Nutrizen Ferrous Sulphate Fertilizer",
@@ -790,7 +791,7 @@
   },
   {
     "id": "pramukh-calcium-nitrate-boron-fertilizer",
-    "n": "Pramukh Calcium Nitrate Boron Fertilizer",
+    "n": "Calcium (Ca) + Nitrate Nitrogen (N) + Boron (B)",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Calcium Nitrate Boron Fertilizer",
@@ -824,7 +825,7 @@
   },
   {
     "id": "pramukh-zinc-sulphate-monohydrate-fertilizer",
-    "n": "Pramukh Zinc Sulphate Monohydrate Fertilizer",
+    "n": "Zinc Sulphate Monohydrate",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Zinc Sulphate Monohydrate Fertilizer",
@@ -858,7 +859,7 @@
   },
   {
     "id": "pramukh-super-potassium-humic-12-amino-20-fertilizer",
-    "n": "Pramukh Super Potassium Humic 12 Amino 20 Fertilizer",
+    "n": "Potassium Humate 12% + Amino Acids 20%",
     "c": "PGR & Nutrition",
     "brand": "Pramukh",
     "head": "Pramukh Super Potassium Humic 12 Amino 20 Fertilizer",
@@ -888,15 +889,16 @@
       "images/humbel.jpg"
     ],
     "video": "",
-    "brochure": ""
+    "brochure": "",
+    "deliverable": true
   },
   {
     "id": "expand-striking-agent-wetting-agent-fertilizer",
-    "n": "Expand Striking Agent Wetting Agent Fertilizer",
+    "n": "Wetting and Striking Agent",
     "c": "PGR & Nutrition",
     "brand": "Expand",
     "head": "Expand Striking Agent Wetting Agent Fertilizer",
-    "t": "",
+    "t": "Wetting and Striking Agent",
     "ftype": "",
     "form": "Liquid",
     "conc": "",
@@ -926,7 +928,7 @@
   },
   {
     "id": "tolfenpyrad-15-ec",
-    "n": "Tolfenpyrad 15 Ec",
+    "n": "Tolfenpyrad 15% EC",
     "c": "Insecticide",
     "brand": "",
     "head": "Tolfenpyrad 15 Ec",
@@ -958,7 +960,7 @@
   },
   {
     "id": "pramukh-ammonium-sulphate-fertilizer",
-    "n": "Pramukh Ammonium Sulphate Fertilizer",
+    "n": "Ammonium Sulphate",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Ammonium Sulphate Fertilizer",
@@ -992,7 +994,7 @@
   },
   {
     "id": "pramukh-magnesium-sulphate-fertilizer",
-    "n": "Pramukh Magnesium Sulphate Fertilizer",
+    "n": "Magnesium Sulphate",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Magnesium Sulphate Fertilizer",
@@ -1026,7 +1028,7 @@
   },
   {
     "id": "pramukh-calcium-nitrate-fertilizer",
-    "n": "Pramukh Calcium Nitrate Fertilizer",
+    "n": "Calcium Nitrate",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Pramukh Calcium Nitrate Fertilizer",
@@ -1060,11 +1062,11 @@
   },
   {
     "id": "mix-micronutrient-fertilizers-special-grade",
-    "n": "Mix Micronutrient Fertilizers( special grade)",
+    "n": "Special Grade Micronutrient Fertilizer",
     "c": "Fertilizer",
     "brand": "Pramukh primix grounuts,cotten, soyabean special grade",
     "head": "Mix Micronutrient Fertilizers( special grade)",
-    "t": "",
+    "t": "Special Grade Micronutrient Fertilizer",
     "ftype": "",
     "form": "Powder",
     "conc": "",
@@ -1092,7 +1094,7 @@
   },
   {
     "id": "moxo-hexaconazole-5-sc-fungicide",
-    "n": "Moxo Hexaconazole 5 SC Fungicide",
+    "n": "Hexaconazole 5% SC",
     "c": "Fungicide",
     "brand": "Moxo",
     "head": "Systemic Fungicide for Broad-Spectrum Disease Control",
@@ -1126,7 +1128,7 @@
   },
   {
     "id": "ozon-azoxystrobin-11-tebuconazole-18-3-ww-sc-fungicide",
-    "n": "Ozon Azoxystrobin 11 Tebuconazole 18.3 WW SC Fungicide",
+    "n": "Azoxystrobin 11% + Tebuconazole 18.30% SC",
     "c": "Fungicide",
     "brand": "Ozon",
     "head": "Dual-Action Systemic Fungicide for Preventive and Curative Disease Control",
@@ -1160,7 +1162,7 @@
   },
   {
     "id": "helinex-hexaconazole-5-velidamycin-2-5-sc-fungicide",
-    "n": "Helinex Hexaconazole 5 Velidamycin 2.5 SC Fungicide",
+    "n": "Hexaconazole 5% + Validamycin 2.5% SC",
     "c": "Fungicide",
     "brand": "Helinex",
     "head": "Broad-Spectrum Systemic Fungicide for Effective Disease Management",
@@ -1194,7 +1196,7 @@
   },
   {
     "id": "tubex-tebuconazole-25-9-ec-fungicide",
-    "n": "Tubex Tebuconazole 25.9 EC Fungicide",
+    "n": "Tebuconazole 25% EC",
     "c": "Fungicide",
     "brand": "Tubex",
     "head": "Systemic Fungicide for Broad-Spectrum Fungal Disease Control",
@@ -1233,7 +1235,7 @@
   },
   {
     "id": "tablet-tebuconazole-10-sulphur-65-wg-fungicide",
-    "n": "Tablet Tebuconazole 10 Sulphur 65 WG Fungicide",
+    "n": "Tebuconazole 10% + Sulphur 65% WG",
     "c": "Fungicide",
     "brand": "Tablet",
     "head": "Dual-Action Systemic and Contact Fungicide",
@@ -1267,7 +1269,7 @@
   },
   {
     "id": "lion-80-sulphur-80-wdg-fungicide",
-    "n": "Lion 80 Sulphur 80% WDG Fungicide",
+    "n": "Sulphur 80% WG",
     "c": "Fungicide",
     "brand": "Lion 80",
     "head": "Broad-Spectrum Sulphur Fungicide",
@@ -1301,7 +1303,7 @@
   },
   {
     "id": "roxxa-azoxystrobin-18-2-ww-difenoconazole-11-4-ww-sc-fungicide",
-    "n": "Roxxa Azoxystrobin 18.2 WW Difenoconazole 11.4 WW SC Fungicide",
+    "n": "Azoxystrobin 18.2% w/w + Difenoconazole 11.4% w/w SC",
     "c": "Fungicide",
     "brand": "Roxxa",
     "head": "Dual-Action Systemic Fungicide for Broad-Spectrum Disease Control",
@@ -1335,7 +1337,7 @@
   },
   {
     "id": "camriz-carbendazim-12-mancozeb-63-wp-fungicide",
-    "n": "Camriz Carbendazim 12 Mancozeb 63 WP Fungicide",
+    "n": "Carbendazim 12% + Mancozeb 63% WP",
     "c": "Fungicide",
     "brand": "Camriz",
     "head": "Broad-Spectrum Contact & Systemic Fungicide for Crop Protection",
@@ -1369,7 +1371,7 @@
   },
   {
     "id": "taxme-thiophanate-methyl-70-wp-fungicide",
-    "n": "Taxme Thiophanate Methyl 70 WP Fungicide",
+    "n": "Thiophanate Methyl 70% WP",
     "c": "Fungicide",
     "brand": "Taxme",
     "head": "Systemic Fungicide for Preventive, Curative and Eradicative Disease Control",
@@ -1403,7 +1405,7 @@
   },
   {
     "id": "maxico-mancozeb-75-wp-fungicide",
-    "n": "Maxico Mancozeb 75 WP Fungicide",
+    "n": "Mancozeb 75% WP",
     "c": "Fungicide",
     "brand": "Maxico",
     "head": "Protective Broad-Spectrum Fungicide for Multiple Crops",
@@ -1437,7 +1439,7 @@
   },
   {
     "id": "oxygen-imazethapyr-10-sl-herbicide",
-    "n": "Oxygen Imazethapyr 10 SL Herbicide",
+    "n": "Imazethapyr 10% SL",
     "c": "Herbicide",
     "brand": "Oxygen",
     "head": "Selective Post-Emergence Herbicide for Pulses and Soybean Crops",
@@ -1471,7 +1473,7 @@
   },
   {
     "id": "fenix-fenoxaprop-p-ethyl-9-3-ec-herbicide",
-    "n": "Fenix Fenoxaprop P Ethyl 9.3 EC Herbicide",
+    "n": "Fenoxaprop-p-ethyl 9.3% EC",
     "c": "Herbicide",
     "brand": "Fenix",
     "head": "Post-Emergence Grass Weed Control for Broadleaf Crops",
@@ -1505,7 +1507,7 @@
   },
   {
     "id": "himalay-bispyribac-sodium-10-wv-sc-herbicide",
-    "n": "Himalay Bispyribac Sodium 10 WV SC Herbicide",
+    "n": "Bispyribac Sodium 10% SC",
     "c": "Herbicide",
     "brand": "Himalay",
     "head": "Post-Emergence Herbicide for Effective Weed Control in Paddy Fields",
@@ -1539,7 +1541,7 @@
   },
   {
     "id": "comando-2-4d-amine-salt-58-sl-herbicide",
-    "n": "Comando 2 4D Amine Salt 58 SL Herbicide",
+    "n": "2,4-D Amine Salt 58% S.L",
     "c": "Herbicide",
     "brand": "Comando",
     "head": "Selective Herbicide for Broadleaf Weed Control",
@@ -1573,7 +1575,7 @@
   },
   {
     "id": "panda-30-pendimethalin-30-ec-herbicide",
-    "n": "Panda 30 Pendimethalin 30 EC Herbicide",
+    "n": "Pendimethalin 33% EC",
     "c": "Herbicide",
     "brand": "Panda 30",
     "head": "Pre-Emergence Herbicide for Broadleaf & Grassy Weed Control",
@@ -1607,7 +1609,7 @@
   },
   {
     "id": "super-bold-herbicide",
-    "n": "Super Bold Herbicide",
+    "n": "Fenoxaprop-p-ethyl 9.3% EC",
     "c": "Herbicide",
     "brand": "Super Bold",
     "head": "Selective Post-Emergence Herbicide for Grassy Weed Control",
@@ -1641,7 +1643,7 @@
   },
   {
     "id": "atrazine-50-wp-atraz-herbicide",
-    "n": "Atrazine 50% Wp Atraz Herbicide",
+    "n": "Atrazine 50% WP",
     "c": "Herbicide",
     "brand": "Atraz",
     "head": "Selective Herbicide for Pre- and Post-Emergence Weed Control",
@@ -1675,7 +1677,7 @@
   },
   {
     "id": "amrun-oxyflourfen-23-5-ec-herbicide",
-    "n": "Amrun Oxyflourfen 23.5 EC Herbicide",
+    "n": "Oxyfluorfen 23.5% EC",
     "c": "Herbicide",
     "brand": "Amrun",
     "head": "Selective Contact Herbicide for Broadleaf and Grassy Weed Control",
@@ -1709,7 +1711,7 @@
   },
   {
     "id": "glyset-71-ammonium-salt-glyphosate-71-sg-herbicide",
-    "n": "Glyset 71 Ammonium Salt Glyphosate 71 SG Herbicide",
+    "n": "Ammonium Salt of Glyphosate-71 SG",
     "c": "Herbicide",
     "brand": "Glyset 71",
     "head": "Non-Selective Systemic Herbicide for Total Weed Control",
@@ -1743,7 +1745,7 @@
   },
   {
     "id": "pramukh-13-40-13-npk-fertilizer",
-    "n": "Pramukh 13:40:13 NPK Fertilizer",
+    "n": "NPK 13:40:13",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Balanced Nutrition for Strong Root Development & Flowering",
@@ -1777,7 +1779,7 @@
   },
   {
     "id": "pramukh-19-19-19-npk-fertilizer",
-    "n": "Pramukh 19:19:19 NPK Fertilizer",
+    "n": "NPK 19:19:19",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "Balanced Nutrition for All Growth Stages",
@@ -1811,7 +1813,7 @@
   },
   {
     "id": "pramukh-12-61-00-npk-fertilizer",
-    "n": "Pramukh 12:61:00 NPK Fertilizer",
+    "n": "NPK 12:61:00",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "High Phosphorus Fertilizer for Root Development and Flower Initiation",
@@ -1845,7 +1847,7 @@
   },
   {
     "id": "pramukh-00-52-34-npk-fertilizer",
-    "n": "Pramukh 00:52:34 NPK Fertilizer",
+    "n": "NPK 00:52:34",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "High Phosphorus & Potassium for Flowering and Fruit Setting",
@@ -1879,7 +1881,7 @@
   },
   {
     "id": "pramukh-00-00-50-npk-fertilizer",
-    "n": "Pramukh 00:00:50 NPK Fertilizer",
+    "n": "Sulphate of Potash (SOP)",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "High Potassium Fertilizer for Flowering and Fruiting",
@@ -1913,7 +1915,7 @@
   },
   {
     "id": "pramukh-13-00-45-npk-fertilizer",
-    "n": "Pramukh 13:00:45 NPK Fertilizer",
+    "n": "NPK 13:00:45",
     "c": "Fertilizer",
     "brand": "Pramukh",
     "head": "High Potassium Fertilizer for Flowering, Fruiting and Crop Quality",
@@ -1947,7 +1949,7 @@
   },
   {
     "id": "chlorpyrifos-20-ec-insecticide",
-    "n": "Chlorpyrifos 20 EC Insecticide",
+    "n": "Chlorpyrifos",
     "c": "Insecticide",
     "brand": "PRAVEKA",
     "head": "Broad-Spectrum Organophosphate Insecticide and Acaricide",

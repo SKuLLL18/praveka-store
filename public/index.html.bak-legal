@@ -23,7 +23,7 @@
 <main>
 <!-- HOME -->
 <section class="hero pg" data-p="home"><div class="wrap">
-<div class="trust"><span class="iso"><b>ISO</b>9001:2015 &amp; 14001:2015 Certified Company</span><span class="hi" lang="hi">एक कदम समृद्धि की ओर</span></div>
+<div class="trust"><span class="hi" lang="hi">एक कदम समृद्धि की ओर</span></div>
 <div class="hero2">
 <div class="hcopy">
 <p class="eyebrow">Leaders in Innovation</p>
@@ -40,7 +40,7 @@
 <p class="more"><a class="btn" href="#products">View all products</a></p></div></section>
 
 <section class="sl alt pg" data-p="home"><div class="slw"><div class="split">
-<aside class="vcard"><span class="eyebrow">Our promise</span><p class="hi" lang="hi">एक कदम समृद्धि की ओर</p><p class="vq">To be the most trusted and ethical source of our products across the globe.</p><ul class="vl"><li>Customer satisfaction is our 1st priority</li><li>Never compromise with quality standards</li><li>Always strive for better quality</li><li>Building long-term professional relations</li></ul><div class="seal"><b>ISO</b><span>9001:2015 &amp; 14001:2015 certified company</span></div></aside>
+<aside class="vcard"><span class="eyebrow">Our promise</span><p class="hi" lang="hi">एक कदम समृद्धि की ओर</p><p class="vq">To be the most trusted and ethical source of our products across the globe.</p><ul class="vl"><li>Customer satisfaction is our 1st priority</li><li>Never compromise with quality standards</li><li>Always strive for better quality</li><li>Building long-term professional relations</li></ul><div class="seal"><b></b><span>certified company</span></div></aside>
 <div><h2>Why choose us</h2><p class="intro">Customer satisfaction is our first priority. We never compromise on quality and always strive to deliver better solutions for growers.</p>
 <div class="feat">
 <div><i class="dot"></i><h3>Quality Focused</h3><p>We never compromise on quality standards.</p></div>
@@ -67,16 +67,16 @@
 </div></div></section>
 
 <section class="sl pg" data-p="home"><div class="slw"><p class="eyebrow">Our range</p><h2>Complete crop care in one place</h2><p class="intro">Our product range, as listed in the Praveka brochure.</p>
-<div class="rg"><div><b>22</b>Insecticides</div><div><b>10</b>Fungicides</div><div><b>12</b>Herbicides</div><div><b>8</b>PGR &amp; Nutrition</div><div><b>13</b>Pramukh Fertilizers</div></div></div></section>
+<div class="rg"><div><b>22</b>Insecticides</div><div><b>10</b>Fungicides</div><div><b>12</b>Herbicides</div><div><b>8</b>PGRNutrition</div><div><b>13</b>Pramukh Fertilizers</div></div></div></section>
 
 <section class="sl alt pg" data-p="home"><div class="slw"><h2>Our Credentials</h2>
 <div class="creds">
     <div>
-        <strong>ISO 9001:2015</strong>
+        <strong> </strong>
         <span>Quality Management System</span>
     </div>
     <div>
-        <strong>ISO 14001:2015</strong>
+        <strong> </strong>
         <span>Environmental Management System</span>
     </div>
     <div>
@@ -114,11 +114,11 @@
 <h2>Our Credentials</h2>
 <div class="creds">
     <div>
-        <strong>ISO 9001:2015</strong>
+        <strong> </strong>
         <span>Quality Management System</span>
     </div>
     <div>
-        <strong>ISO 14001:2015</strong>
+        <strong> </strong>
         <span>Environmental Management System</span>
     </div>
     <div>
@@ -155,9 +155,9 @@
 <div class="ct-left">
 <div class="ct-head"><h1>Contact Us</h1><p>Talk to our team about products, orders or crop advice.</p></div>
 <div class="ct-cards">
-<a class="ct-card" style="--c:#25D366" href="https://wa.me/916359414594" target="_blank" rel="noopener"><span class="ct-ic"><svg class="f" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span><span class="ct-tx"><small>WhatsApp</small><b>+91 63594 14594</b><em>Price &amp; availability</em></span></a>
+<a class="ct-card" style="--c:#25D366" href="https://wa.me/916359414594" target="_blank" rel="noopener"><span class="ct-ic"><svg class="f" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span><span class="ct-tx"><small>WhatsApp</small><b>+91 63594 14594</b><em>Priceavailability</em></span></a>
 <a class="ct-card" style="--c:#4a7fd0" href="tel:+918401968996"><span class="ct-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span><span class="ct-tx"><small>Call us</small><b>+91 84019 68996</b><em>Talk to an expert directly</em></span></a>
-<a class="ct-card ct-wide" style="--c:#e8912f" href="mailto:pravekalifescience@gmail.com"><span class="ct-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="ct-tx"><small>Email</small><b>pravekalifescience@gmail.com</b><em>Product information &amp; business enquiries</em></span></a>
+<a class="ct-card ct-wide" style="--c:#e8912f" href="mailto:pravekalifescience@gmail.com"><span class="ct-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span><span class="ct-tx"><small>Email</small><b>pravekalifescience@gmail.com</b><em>Product informationbusiness enquiries</em></span></a>
 <a class="ct-card ct-wide" style="--c:#44917d" href="https://www.google.com/maps/search/?api=1&amp;query=Praveka%20Life%20Science%20Rajkot%20Gujarat" target="_blank" rel="noopener"><span class="ct-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span class="ct-tx"><small>Our address</small><span class="ct-addr">Ground Floor, Plot No. 36, S.R. No-212, Karmabumi Estate, Atlas Industrial Area, Dhebar Road, Kothariya Part, Nr. Gondal Road, Rajkot, Gujarat &ndash; 360022.</span><em class="ct-link">View on Google Maps &rarr;</em></span></a>
 <div class="ct-card ct-wide ct-hours-card" style="--c:#e3a817"><span class="ct-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="ct-tx"><small>Working hours</small><span class="ct-hours"><span class="ct-hr"><span>Monday - Saturday</span><span>9:00 AM - 6:00 PM</span></span><span class="ct-hr"><span>Sunday</span><span>Closed</span></span></span></span></div>
 </div>
@@ -199,7 +199,7 @@
 <li><a href="#products" data-c="Insecticide"><i class="pf-dot" style="--c:#e8912f"></i>Insecticide</a></li>
 <li><a href="#products" data-c="Fungicide"><i class="pf-dot" style="--c:#6a40b0"></i>Fungicide</a></li>
 <li><a href="#products" data-c="Herbicide"><i class="pf-dot" style="--c:#4a7fd0"></i>Herbicide</a></li>
-<li><a href="#products" data-c="PGR &amp; Nutrition"><i class="pf-dot" style="--c:#c64779"></i>PGR and nutrition</a></li>
+<li><a href="#products" data-c="PGRNutrition"><i class="pf-dot" style="--c:#c64779"></i>PGR and nutrition</a></li>
 <li><a href="#products" data-c="Fertilizer"><i class="pf-dot" style="--c:#44917d"></i>Fertilizer</a></li>
 </ul></div>
 <div><h3>Company</h3><ul class="pf-list"><li><a href="#home">Home</a></li><li><a href="#about">About us</a></li><li><a href="#crops">Crops</a></li><li><a href="#contact">Contact</a></li></ul></div>
@@ -211,7 +211,7 @@
 </ul></div>
 </div>
 <div class="pf-newsrow"><span>Get farming tips and offers on your mobile.</span><form class="news" id="nf"><input name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" required placeholder="Your mobile number" aria-label="Mobile number"><button>Subscribe</button></form></div>
-<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science &middot; GSTIN 24ABGFP7301L1Z6</span><span>ISO 9001:2015 &middot; ISO 14001:2015 certified company</span><span><a href="#home">Privacy</a> &middot; <a href="#home">Terms</a></span></div>
+<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science &middot; GSTIN 24ABGFP7301L1Z6</span><span></span><span><a href="#home">Privacy</a> &middot; <a href="#home">Terms</a></span></div>
 </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
