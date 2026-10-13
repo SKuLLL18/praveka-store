@@ -1,9 +1,11 @@
 // SERVER.JS - Praveka Life Science backend (Express + JSON files).
 const express=require("express"),fs=require("fs"),path=require("path"),crypto=require("crypto");
 try{fs.readFileSync(path.join(__dirname,".env"),"utf8").split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);if(m&&!(m[1] in process.env))process.env[m[1]]=m[2]})}catch(e){}
-const PASS=process.env.ADMIN_PASSWORD||"",PORT=process.env.PORT||3000,HOST=process.env.HOST||"127.0.0.1";
+const PASS=process.env.ADMIN_PASSWORD||"",PORT=process.env.PORT||3000,HOST=process.env.HOST||"0.0.0.0";
 if(PASS.length<8||PASS==="change-this-password"){console.error("\nFirst copy .env.example to .env and set ADMIN_PASSWORD to your own password (8+ characters).\n");process.exit(1)}
-const D=path.join(__dirname,"data");fs.mkdirSync(D,{recursive:true});
+const SEED=path.join(__dirname,"data"),D=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):SEED;fs.mkdirSync(D,{recursive:true});
+// If DATA_DIR points to a separate (persistent) disk, copy starter files from the repo's data/ folder the first time only.
+if(D!==SEED){["products.json","reviews.json"].forEach(f=>{try{const dst=path.join(D,f);if(!fs.existsSync(dst)&&fs.existsSync(path.join(SEED,f)))fs.copyFileSync(path.join(SEED,f),dst)}catch(e){console.error("Seed copy failed for "+f,e.message)}})}
 const rd=(n,d)=>{try{return JSON.parse(fs.readFileSync(path.join(D,n+".json"),"utf8"))}catch(e){return d}};
 const wr=(n,v)=>{const f=path.join(D,n+".json");fs.writeFileSync(f+".tmp",JSON.stringify(v,null,2));fs.renameSync(f+".tmp",f)};
 const s=(v,m)=>String(v==null?"":v).trim().slice(0,m);
@@ -12,12 +14,12 @@ const hits={};
 const limit=(max,ms)=>(q,r,n)=>{const k=q.ip+q.path,t=Date.now();hits[k]=(hits[k]||[]).filter(x=>t-x<ms);if(hits[k].length>=max)return r.status(429).json({error:"Too many requests. Please try again later."});hits[k].push(t);n()};
 const app=express();app.disable("x-powered-by");
 app.set("trust proxy", 1);
-app.use(express.json({limit:"1mb"}));
+app.use(express.json({limit:"1mb",verify:(q,r,buf)=>{q.rawBody=buf}}));
 app.use((q,r,n)=>{r.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"same-origin"});n()});
 
 // ---- admin login ----
 const tokens=new Map();
-app.post("/api/admin/login",wrap((q,r)=>{
+app.post("/api/admin/login",limit(10,15*60e3),wrap((q,r)=>{
   const pw=s(q.body.password,200);
   if(!pw)return r.status(401).json({error:"Password is required"});
   if(pw!==PASS)return r.status(401).json({error:"Incorrect password"});
@@ -59,13 +61,30 @@ app.post("/api/products/:id/reviews",limit(5,3600e3),wrap((q,r)=>{
   const p=rd("products",[]).find(x=>x.id===q.params.id);
   if(!p)return r.status(404).json({error:"Product not found"});
   const name=s(q.body.name,80),comment=s(q.body.comment,1000),rating=Number(q.body.rating);
+  const phone=s(q.body.phone,20);
   if(name.length<2)throw "Please enter your name";
+  if(!/^[6-9]\d{9}$/.test(phone))throw "Enter a valid 10-digit Indian mobile number using digits only";
   if(!Number.isInteger(rating)||rating<1||rating>5)throw "Choose a rating from 1 to 5 stars";
   if(comment.length<5)throw "Please write at least 5 characters about the product";
   const reviews=rd("reviews",[]);
-  const review={id:"REV-"+Date.now().toString(36),productId:p.id,name,rating,comment,date:new Date().toISOString(),status:"published"};
+  const review={id:"REV-"+Date.now().toString(36),productId:p.id,name,phone,rating,comment,date:new Date().toISOString(),status:"published"};
   reviews.unshift(review);wr("reviews",reviews);
   r.status(201).json({ok:true,review:{id:review.id,name:review.name,rating:review.rating,comment:review.comment,date:review.date}});
+}));
+app.get("/api/admin/reviews",managerOnly,(q,r)=>{
+  const products=rd("products",[]),reviews=rd("reviews",[]);
+  let changed=false;
+  reviews.forEach(function(review,index){if(!review.id){review.id="REV-legacy-"+index+"-"+Date.now().toString(36);changed=true}});
+  if(changed)wr("reviews",reviews);
+  r.json(reviews.map(function(review){
+    const product=products.find(x=>x.id===review.productId);
+    return{id:review.id,productId:review.productId,productName:product?product.n:"Deleted product",name:review.name,phone:review.phone||"",rating:review.rating,comment:review.comment,date:review.date};
+  }));
+});
+app.delete("/api/admin/reviews/:id",managerOnly,wrap((q,r)=>{
+  const reviews=rd("reviews",[]),remaining=reviews.filter(x=>x.id!==q.params.id);
+  if(remaining.length===reviews.length)return r.status(404).json({error:"Review not found"});
+  wr("reviews",remaining);r.json({ok:true});
 }));
 app.post("/api/admin/products",managerOnly,wrap((q,r)=>{const L=rd("products",[]),p=cleanProduct(q.body);
   let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);
@@ -96,31 +115,72 @@ app.patch("/api/admin/products/:id/delivery",staffOrManager,wrap((q,r)=>{
 }));
 
 // ---- orders and online payments (prices are always taken from the server) ----
-const https=require("https"),RAZORPAY_KEY_ID=process.env.RAZORPAY_KEY_ID||"",RAZORPAY_KEY_SECRET=process.env.RAZORPAY_KEY_SECRET||"",pendingPayments=new Map();
+const https=require("https"),RAZORPAY_KEY_ID=process.env.RAZORPAY_KEY_ID||"",RAZORPAY_KEY_SECRET=process.env.RAZORPAY_KEY_SECRET||"",RAZORPAY_WEBHOOK_SECRET=process.env.RAZORPAY_WEBHOOK_SECRET||"";
+// Pending payments are stored on disk (data/pending.json) so a restart cannot lose them.
+const PENDING_TTL=3*24*3600e3;
+const getPending=()=>{const P=rd("pending",{}),now=Date.now();let ch=false;for(const k of Object.keys(P))if(P[k].expires<now){delete P[k];ch=true}if(ch)wr("pending",P);return P};
+function finalizeOrder(rpOrderId,paymentId){
+  // Safe to call many times (verify + webhook): the same Razorpay order never creates two orders.
+  const L=rd("orders",[]),dup=L.find(x=>x.razorpayOrderId===rpOrderId||(paymentId&&x.paymentId===paymentId));
+  if(dup)return{id:dup.id,existing:true};
+  const P=getPending(),pending=P[rpOrderId];if(!pending)return null;
+  const o=pending.order;let id;do{id="PLS-"+Date.now().toString(36).toUpperCase()+crypto.randomBytes(1).toString("hex").toUpperCase()}while(L.some(x=>x.id===id));
+  L.unshift({id,date:new Date().toISOString(),status:"Confirmed",payment:"Razorpay",paymentId:s(paymentId,100),razorpayOrderId:rpOrderId,customer:{name:o.name,phone:o.phone,address:o.address,pincode:o.pincode},items:o.items,total:o.total});
+  wr("orders",L);delete P[rpOrderId];wr("pending",P);return{id,existing:false};
+}
 function validateOrder(b){
   const name=s(b.name,80),address=s(b.address,300),pincode=s(b.pincode,6);let phone=s(b.phone,20).replace(/\D/g,"");
   if(phone.length===12&&phone.startsWith("91"))phone=phone.slice(2);
   if(name.length<2)throw "Please enter your name";if(!/^[6-9]\d{9}$/.test(phone))throw "Enter a valid 10-digit mobile number";
   if(address.length<10)throw "Please enter your full address";if(!/^[1-8]\d{5}$/.test(pincode))throw "Enter a valid Indian 6-digit PIN code";
   if(!Array.isArray(b.items)||!b.items.length||b.items.length>50)throw "Your cart is empty";
-  const P=rd("products",[]),items=b.items.map(i=>{const p=P.find(x=>x.id===i.id),z=p&&p.sizes[Number(i.s)],qty=Number(i.q);
-    if(!z||!Number.isInteger(qty)||qty<1||qty>100)throw "A product in your cart is no longer available. Please refresh and try again.";
-    return{id:p.id,name:p.n,size:z[0],qty,price:z[1]}});
+  const P=rd("products",[]);
+  const items=b.items.map(i=>{const p=P.find(x=>x.id===i.id),index=Number(i.s),hasSizeSelection=i.s!==undefined&&i.s!==null&&String(i.s).trim()!==""&&Number.isInteger(index)&&index>=0,z=p&&hasSizeSelection&&p.sizes[index],qty=Number(i.q);
+    const sizes=p&&Array.isArray(p.sizes)?p.sizes:[];
+    const isLiquid=sizes.some(x=>/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(x[0])));
+    if(p&&isLiquid&&!hasSizeSelection){const labels=sizes.filter(x=>/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(x[0]))).map(x=>String(x[0]).replace(/\b(litre|litres|liter|liters)\b/ig,"L"));const last=labels.pop(),list=labels.length?labels.join(", ")+" or "+last:last||"available pack";throw "Please select a bottle size ("+list+") first."}
+    if(!p||!z||!Number.isInteger(qty)||qty<1||qty>1000)throw "A product in your cart is no longer available. Please refresh and try again.";
+    const match=String(z[0]).toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
+    let amount=match?Number(match[1]):0,unit=match?match[2]:"";
+    if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
+    const minimum=unit==="litre"?10:unit==="kg"?100:0;
+    if(minimum&&amount*qty<minimum)throw p.n+" requires a minimum order of "+minimum+(unit==="litre"?" L.":" kg.");
+    const actualVolume=unit==="litre"?Math.round(amount*qty*10000)/10000:null;
+    const actualWeight=unit==="kg"?Math.round(amount*qty*10000)/10000:null;
+    return{id:p.id,name:p.n,size:z[0],qty,price:z[1],quantityUnit:unit==="litre"?"bottles":"packs",...(actualVolume!==null?{litres:actualVolume}:{}),...(actualWeight!==null?{kilograms:actualWeight}:{})}});
   return {name,phone,address,pincode,items,total:items.reduce((a,i)=>a+i.price*i.qty,0)};
 }
 function razorpayRequest(path,body){return new Promise((resolve,reject)=>{const req=https.request({hostname:"api.razorpay.com",path,method:"POST",auth:RAZORPAY_KEY_ID+":"+RAZORPAY_KEY_SECRET,headers:{"Content-Type":"application/json"}},res=>{let out="";res.on("data",c=>out+=c);res.on("end",()=>{let data;try{data=JSON.parse(out)}catch(e){return reject(new Error("Invalid payment provider response"))}if(res.statusCode<200||res.statusCode>=300)return reject(new Error(data.error?.description||"Payment provider request failed"));resolve(data)})});req.on("error",reject);req.write(JSON.stringify(body));req.end()})}
 app.get("/api/payment/config",(q,r)=>r.json({enabled:!!(RAZORPAY_KEY_ID&&RAZORPAY_KEY_SECRET),keyId:RAZORPAY_KEY_ID||null}));
 app.post("/api/payment/order",limit(20,3600e3),async(q,r)=>{try{if(!RAZORPAY_KEY_ID||!RAZORPAY_KEY_SECRET)return r.status(503).json({error:"Online payments are not configured yet."});
   const order=validateOrder(q.body),rp=await razorpayRequest("/v1/orders",{amount:Math.round(order.total*100),currency:"INR",receipt:"pls_"+Date.now().toString(36),notes:{customer:order.name}});
-  pendingPayments.set(rp.id,{order,expires:Date.now()+15*60e3});r.json({keyId:RAZORPAY_KEY_ID,orderId:rp.id,amount:rp.amount,currency:rp.currency});
+  {const P=getPending();P[rp.id]={order,expires:Date.now()+PENDING_TTL};wr("pending",P)}r.json({keyId:RAZORPAY_KEY_ID,orderId:rp.id,amount:rp.amount,currency:rp.currency});
 }catch(e){r.status(400).json({error:e.message||String(e)})}});
 app.post("/api/payment/verify",limit(20,3600e3),wrap((q,r)=>{
   if(!RAZORPAY_KEY_SECRET)return r.status(503).json({error:"Online payments are not configured yet."});
   const sig=String(q.body.razorpay_signature||""),expected=crypto.createHmac("sha256",RAZORPAY_KEY_SECRET).update(q.body.razorpay_order_id+"|"+q.body.razorpay_payment_id).digest("hex");
   if(sig.length!==expected.length||!crypto.timingSafeEqual(Buffer.from(expected),Buffer.from(sig)))return r.status(400).json({error:"Payment verification failed"});
-  const pending=pendingPayments.get(q.body.razorpay_order_id);if(!pending||pending.expires<Date.now())return r.status(400).json({error:"Payment session expired. Please try again."});
-  const o=pending.order,L=rd("orders",[]),id="PLS-"+Date.now().toString(36).toUpperCase();L.unshift({id,date:new Date().toISOString(),status:"Confirmed",payment:"Razorpay",paymentId:s(q.body.razorpay_payment_id,100),customer:{name:o.name,phone:o.phone,address:o.address,pincode:o.pincode},items:o.items,total:o.total});wr("orders",L);pendingPayments.delete(q.body.razorpay_order_id);r.json({ok:true,id})}));
-app.post("/api/orders",limit(20,3600e3),wrap((q,r)=>{const o=validateOrder(q.body),L=rd("orders",[]),id="PLS-"+Date.now().toString(36).toUpperCase();L.unshift({id,date:new Date().toISOString(),status:"New",payment:"Cash on delivery",customer:{name:o.name,phone:o.phone,address:o.address,pincode:o.pincode},items:o.items,total:o.total});wr("orders",L);r.json({ok:true,id,total:o.total})}));
+  const res=finalizeOrder(s(q.body.razorpay_order_id,100),s(q.body.razorpay_payment_id,100));
+  if(!res)return r.status(400).json({error:"We received your payment but could not find the order details. Please contact us with your payment ID: "+s(q.body.razorpay_payment_id,100)});
+  r.json({ok:true,id:res.id})}));
+// Razorpay webhook: Razorpay tells us directly when a payment succeeds, even if the customer closed the page.
+app.post("/api/payment/webhook",(q,r)=>{
+  if(!RAZORPAY_WEBHOOK_SECRET||!q.rawBody)return r.status(503).end();
+  const sig=String(q.get("x-razorpay-signature")||""),expected=crypto.createHmac("sha256",RAZORPAY_WEBHOOK_SECRET).update(q.rawBody).digest("hex");
+  if(sig.length!==expected.length||!crypto.timingSafeEqual(Buffer.from(expected),Buffer.from(sig)))return r.status(400).end();
+  try{
+    const ev=q.body&&q.body.event;
+    if(ev==="payment.captured"||ev==="order.paid"){
+      const pay=q.body.payload&&q.body.payload.payment&&q.body.payload.payment.entity,rpOrder=pay&&pay.order_id,payId=pay&&pay.id;
+      if(rpOrder&&payId){
+        const res=finalizeOrder(rpOrder,payId);
+        if(!res){const U=rd("unmatched-payments",[]);if(!U.some(x=>x.paymentId===payId)){U.unshift({date:new Date().toISOString(),paymentId:payId,razorpayOrderId:rpOrder,amount:(pay.amount||0)/100});wr("unmatched-payments",U);console.error("Payment received but no pending order found:",payId)}}
+      }
+    }
+  }catch(e){console.error("Webhook error",e.message);return r.status(500).end()}
+  r.status(200).json({ok:true});
+});
+app.post("/api/orders",(q,r)=>r.status(410).json({error:"Cash on delivery is no longer accepted. Please complete payment online."}));
 const ST=["New","Confirmed","Shipped","Delivered","Cancelled"];
 app.get("/api/admin/orders",managerOnly,(q,r)=>r.json(rd("orders",[])));
 app.patch("/api/admin/orders/:id",managerOnly,wrap((q,r)=>{const L=rd("orders",[]),o=L.find(x=>x.id===q.params.id);
@@ -148,6 +208,18 @@ app.patch("/api/admin/messages/:id/status",staffOrManager,wrap((q,r)=>{
   if(m.handledAt===undefined)delete m.handledAt;
   wr("messages",L);r.json({ok:true});
 }));
+
+// ---- backups ----
+const BK=path.join(D,"backups");
+function runBackup(){try{
+  const day=new Date().toISOString().slice(0,10),dir=path.join(BK,day);fs.mkdirSync(dir,{recursive:true});
+  fs.readdirSync(D).filter(f=>f.endsWith(".json")).forEach(f=>fs.copyFileSync(path.join(D,f),path.join(dir,f)));
+  fs.readdirSync(BK).filter(f=>/^\d{4}-\d{2}-\d{2}$/.test(f)).sort().slice(0,-14).forEach(f=>fs.rmSync(path.join(BK,f),{recursive:true,force:true}));
+}catch(e){console.error("Backup failed:",e.message)}}
+runBackup();setInterval(runBackup,6*3600e3).unref();
+app.get("/api/admin/backup",managerOnly,(q,r)=>{
+  const out={exportedAt:new Date().toISOString()};fs.readdirSync(D).filter(f=>f.endsWith(".json")).forEach(f=>{out[f.replace(/\.json$/,"")]=rd(f.replace(/\.json$/,""),null)});
+  r.set("Content-Disposition",'attachment; filename="praveka-backup-'+out.exportedAt.slice(0,10)+'.json"');r.json(out)});
 
 app.use(express.static(path.join(__dirname,"public")));
 app.get("/admin",(q,r)=>r.sendFile(path.join(__dirname,"public","admin.html")));

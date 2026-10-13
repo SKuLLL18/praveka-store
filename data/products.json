@@ -20,12 +20,22 @@
     "pests": "Bollworms, fruit borers, pod borers, and other lepidopteran pests",
     "crops": "Cotton, brinjal, tomato, okra, red gram, and chickpea",
     "sale": true,
-    "deliverable": false,
+    "deliverable": true,
     "sizes": [
       [
-        "500 ml",
-        1340,
-        1500
+        "250ml",
+        250,
+        300
+      ],
+      [
+        "500ml",
+        465,
+        550
+      ],
+      [
+        "1L",
+        900,
+        1100
       ]
     ],
     "images": [
@@ -55,10 +65,16 @@
     "pests": "Whiteflies, thrips, aphids, jassids, mites, and other chewing and sucking pests",
     "crops": "Vegetables, fruits, cotton & ornamentals",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        1100,
+        475,
+        750
+      ],
+      [
+        "1 L",
+        900,
         1100
       ]
     ],
@@ -89,11 +105,17 @@
     "pests": "Stem borers, leaf folders, fruit borers, armyworms, and other lepidopteran pests",
     "crops": "Vegetables, sugarcane, fruits, cotton, chilli, grapes, groundnut, wheat, paddy, soybean, maize, pulses",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "100 ml",
-        1900,
-        1900
+        "60 ml",
+        130,
+        300
+      ],
+      [
+        "150 ml",
+        250,
+        500
       ]
     ],
     "images": [
@@ -123,11 +145,17 @@
     "pests": "Leaf folder, stem borers, shoot borers, and similar pests",
     "crops": "Paddy, sugarcane, vegetables, maize, all crops, cotton",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Kg",
-        825,
-        825
+        "250 gm",
+        220,
+        950
+      ],
+      [
+        "500 gm",
+        425,
+        900
       ]
     ],
     "images": [
@@ -157,11 +185,17 @@
     "pests": "Bollworms, fruit borers, stem borers, leaf folders, thrips, and other chewing/sucking pests",
     "crops": "Grapes, fruits, soybean, all crops, cotton, paddy, chilli, groundnut, sugarcane, vegetables, wheat, rice, pulses, oilseeds",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Litre",
-        450,
-        450
+        "500 ml",
+        440,
+        500
+      ],
+      [
+        "1 L",
+        850,
+        1000
       ]
     ],
     "images": [
@@ -191,11 +225,27 @@
     "pests": "Mites, leaf miners, thrips, and caterpillars",
     "crops": "Cotton, chilli, brinjal, tomato, citrus, and tea",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "100 ml",
+        120,
+        200
+      ],
+      [
+        "250 ml",
+        285,
+        500
+      ],
+      [
+        "500 ml",
+        555,
+        1000
+      ],
+      [
         "1 Litre",
-        1100,
-        1100
+        980,
+        2000
       ]
     ],
     "images": [
@@ -225,11 +275,17 @@
     "pests": "Whiteflies, Aphids, Jassids, Thrips",
     "crops": "Cotton, Vegetables, Tea, Fruits",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "500 ml",
+        630,
+        700
+      ],
+      [
         "1 L",
-        1250,
-        1250
+        1230,
+        1400
       ]
     ],
     "images": [
@@ -240,11 +296,11 @@
   },
   {
     "id": "foji-30",
-    "n": "30% FS",
+    "n": "Thiamethoxam 30% FS",
     "c": "Insecticide",
     "brand": "Foji 30",
     "head": "Foji 30 Thiamethoxam 30 FS Insecticide",
-    "t": "30% FS",
+    "t": "Thiamethoxam 30% FS",
     "ftype": "FS",
     "form": "Liquid",
     "conc": "30%",
@@ -259,49 +315,26 @@
     "pests": "Jassids, Aphids, Thrips, White Grubs, Termites",
     "crops": "Sugarcane, Wheat, Vegetables, Grapes, Fruits, Paddy, Chilli, Soybean, Groundnut, Cotton",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Litre",
-        710,
-        710
+        "250 ml",
+        250,
+        300
+      ],
+      [
+        "500 ml",
+        470,
+        550
+      ],
+      [
+        "1 L",
+        900,
+        1000
       ]
     ],
     "images": [
       "images/foji-30.jpg"
-    ],
-    "video": "",
-    "brochure": ""
-  },
-  {
-    "id": "thai-lem",
-    "n": "Lambda Cyhalothrin + Thiamethoxam",
-    "c": "Insecticide",
-    "brand": "Thai Lem",
-    "head": "Thai Lem Thiamethoxam 12.6 Lambda Cyhalothrin 9.5 ZC Insecticide",
-    "t": "Lambda Cyhalothrin + Thiamethoxam",
-    "ftype": "ZC",
-    "form": "Liquid",
-    "conc": "12.6% + 9.5%",
-    "apptype": "",
-    "phys": "Liquid",
-    "ptype": "Bottle",
-    "dose": "200-400 ml/acre",
-    "moq": "10 Litre",
-    "desc": "Broad-spectrum insecticide combining systemic and contact/stomach action in ZC formulation.",
-    "features": "Dual mode of action; quick knockdown; long-lasting residual effect; controlled release; enhanced rainfastness; broad crop compatibility.",
-    "mode": "Systemic and contact action",
-    "pests": "Aphids, Jassids, Whiteflies, Thrips, Bollworms, Leafhoppers",
-    "crops": "Paddy, Chilli, Soybean, Cotton, Vegetables, Groundnut, Fruits, Sugarcane, Grapes, Wheat",
-    "sale": false,
-    "sizes": [
-      [
-        "500 ml",
-        820,
-        820
-      ]
-    ],
-    "images": [
-      "images/thai-lem.jpg"
     ],
     "video": "",
     "brochure": ""
@@ -327,11 +360,22 @@
     "pests": "Fruit Borers, Bollworms, Leaf Folders, Stem Borers",
     "crops": "Vegetables, Cotton, Pulses, Fruits",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "500 g",
-        1200,
-        1200
+        "250 ml",
+        245,
+        350
+      ],
+      [
+        "500 ml",
+        460,
+        600
+      ],
+      [
+        "1 L",
+        880,
+        1000
       ]
     ],
     "images": [
@@ -361,11 +405,17 @@
     "pests": "Bollworms, Fruit Borers, Stem Borers, Leaf Folders",
     "crops": "Cotton, Chilli, Cabbage, Tomato, Pulses",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "500 gm",
-        690,
-        690
+        "100 gm",
+        75,
+        100
+      ],
+      [
+        "250 gm",
+        180,
+        200
       ]
     ],
     "images": [
@@ -378,7 +428,7 @@
     "id": "targen-plus",
     "n": "Imidacloprid 30.5% SC",
     "c": "Insecticide",
-    "brand": "Targen Plus",
+    "brand": "Targen +",
     "head": "Targen Plus Imidacloprid 30.5 SC Insecticide",
     "t": "Imidacloprid 30.5% SC",
     "ftype": "SC",
@@ -395,11 +445,22 @@
     "pests": "Aphids, Jassids, Whiteflies, Thrips, Termites",
     "crops": "Cotton, Rice, Sugarcane, Vegetables, Fruits",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Litre",
-        650,
-        650
+        "250 ml",
+        310,
+        400
+      ],
+      [
+        "500 ml",
+        590,
+        800
+      ],
+      [
+        "1 L",
+        1150,
+        1200
       ]
     ],
     "images": [
@@ -429,11 +490,17 @@
     "pests": "Bollworms, Stem Borers, Fruit Borers, Leaf Folders, Thrips, Jassids, Aphids",
     "crops": "Cotton, Rice, Maize, Pulses, Vegetables, Fruits",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Liter",
-        330,
-        330
+        "500 ml",
+        435,
+        500
+      ],
+      [
+        "1 L",
+        860,
+        1000
       ]
     ],
     "images": [
@@ -444,11 +511,11 @@
   },
   {
     "id": "foji-25",
-    "n": "25% WG",
+    "n": "Thiamethoxam 25% WG",
     "c": "Insecticide",
     "brand": "Foji 25",
     "head": "Foji 25 Thiamethoxam 25 WG Insecticide",
-    "t": "25% WG",
+    "t": "Thiamethoxam 25% WG",
     "ftype": "WG",
     "form": "Powder",
     "conc": "25%",
@@ -463,11 +530,22 @@
     "pests": "Aphids, Whiteflies, Jassids, Thrips, Hoppers",
     "crops": "Cotton, Rice, Vegetables, Fruits, Tomato, Brinjal, Citrus",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "500 gm",
-        475,
-        475
+        "100gm",
+        76,
+        100
+      ],
+      [
+        "250gm",
+        180,
+        230
+      ],
+      [
+        "500gm",
+        350,
+        400
       ]
     ],
     "images": [
@@ -478,7 +556,7 @@
   },
   {
     "id": "fi-ime",
-    "n": "Imidacloprid 40% + Fipronil 40% WG",
+    "n": "Fipronil 40% + Imidacloprid 40% WG2",
     "c": "Insecticide",
     "brand": "FI IME",
     "head": "Fi Ime Fipronil 40 Imidacloprid 40 WG Insecticide",
@@ -497,11 +575,22 @@
     "pests": "Jassids, Whitefly, Aphids, Thrips, Termites, Borers",
     "crops": "Vegetables, Fruits, Cereals, Plantation Crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "100 ml",
-        4200,
-        4200
+        "100 gm",
+        560,
+        600
+      ],
+      [
+        "250 gm",
+        1300,
+        1500
+      ],
+      [
+        "500 gm",
+        2500,
+        2700
       ]
     ],
     "images": [
@@ -531,11 +620,17 @@
     "pests": "Whitefly, Thrips, Jassid, Aphid, Termites",
     "crops": "Vegetables, Paddy, Soybean, Tea, Oilseeds, Pulses, Sugarcane, Cotton",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        780,
-        780
+        575,
+        700
+      ],
+      [
+        "1 L",
+        1100,
+        1200
       ]
     ],
     "images": [
@@ -612,11 +707,12 @@
     "pests": "",
     "crops": "Wheat, Paddy, Cotton, Chilli, Sugarcane, Fruits, Maize, Vegetables, Soybean",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Ltr",
-        440,
-        440
+        "1 L",
+        485,
+        550
       ]
     ],
     "images": [],
@@ -627,7 +723,7 @@
     "id": "pramukh-boron-20-di-sodium-octa-borate-tetra-hydrate-micro-nutrient-fertilizer",
     "n": "Di-Sodium Octa Borate Tetrahydrate",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Pramukh Boron 20 Di Sodium Octa Borate Tetra Hydrate Micro Nutrient Fertilizer",
     "t": "Di-Sodium Octa Borate Tetrahydrate",
     "ftype": "",
@@ -644,11 +740,12 @@
     "pests": "",
     "crops": "",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        89,
-        89
+        140,
+        180
       ]
     ],
     "images": [
@@ -659,11 +756,11 @@
   },
   {
     "id": "black-panther-seaweed-amino-alginic-acid-fertilizer",
-    "n": "Amino Acid, Humic Acid, Seaweed Extract, Fulvic Acid, Zyme",
+    "n": "Seaweed, Amino Acid, Alginic Acid",
     "c": "PGR & Nutrition",
-    "brand": "Black Panther",
+    "brand": "BLACK PANTHER",
     "head": "Black Panther Seaweed Amino Alginic Acid Fertilizer",
-    "t": "Amino Acid, Humic Acid, Seaweed Extract, Fulvic Acid, Zyme",
+    "t": "Seaweed, Amino Acid, Alginic Acid",
     "ftype": "",
     "form": "Liquid",
     "conc": "20% Seaweed Content",
@@ -678,11 +775,12 @@
     "pests": "",
     "crops": "Vegetables, fruits, cereals, and commercial crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 L",
-        380,
-        380
+        270,
+        400
       ]
     ],
     "images": [
@@ -692,108 +790,10 @@
     "brochure": ""
   },
   {
-    "id": "agricultural-micronutrients-fertilizer",
-    "n": "Zinc 6% + Iron 4% + Manganese 1% + Copper 0.5% + Boron 0.5%",
-    "c": "Fertilizer",
-    "brand": "PRAMUKH PRIMIX",
-    "head": "Agricultural Micronutrients Fertilizer",
-    "t": "Zinc 6% + Iron 4% + Manganese 1% + Copper 0.5% + Boron 0.5%",
-    "ftype": "",
-    "form": "Powder",
-    "conc": "Zn 6%, Fe 4%, Mn 1%, Cu 0.5%, B 0.5%",
-    "apptype": "Improving Crop Yield and Quality",
-    "phys": "Powder",
-    "ptype": "PP Sack Bag",
-    "dose": "50 gram per 16 litre pump",
-    "moq": "",
-    "desc": "Government approved fertilizer mixture containing Zinc (Zn) 6%, Iron (Fe) 4%, Manganese (Mn) 1%, Copper (Cu) 0.5%, and Boron (B) 0.5%. It is a water-soluble powder used for all crops to correct deficiencies, promote healthy growth, increase yield quality, and improve resistance to diseases and pests. Application methods include foliar spray, soil application, and drip irrigation.",
-    "features": "Government approved fertilizer mixture\nWater-soluble\nUsed for all crops to correct deficiencies\nPromotes healthy growth, yield quality, and resistance to diseases and pests",
-    "mode": "",
-    "pests": "",
-    "crops": "All crops",
-    "sale": false,
-    "sizes": [
-      [
-        "1 Kg",
-        550,
-        550
-      ]
-    ],
-    "images": [],
-    "video": "",
-    "brochure": ""
-  },
-  {
-    "id": "super-chana-special",
-    "n": "Seaweed, amino, B6, vitamins, hormones, humic fulvic",
-    "c": "PGR & Nutrition",
-    "brand": "",
-    "head": "Super Chana Special",
-    "t": "Seaweed, amino, B6, vitamins, hormones, humic fulvic",
-    "ftype": "",
-    "form": "Liquid",
-    "conc": "",
-    "apptype": "Drip Irrigation, Foliar Spray, Soil Application",
-    "phys": "Liquid",
-    "ptype": "Bottle",
-    "dose": "",
-    "moq": "10 Litre",
-    "desc": "Plant Growth Regulators for chana special variety; this product specifications for chana crops.",
-    "features": "100% Soluble\nRecommended for drip irrigation, foliar spray, and soil application",
-    "mode": "",
-    "pests": "",
-    "crops": "Fruits, Cotton, Tomato, Sugarcane, Vegetables, Apple, Grapes, All Crops",
-    "sale": false,
-    "sizes": [
-      [
-        "1 L",
-        710,
-        710
-      ]
-    ],
-    "images": [],
-    "video": "",
-    "brochure": ""
-  },
-  {
-    "id": "pramukh-nutrizen-ferrous-sulphate-fertilizer",
-    "n": "Ferrous sulphate",
-    "c": "Fertilizer",
-    "brand": "Pramukh",
-    "head": "Pramukh Nutrizen Ferrous Sulphate Fertilizer",
-    "t": "Ferrous sulphate",
-    "ftype": "Sulphated",
-    "form": "Granules",
-    "conc": "",
-    "apptype": "Foliar Spray, Soil Application",
-    "phys": "Granules",
-    "ptype": "",
-    "dose": "",
-    "moq": "100 Kg",
-    "desc": "Pramukh Nutrizen Ferrous Sulphate is a high-quality micronutrient fertilizer designed to correct iron (Fe) deficiencies in various crops. Iron is essential for chlorophyll formation and photosynthesis, and its deficiency can lead to chlorosis (yellowing of leaves) and stunted plant growth. This product ensures healthy vegetative growth and improved crop productivity.",
-    "features": "Rich Source of Iron (Fe): Provides readily available ferrous ions to plants\nPrevents & Corrects Chlorosis: Promotes healthy green foliage\nEnhances Chlorophyll Production & Photosynthesis\nBoosts Plant Metabolism & Growth\nImproves Overall Crop Productivity\nSuitable for Soil Application & Foliar Spray\nIdeal for All Types of Crops: Vegetables, fruits, cereals, pulses, and oilseeds\nHighly Soluble & Easy to Apply",
-    "mode": "",
-    "pests": "",
-    "crops": "Vegetables, fruits, cereals, pulses, and oilseeds",
-    "sale": false,
-    "sizes": [
-      [
-        "25 Kg",
-        18,
-        18
-      ]
-    ],
-    "images": [
-      "images/nutrizen.jpg"
-    ],
-    "video": "",
-    "brochure": ""
-  },
-  {
     "id": "pramukh-calcium-nitrate-boron-fertilizer",
-    "n": "Calcium (Ca) + Nitrate Nitrogen (N) + Boron (B)",
+    "n": "15.5% N + 18% Ca + 0.3% B",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Pramukh Calcium Nitrate Boron Fertilizer",
     "t": "Calcium (Ca) + Nitrate Nitrogen (N) + Boron (B)",
     "ftype": "",
@@ -803,18 +803,19 @@
     "phys": "Granules",
     "ptype": "",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh Calcium Nitrate with Boron is a premium-grade, fully water-soluble fertilizer that combines the benefits of Calcium (Ca), Nitrate Nitrogen (N), and Boron (B). This balanced formulation supports strong cell wall development, better pollination, and fruit setting, making it ideal for fruiting and flowering crops.",
     "features": "Enriched with Calcium, Nitrate Nitrogen & Boron\nEnhances Cell Wall Strength & Fruit Firmness\nPromotes Uniform Flowering & Fruit Development",
     "mode": "",
     "pests": "",
     "crops": "Fruiting and flowering crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        85,
-        85
+        65,
+        80
       ]
     ],
     "images": [
@@ -825,30 +826,31 @@
   },
   {
     "id": "pramukh-zinc-sulphate-monohydrate-fertilizer",
-    "n": "Zinc Sulphate Monohydrate",
+    "n": "ZINCATED BENTONITE SULPHUR",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Pramukh Zinc Sulphate Monohydrate Fertilizer",
     "t": "Zinc Sulphate Monohydrate",
     "ftype": "",
     "form": "Granular",
-    "conc": "33% Zinc (Zn)",
+    "conc": "33% Zinc and 15% Sulphur",
     "apptype": "Correcting Nutrient Deficiencies",
     "phys": "Granular",
     "ptype": "",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh Zinc Sulphate Monohydrate is a high-quality micronutrient fertilizer that provides readily available zinc (Zn) to crops, which is essential for enzyme function, hormone regulation, and protein synthesis. Zinc deficiency can lead to stunted growth, leaf deformation, and poor yield. This product helps in improving crop health and productivity across various stages of growth.",
     "features": "Contains 33% Zinc (Zn) as Monohydrate Form\nCorrects Zinc Deficiency Efficiently\nSupports Enzymatic Activities and Growth Hormone Production\nPromotes Leaf Expansion, Root Development & Flowering\nIncreases Crop Yield and Quality\nHighly Soluble & Easy to Absorb by Plants",
     "mode": "",
     "pests": "",
     "crops": "",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        160,
-        160
+        130,
+        200
       ]
     ],
     "images": [
@@ -859,11 +861,11 @@
   },
   {
     "id": "pramukh-super-potassium-humic-12-amino-20-fertilizer",
-    "n": "Potassium Humate 12% + Amino Acids 20%",
+    "n": "Super Potassium Humic 12% + Amino 20%",
     "c": "PGR & Nutrition",
-    "brand": "Pramukh",
+    "brand": "HUMBEL",
     "head": "Pramukh Super Potassium Humic 12 Amino 20 Fertilizer",
-    "t": "Potassium Humate 12% + Amino Acids 20%",
+    "t": "Super Potassium Humic 12% + Amino 20%",
     "ftype": "",
     "form": "Liquid",
     "conc": "12% Potassium Humate + 20% Amino Acids",
@@ -878,25 +880,30 @@
     "pests": "",
     "crops": "",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        200,
-        200
+        140,
+        150
+      ],
+      [
+        "1 L",
+        260,
+        300
       ]
     ],
     "images": [
       "images/humbel.jpg"
     ],
     "video": "",
-    "brochure": "",
-    "deliverable": true
+    "brochure": ""
   },
   {
     "id": "expand-striking-agent-wetting-agent-fertilizer",
-    "n": "Wetting and Striking Agent",
+    "n": "Striking and Wetting Agent",
     "c": "PGR & Nutrition",
-    "brand": "Expand",
+    "brand": "EXPAND",
     "head": "Expand Striking Agent Wetting Agent Fertilizer",
     "t": "Wetting and Striking Agent",
     "ftype": "",
@@ -913,11 +920,17 @@
     "pests": "",
     "crops": "All crops & climatic conditions",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "100 ml",
+        73,
+        80
+      ],
+      [
         "250 ml",
-        650,
-        650
+        175,
+        210
       ]
     ],
     "images": [
@@ -927,42 +940,10 @@
     "brochure": ""
   },
   {
-    "id": "tolfenpyrad-15-ec",
-    "n": "Tolfenpyrad 15% EC",
-    "c": "Insecticide",
-    "brand": "",
-    "head": "Tolfenpyrad 15 Ec",
-    "t": "Tolfenpyrad 15% EC",
-    "ftype": "EC",
-    "form": "",
-    "conc": "15% EC",
-    "apptype": "Agriculture",
-    "phys": "Liquid",
-    "ptype": "",
-    "dose": "",
-    "moq": "",
-    "desc": "Tolfenpyrad 15% EC is a broad-spectrum pyrazole-class insecticide and miticide that also exhibits fungicidal properties. It is widely used to manage complex pest scenarios in crops like CHILLI SPECIAL.",
-    "features": "Broad-spectrum pyrazole-class insecticide and miticide; also exhibits fungicidal properties",
-    "mode": "Contact",
-    "pests": "Leaf Miner",
-    "crops": "Vegetables",
-    "sale": false,
-    "sizes": [
-      [
-        "100 ml",
-        1550,
-        1550
-      ]
-    ],
-    "images": [],
-    "video": "",
-    "brochure": ""
-  },
-  {
     "id": "pramukh-ammonium-sulphate-fertilizer",
     "n": "Ammonium Sulphate",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Pramukh Ammonium Sulphate Fertilizer",
     "t": "Ammonium Sulphate",
     "ftype": "",
@@ -979,11 +960,12 @@
     "pests": "",
     "crops": "Vegetables, cereals, pulses, oilseeds, and fruits",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        36,
-        36
+        40,
+        70
       ]
     ],
     "images": [
@@ -996,9 +978,9 @@
     "id": "pramukh-magnesium-sulphate-fertilizer",
     "n": "Magnesium Sulphate",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Pramukh Magnesium Sulphate Fertilizer",
-    "t": "Magnesium Sulphate",
+    "t": "Magnesium Sulphate (MgSO4·7H2O)",
     "ftype": "",
     "form": "Granules",
     "conc": "9.5% Magnesium (Mg) + 12% Sulphur (S)",
@@ -1006,18 +988,19 @@
     "phys": "Granules",
     "ptype": "",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh Magnesium Sulphate is a water-soluble micronutrient fertilizer essential for healthy plant growth and chlorophyll formation. It provides Magnesium (Mg) and Sulphur (S)—two critical nutrients that support photosynthesis, enzyme activation, and protein synthesis. This product is ideal for preventing and correcting magnesium deficiencies in a wide range of crops.",
     "features": "Contains Magnesium (9.5%) and Sulphur (12%)\nPromotes Chlorophyll Formation and Photosynthesis\nImproves Nutrient Absorption and Enzyme Activation\nCorrects Magnesium Deficiency (Interveinal Chlorosis)\nEnhances Crop Yield and Quality\nHighly Water-Soluble & Easy to Apply\nSuitable for Foliar Spray and Soil Application\nIdeal for Vegetables, Fruits, Pulses, Oilseeds, and Field Crops",
     "mode": "",
     "pests": "",
     "crops": "Vegetables, Fruits, Pulses, Oilseeds, and Field Crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        17,
-        17
+        30,
+        50
       ]
     ],
     "images": [
@@ -1028,11 +1011,11 @@
   },
   {
     "id": "pramukh-calcium-nitrate-fertilizer",
-    "n": "Calcium Nitrate",
+    "n": "Calcium Nitrate (CANO3)",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Pramukh Calcium Nitrate Fertilizer",
-    "t": "Calcium Nitrate",
+    "t": "Calcium Nitrate (CANO3)",
     "ftype": "",
     "form": "Granules",
     "conc": "15.5% Nitrogen (N) + 18.5% Calcium (Ca)",
@@ -1047,11 +1030,12 @@
     "pests": "",
     "crops": "Fruits, Vegetables, Flowers, and High-Value Crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        59,
-        59
+        56,
+        70
       ]
     ],
     "images": [
@@ -1061,42 +1045,10 @@
     "brochure": ""
   },
   {
-    "id": "mix-micronutrient-fertilizers-special-grade",
-    "n": "Special Grade Micronutrient Fertilizer",
-    "c": "Fertilizer",
-    "brand": "Pramukh primix grounuts,cotten, soyabean special grade",
-    "head": "Mix Micronutrient Fertilizers( special grade)",
-    "t": "Special Grade Micronutrient Fertilizer",
-    "ftype": "",
-    "form": "Powder",
-    "conc": "",
-    "apptype": "Improving Crop Yield and Quality",
-    "phys": "Powder",
-    "ptype": "PP Sack Bag",
-    "dose": "50gm per 16litter pump",
-    "moq": "10 Kg",
-    "desc": "Grounut,cotten, soyabean special grade. Increase plan self life and good quality, increase no. Of flowering",
-    "features": "Soluble in Water\nShelf Life 3 Years",
-    "mode": "",
-    "pests": "",
-    "crops": "Groundnut, cotton, soybean",
-    "sale": false,
-    "sizes": [
-      [
-        "1 Kg",
-        550,
-        550
-      ]
-    ],
-    "images": [],
-    "video": "",
-    "brochure": ""
-  },
-  {
     "id": "moxo-hexaconazole-5-sc-fungicide",
     "n": "Hexaconazole 5% SC",
     "c": "Fungicide",
-    "brand": "Moxo",
+    "brand": "MOXO",
     "head": "Systemic Fungicide for Broad-Spectrum Disease Control",
     "t": "Hexaconazole 5% SC",
     "ftype": "5% SC",
@@ -1113,11 +1065,17 @@
     "pests": "Sigatoka, Tikka leaf spot, Rust, Powdery mildew, Blast, Anthracnose, Leaf spot, Sheath blight, Alternaria blight",
     "crops": "Wheat, Groundnut, Mango, Chilli, Paddy, Cotton, Grapes, Vegetables, Soybean, Tea",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "500 ml",
+        460,
+        500
+      ],
+      [
         "1 L",
-        210,
-        210
+        900,
+        1000
       ]
     ],
     "images": [
@@ -1130,7 +1088,7 @@
     "id": "ozon-azoxystrobin-11-tebuconazole-18-3-ww-sc-fungicide",
     "n": "Azoxystrobin 11% + Tebuconazole 18.30% SC",
     "c": "Fungicide",
-    "brand": "Ozon",
+    "brand": "OZON",
     "head": "Dual-Action Systemic Fungicide for Preventive and Curative Disease Control",
     "t": "Azoxystrobin 11% + Tebuconazole 18.30% SC",
     "ftype": "SC (Suspension Concentrate)",
@@ -1147,11 +1105,17 @@
     "pests": "Powdery mildew, rust, leaf spots, sheath blight, and more",
     "crops": "Wheat, rice, soybeans, grapes, chili, tomato, cereals, vegetables, fruits, oilseeds",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        790,
-        790
+        565,
+        600
+      ],
+      [
+        "1 L",
+        1100,
+        1200
       ]
     ],
     "images": [
@@ -1164,7 +1128,7 @@
     "id": "helinex-hexaconazole-5-velidamycin-2-5-sc-fungicide",
     "n": "Hexaconazole 5% + Validamycin 2.5% SC",
     "c": "Fungicide",
-    "brand": "Helinex",
+    "brand": "HELINEX",
     "head": "Broad-Spectrum Systemic Fungicide for Effective Disease Management",
     "t": "Hexaconazole 5% + Validamycin 2.5% SC",
     "ftype": "SC",
@@ -1181,11 +1145,17 @@
     "pests": "Sheath blight, powdery mildew, and other fungal-bacterial diseases",
     "crops": "Paddy, Chili, Tomato, Fruits, Vegetables",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "500 ml",
+        460,
+        500
+      ],
+      [
         "1 L",
-        495,
-        495
+        900,
+        1000
       ]
     ],
     "images": [
@@ -1196,11 +1166,11 @@
   },
   {
     "id": "tubex-tebuconazole-25-9-ec-fungicide",
-    "n": "Tebuconazole 25% EC",
+    "n": "Tebuconazole 25.9% EC",
     "c": "Fungicide",
-    "brand": "Tubex",
+    "brand": "TUBEX",
     "head": "Systemic Fungicide for Broad-Spectrum Fungal Disease Control",
-    "t": "Tebuconazole 25% EC",
+    "t": "Tebuconazole 25.9% EC",
     "ftype": "EC",
     "form": "Liquid",
     "conc": "Tebuconazole 25.9% EC",
@@ -1215,16 +1185,17 @@
     "pests": "Rust, powdery mildew, sheath blight, leaf spot, and other fungal infections",
     "crops": "Grapes, Apple, Tea, Cotton, Paddy, Soybean, Groundnut, Maize, Chili, Wheat",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 L",
-        700,
-        700
+        1090,
+        1200
       ],
       [
         "500 ml",
-        700,
-        700
+        535,
+        600
       ]
     ],
     "images": [
@@ -1237,7 +1208,7 @@
     "id": "tablet-tebuconazole-10-sulphur-65-wg-fungicide",
     "n": "Tebuconazole 10% + Sulphur 65% WG",
     "c": "Fungicide",
-    "brand": "Tablet",
+    "brand": "TABLET",
     "head": "Dual-Action Systemic and Contact Fungicide",
     "t": "Tebuconazole 10% + Sulphur 65% WG",
     "ftype": "WG",
@@ -1254,11 +1225,17 @@
     "pests": "Powdery mildew, leaf spot, scab, rust, tikka leaf spot, and more",
     "crops": "Grapes, paddy, groundnut, pulses, vegetables",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "250 ml",
-        370,
-        370
+        "500 gm",
+        190,
+        250
+      ],
+      [
+        "1 kg",
+        350,
+        500
       ]
     ],
     "images": [
@@ -1271,7 +1248,7 @@
     "id": "lion-80-sulphur-80-wdg-fungicide",
     "n": "Sulphur 80% WG",
     "c": "Fungicide",
-    "brand": "Lion 80",
+    "brand": "LION 80",
     "head": "Broad-Spectrum Sulphur Fungicide",
     "t": "Sulphur 80% WG",
     "ftype": "WDG (Water Dispersible)",
@@ -1281,18 +1258,19 @@
     "phys": "Powder",
     "ptype": "Bucket",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 kg",
     "desc": "Lion 80 is a fungicide containing Sulphur 80% WG in a water-dispersible formulation. It is designed for broad-spectrum disease protection and is suitable for multiple crops.",
     "features": "Sulphur 80% WG; Water-dispersible formulation; Broad-spectrum disease protection",
     "mode": "Contact/protective fungicidal action",
     "pests": "Fungal diseases",
     "crops": "Multiple crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "5 kg",
-        111,
-        111
+        "3 kg",
+        470,
+        600
       ]
     ],
     "images": [
@@ -1305,7 +1283,7 @@
     "id": "roxxa-azoxystrobin-18-2-ww-difenoconazole-11-4-ww-sc-fungicide",
     "n": "Azoxystrobin 18.2% w/w + Difenoconazole 11.4% w/w SC",
     "c": "Fungicide",
-    "brand": "Roxxa",
+    "brand": "ROXAA",
     "head": "Dual-Action Systemic Fungicide for Broad-Spectrum Disease Control",
     "t": "Azoxystrobin 18.2% w/w + Difenoconazole 11.4% w/w SC",
     "ftype": "SC (Suspension Concentrate)",
@@ -1322,11 +1300,17 @@
     "pests": "Blight, rust, powdery mildew, leaf spots, anthracnose, and more",
     "crops": "Fruits, Vegetables, Cereals, Pulses, Oilseeds",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        855,
-        855
+        665,
+        700
+      ],
+      [
+        "1 L",
+        1310,
+        1400
       ]
     ],
     "images": [
@@ -1339,7 +1323,7 @@
     "id": "camriz-carbendazim-12-mancozeb-63-wp-fungicide",
     "n": "Carbendazim 12% + Mancozeb 63% WP",
     "c": "Fungicide",
-    "brand": "Camriz",
+    "brand": "CAMRIZ",
     "head": "Broad-Spectrum Contact & Systemic Fungicide for Crop Protection",
     "t": "Carbendazim 12% + Mancozeb 63% WP",
     "ftype": "WP",
@@ -1349,18 +1333,29 @@
     "phys": "Powder",
     "ptype": "Box",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Camriz is a dual-action fungicide formulated with Carbendazim 12% (systemic) and Mancozeb 63% (contact) in wettable powder (WP) form. This powerful combination provides preventive and curative control against a wide range of fungal diseases including blights, spots, rusts, and mildew across various crops.",
     "features": "Active Ingredients: Carbendazim 12% + Mancozeb 63% WP; Dual mode of action; Preventive and curative protection; Broad-spectrum disease control; Long-lasting residual effect",
     "mode": "Systemic (Carbendazim) & Contact (Mancozeb)",
     "pests": "Leaf spots, blight, anthracnose, rust, powdery mildew, and more",
     "crops": "Vegetables, Fruits, Cereals, Oilseeds, Pulses",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "100 gm",
+        80,
+        100
+      ],
+      [
+        "250 gm",
+        185,
+        250
+      ],
+      [
         "500 gm",
-        395,
-        395
+        350,
+        500
       ]
     ],
     "images": [
@@ -1373,7 +1368,7 @@
     "id": "taxme-thiophanate-methyl-70-wp-fungicide",
     "n": "Thiophanate Methyl 70% WP",
     "c": "Fungicide",
-    "brand": "Taxme",
+    "brand": "TAXME",
     "head": "Systemic Fungicide for Preventive, Curative and Eradicative Disease Control",
     "t": "Thiophanate Methyl 70% WP",
     "ftype": "WP",
@@ -1383,18 +1378,24 @@
     "phys": "Powder",
     "ptype": "Box",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Taxme is a powerful systemic fungicide containing Thiophanate Methyl 70% WP (Wettable Powder), known for its preventive, curative, and eradicative action against a wide range of fungal diseases. It is rapidly absorbed and translocated within the plant, making it highly effective for controlling diseases like leaf spot, blight, powdery mildew, and fruit rot across various crops.",
     "features": "Active Ingredient: Thiophanate Methyl 70% WP; Systemic action; Preventive, curative and eradicative action; Long-lasting protection with excellent residual effect; Easy to mix and apply",
     "mode": "Systemic action; moves through plant tissues to protect new growth",
     "pests": "Leaf spots, blights, powdery mildew, anthracnose, fruit rots, and more",
     "crops": "Fruits, Vegetables, Ornamentals, Field Crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "500 gm",
+        345,
+        400
+      ],
+      [
         "1 kg",
-        490,
-        490
+        650,
+        800
       ]
     ],
     "images": [
@@ -1407,7 +1408,7 @@
     "id": "maxico-mancozeb-75-wp-fungicide",
     "n": "Mancozeb 75% WP",
     "c": "Fungicide",
-    "brand": "Maxico",
+    "brand": "MAXICO",
     "head": "Protective Broad-Spectrum Fungicide for Multiple Crops",
     "t": "Mancozeb 75% WP",
     "ftype": "WP",
@@ -1417,18 +1418,29 @@
     "phys": "Powder",
     "ptype": "Box",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Maxico is a widely used contact fungicide containing Mancozeb 75% WP (wettable powder), known for its broad-spectrum protective action against a variety of fungal diseases such as leaf spot, blight, rust, and downy mildew. It works by inhibiting fungal spore germination and preventing the spread of infection, ensuring healthy crop growth and increased yields.",
     "features": "Active Ingredient: Mancozeb 75% WP; Broad-spectrum application; Multi-site mode of action; Protective in nature; Suitable for vegetables, fruits, cereals and oilseeds; Acts as a zinc supplement",
     "mode": "Contact fungicide - prevents spore germination; multi-site mode of action",
     "pests": "Leaf spots, blights, rusts, downy mildew, and other fungal infections",
     "crops": "Vegetables, Fruits, Cereals, Oilseeds",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "250 gm",
+        105,
+        125
+      ],
+      [
         "500 gm",
-        340,
-        340
+        195,
+        250
+      ],
+      [
+        "1 kg",
+        360,
+        500
       ]
     ],
     "images": [
@@ -1441,7 +1453,7 @@
     "id": "oxygen-imazethapyr-10-sl-herbicide",
     "n": "Imazethapyr 10% SL",
     "c": "Herbicide",
-    "brand": "Oxygen",
+    "brand": "OXYGEN",
     "head": "Selective Post-Emergence Herbicide for Pulses and Soybean Crops",
     "t": "Imazethapyr 10% SL",
     "ftype": "SL (Soluble Liquid)",
@@ -1458,11 +1470,17 @@
     "pests": "Broadleaf weeds, grasses, sedges",
     "crops": "Soybean, groundnut, moong, urad, other pulses",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "500 ml",
+        460,
+        500
+      ],
+      [
         "1 L",
-        670,
-        670
+        900,
+        1000
       ]
     ],
     "images": [
@@ -1475,7 +1493,7 @@
     "id": "fenix-fenoxaprop-p-ethyl-9-3-ec-herbicide",
     "n": "Fenoxaprop-p-ethyl 9.3% EC",
     "c": "Herbicide",
-    "brand": "Fenix",
+    "brand": "FENIX",
     "head": "Post-Emergence Grass Weed Control for Broadleaf Crops",
     "t": "Fenoxaprop-p-ethyl 9.3% EC",
     "ftype": "EC",
@@ -1492,11 +1510,17 @@
     "pests": "Echinochloa (barnyard grass), Digitaria, Cynodon and other grassy weeds",
     "crops": "Soybean, groundnut, pulses, cotton, vegetables",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        325,
-        325
+        560,
+        600
+      ],
+      [
+        "1 L",
+        1100,
+        1200
       ]
     ],
     "images": [
@@ -1509,7 +1533,7 @@
     "id": "himalay-bispyribac-sodium-10-wv-sc-herbicide",
     "n": "Bispyribac Sodium 10% SC",
     "c": "Herbicide",
-    "brand": "Himalay",
+    "brand": "HIMALAY",
     "head": "Post-Emergence Herbicide for Effective Weed Control in Paddy Fields",
     "t": "Bispyribac Sodium 10% SC",
     "ftype": "SC",
@@ -1526,11 +1550,17 @@
     "pests": "Grasses, broadleaf weeds, sedges",
     "crops": "Direct-seeded and transplanted paddy",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "500 ml",
-        395,
-        395
+        985,
+        1100
+      ],
+      [
+        "1 L",
+        1990,
+        2200
       ]
     ],
     "images": [
@@ -1543,7 +1573,7 @@
     "id": "comando-2-4d-amine-salt-58-sl-herbicide",
     "n": "2,4-D Amine Salt 58% S.L",
     "c": "Herbicide",
-    "brand": "Comando",
+    "brand": "COMANDO",
     "head": "Selective Herbicide for Broadleaf Weed Control",
     "t": "2,4-D Amine Salt 58% S.L",
     "ftype": "SL",
@@ -1560,11 +1590,17 @@
     "pests": "Broadleaf weeds",
     "crops": "Wheat, maize, sorghum, sugarcane, rice",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "250 ml",
-        67.5,
-        67.5
+        "500 ml",
+        130,
+        150
+      ],
+      [
+        "1 L",
+        240,
+        300
       ]
     ],
     "images": [
@@ -1575,14 +1611,14 @@
   },
   {
     "id": "panda-30-pendimethalin-30-ec-herbicide",
-    "n": "Pendimethalin 33% EC",
+    "n": "Pendimethalin 30% EC",
     "c": "Herbicide",
-    "brand": "Panda 30",
+    "brand": "PANDA 30",
     "head": "Pre-Emergence Herbicide for Broadleaf & Grassy Weed Control",
-    "t": "Pendimethalin 33% EC",
+    "t": "Pendimethalin 30% EC",
     "ftype": "EC",
     "form": "Liquid",
-    "conc": "33% EC",
+    "conc": "30% EC",
     "apptype": "Pre-emergence",
     "phys": "Liquid",
     "ptype": "Bottle",
@@ -1594,11 +1630,17 @@
     "pests": "Annual grasses and broadleaf weeds",
     "crops": "Soybean, cotton, pulses, vegetables, cereals",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "100 ml",
-        33,
-        33
+        "500 ml",
+        155,
+        200
+      ],
+      [
+        "1 L",
+        290,
+        400
       ]
     ],
     "images": [
@@ -1608,44 +1650,10 @@
     "brochure": ""
   },
   {
-    "id": "super-bold-herbicide",
-    "n": "Fenoxaprop-p-ethyl 9.3% EC",
-    "c": "Herbicide",
-    "brand": "Super Bold",
-    "head": "Selective Post-Emergence Herbicide for Grassy Weed Control",
-    "t": "Fenoxaprop-p-ethyl 9.3% EC",
-    "ftype": "EC",
-    "form": "Liquid",
-    "conc": "9.3% EC",
-    "apptype": "Post-emergence",
-    "phys": "Liquid",
-    "ptype": "Bottle",
-    "dose": "400–500 ml/acre",
-    "moq": "10 Litre",
-    "desc": "Super Bold is a selective post-emergence herbicide containing Fenoxaprop-P-Ethyl 9.3% EC, formulated to control narrow-leaved grassy weeds in crops such as wheat, rice, soybean, and groundnut.",
-    "features": "Controls wild oats, barnyard grass, crabgrass and other grassy weeds\nCrop-safe selective action\nQuick absorption\nFlexible application window",
-    "mode": "Systemic and post-emergence activity against grassy weeds",
-    "pests": "Grassy weeds, wild oat, Echinochloa spp., barnyard grass, Phalaris minor",
-    "crops": "Cotton, rice, sugarcane, tea, orchards, groundnut, maize, soybean, wheat, non-crop area",
-    "sale": false,
-    "sizes": [
-      [
-        "1 litre",
-        1250,
-        1250
-      ]
-    ],
-    "images": [
-      "images/super-bold.jpg"
-    ],
-    "video": "",
-    "brochure": ""
-  },
-  {
     "id": "atrazine-50-wp-atraz-herbicide",
     "n": "Atrazine 50% WP",
     "c": "Herbicide",
-    "brand": "Atraz",
+    "brand": "ALTAZ",
     "head": "Selective Herbicide for Pre- and Post-Emergence Weed Control",
     "t": "Atrazine 50% WP",
     "ftype": "WP",
@@ -1662,11 +1670,22 @@
     "pests": "Broadleaf and grassy weeds",
     "crops": "Maize, sugarcane, sorghum, wheat, pineapple",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
+        "250 GM",
+        73,
+        75
+      ],
+      [
         "500 gm",
-        197.5,
-        197.5
+        130,
+        150
+      ],
+      [
+        "1 L",
+        240,
+        300
       ]
     ],
     "images": [
@@ -1679,7 +1698,7 @@
     "id": "amrun-oxyflourfen-23-5-ec-herbicide",
     "n": "Oxyfluorfen 23.5% EC",
     "c": "Herbicide",
-    "brand": "Amrun",
+    "brand": "AMRUN",
     "head": "Selective Contact Herbicide for Broadleaf and Grassy Weed Control",
     "t": "Oxyfluorfen 23.5% EC",
     "ftype": "EC",
@@ -1696,11 +1715,17 @@
     "pests": "Broadleaf and grassy weeds",
     "crops": "Onion, garlic, cotton, orchards",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
-        "1 Litre",
-        750,
-        750
+        "500 ml",
+        465,
+        500
+      ],
+      [
+        "1 L",
+        910,
+        1000
       ]
     ],
     "images": [
@@ -1711,11 +1736,11 @@
   },
   {
     "id": "glyset-71-ammonium-salt-glyphosate-71-sg-herbicide",
-    "n": "Ammonium Salt of Glyphosate-71 SG",
+    "n": "Ammonium Salt of Glyphosate-71% SG",
     "c": "Herbicide",
-    "brand": "Glyset 71",
+    "brand": "GLYSET 71",
     "head": "Non-Selective Systemic Herbicide for Total Weed Control",
-    "t": "Ammonium Salt of Glyphosate-71 SG",
+    "t": "Ammonium Salt of Glyphosate-71$ SG",
     "ftype": "SG",
     "form": "Powder",
     "conc": "71% SG",
@@ -1730,11 +1755,12 @@
     "pests": "Annual and perennial weeds, grasses and broadleaf species",
     "crops": "Agricultural, industrial and non-crop areas",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "100 gm",
-        39,
-        39
+        49,
+        100
       ]
     ],
     "images": [
@@ -1747,7 +1773,7 @@
     "id": "pramukh-13-40-13-npk-fertilizer",
     "n": "NPK 13:40:13",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Balanced Nutrition for Strong Root Development & Flowering",
     "t": "NPK 13:40:13",
     "ftype": "Water Soluble NPK",
@@ -1757,22 +1783,24 @@
     "phys": "Powder",
     "ptype": "Bag",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh 13:40:13 is a high-quality water-soluble NPK fertilizer containing 13% Nitrogen (N), 40% Phosphorus (P), and 13% Potassium (K). It is formulated to support healthy root development, early flowering, and improved fruit set. Its fast-dissolving nature supports quick nutrient availability.",
     "features": "NPK Composition: 13% N, 40% P, 13% K\nStimulates root growth and early flowering\nPromotes better pollination and fruit setting\nFully water-soluble and chloride-free\nCompatible with drip irrigation, foliar spray and soil application\nImproves crop vigor and stress resistance",
     "mode": "Provides readily available nitrogen, phosphorus and potassium for crop nutrition",
     "pests": "Root development, flowering, fruit setting",
     "crops": "Vegetables, fruits, pulses, cereals, floriculture",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        66,
-        66
+        90,
+        120
       ]
     ],
     "images": [
-      "images/npk-13-40-13.jpg"
+      "images/npk-13-40-13.jpg",
+      "images/npk-13-40-13-back.jpg"
     ],
     "video": "",
     "brochure": ""
@@ -1781,7 +1809,7 @@
     "id": "pramukh-19-19-19-npk-fertilizer",
     "n": "NPK 19:19:19",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "Balanced Nutrition for All Growth Stages",
     "t": "NPK 19:19:19",
     "ftype": "Water Soluble NPK",
@@ -1791,33 +1819,35 @@
     "phys": "Powder",
     "ptype": "Bag",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh 19:19:19 is a fully water-soluble, balanced NPK fertilizer containing 19% Nitrogen (N), 19% Phosphorus (P), and 19% Potassium (K). It is suitable for use during vegetative, flowering and fruiting stages.",
     "features": "Balanced NPK ratio 19:19:19\nSupports vegetative growth, flowering and fruiting\nFully water-soluble and chloride-free\nQuick nutrient uptake\nImproves root strength, leaf health and fruit quality\nSupports crop resistance to disease and stress",
     "mode": "Provides balanced NPK nutrition across crop growth stages",
     "pests": "Vegetative growth, flowering, fruiting",
     "crops": "Vegetables, fruits, cereals, pulses, flowers, all crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        65,
-        65
+        70,
+        100
       ]
     ],
     "images": [
-      "images/npk-19-19-19.jpg"
+      "images/npk-19-19-19.jpg",
+      "images/npk-19-19-19-back.jpg"
     ],
     "video": "",
     "brochure": ""
   },
   {
     "id": "pramukh-12-61-00-npk-fertilizer",
-    "n": "NPK 12:61:00",
+    "n": "MAP 12:61:00",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "High Phosphorus Fertilizer for Root Development and Flower Initiation",
-    "t": "NPK 12:61:00",
+    "t": "MAP 12:61:00",
     "ftype": "Water Soluble NPK",
     "form": "Powder",
     "conc": "12% N + 61% P + 0% K",
@@ -1832,26 +1862,28 @@
     "pests": "Root development, seedling vigor, flower initiation",
     "crops": "Vegetables, fruits, cereals, pulses, ornamentals, all crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        90,
-        90
+        105,
+        120
       ]
     ],
     "images": [
-      "images/map-12-61-00.jpg"
+      "images/map-12-61-00.jpg",
+      "images/map-12-61-00-back.jpg"
     ],
     "video": "",
     "brochure": ""
   },
   {
     "id": "pramukh-00-52-34-npk-fertilizer",
-    "n": "NPK 00:52:34",
+    "n": "MKP 00:52:34",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "High Phosphorus & Potassium for Flowering and Fruit Setting",
-    "t": "NPK 00:52:34",
+    "t": "MKP 00:52:34",
     "ftype": "Water Soluble NPK",
     "form": "Granules",
     "conc": "0% N + 52% P + 34% K",
@@ -1866,26 +1898,28 @@
     "pests": "Flower initiation, fruit setting, root growth",
     "crops": "Fruits, vegetables, cereals, pulses, ornamentals, all crops",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        98,
-        98
+        130,
+        150
       ]
     ],
     "images": [
-      "images/mkp-00-52-34.jpg"
+      "images/mkp-00-52-34.jpg",
+      "images/mkp-00-52-34-back.jpg"
     ],
     "video": "",
     "brochure": ""
   },
   {
     "id": "pramukh-00-00-50-npk-fertilizer",
-    "n": "Sulphate of Potash (SOP)",
+    "n": "SOP 00.00.50",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "High Potassium Fertilizer for Flowering and Fruiting",
-    "t": "Sulphate of Potash (SOP)",
+    "t": "Sulphate of Potash (SOP) 00.00.50",
     "ftype": "Water Soluble Fertilizer",
     "form": "Powder",
     "conc": "0% N + 0% P + 50% K",
@@ -1893,33 +1927,35 @@
     "phys": "Powder",
     "ptype": "Bag",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh 00:00:50 is a premium-grade, 100% water-soluble fertilizer containing 50% Potassium in the form of Sulphate of Potash (SOP). It is free from nitrogen and phosphorus and is intended for flowering and fruiting stages.",
     "features": "NPK Ratio: 00:00:50\nMade from Sulphate of Potash (SOP)\nChloride-free\nEnhances flower and fruit formation\nImproves fruit size, color, sweetness and shelf life\nStrengthens resistance to drought and disease\n100% water-soluble",
     "mode": "Supplies potassium during flowering and fruiting stages",
     "pests": "Flowering, fruit formation, fruit quality",
     "crops": "Grapes, potatoes, tomatoes, flowers, fruits, vegetables",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        75,
-        75
+        65,
+        80
       ]
     ],
     "images": [
-      "images/sop-00-00-50.jpg"
+      "images/sop-00-00-50.jpg",
+      "images/sop-00-00-50-back.jpg"
     ],
     "video": "",
     "brochure": ""
   },
   {
     "id": "pramukh-13-00-45-npk-fertilizer",
-    "n": "NPK 13:00:45",
+    "n": "Potassium Nitrate 13:00:45",
     "c": "Fertilizer",
-    "brand": "Pramukh",
+    "brand": "FERTI-GROW",
     "head": "High Potassium Fertilizer for Flowering, Fruiting and Crop Quality",
-    "t": "NPK 13:00:45",
+    "t": "Potassium Nitrate 13:00:45",
     "ftype": "Water Soluble NPK",
     "form": "Water Soluble Powder / Crystal",
     "conc": "13% N + 0% P + 45% K",
@@ -1927,29 +1963,31 @@
     "phys": "Water Soluble Powder / Crystal",
     "ptype": "Bag",
     "dose": "",
-    "moq": "10 Kg",
+    "moq": "100 Kg",
     "desc": "Pramukh 13:00:45 is a specialized water-soluble fertilizer containing 13% Nitrogen (N) and 45% Potassium (K), with no Phosphorus (P). It is beneficial during flowering and fruit development and is suitable for drip irrigation or foliar spray.",
     "features": "NPK 13:00:45\nHigh potassium content\nPromotes better fruit size, shape, color and taste\nImproves resistance to stress and disease\n100% water-soluble\nSupports uniform maturity and increased yield\nCompatible with agrochemicals and micronutrients",
     "mode": "Supplies nitrogen and high potassium for flowering, fruit development and quality",
     "pests": "Flowering, fruit development, fruit quality",
     "crops": "Fruits, vegetables, flowers, cereals",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 Kg",
-        98,
-        98
+        85,
+        120
       ]
     ],
     "images": [
-      "images/potassium-nitrate.jpg"
+      "images/potassium-nitrate.jpg",
+      "images/potassium-nitrate-back.jpg"
     ],
     "video": "",
     "brochure": ""
   },
   {
     "id": "chlorpyrifos-20-ec-insecticide",
-    "n": "Chlorpyrifos",
+    "n": "Chlorpyrifos 20% EC",
     "c": "Insecticide",
     "brand": "PRAVEKA",
     "head": "Broad-Spectrum Organophosphate Insecticide and Acaricide",
@@ -1968,14 +2006,753 @@
     "pests": "Termites, sucking pests, biting pests, chewing pests, soil-borne pests",
     "crops": "Agricultural crops and structural termite management",
     "sale": false,
+    "deliverable": true,
     "sizes": [
       [
         "1 L",
-        320,
-        320
+        250,
+        300
       ]
     ],
     "images": [],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "chlorpyrifos-50-ec",
+    "n": "Chlorpyrifos 50% EC",
+    "c": "Insecticide",
+    "brand": "CHALO 50",
+    "head": "Broad-Spectrum Organophosphate Insecticide",
+    "t": "Chlorpyrifos 50% EC",
+    "ftype": "EC",
+    "form": "Liquid",
+    "conc": "50% w/w",
+    "apptype": "Insect Pest Control",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Chlorpyrifos 50% EC is a broad-spectrum organophosphate insecticide. It acts through contact, stomach and respiratory action on the pests listed on its label.",
+    "features": "Active Ingredient: Chlorpyrifos 50% EC\nBroad-Spectrum Organophosphate Insecticide\nContact, Stomach and Respiratory Action\nEasy-to-Mix Liquid Formulation",
+    "mode": "Acts on the insect's nervous system by inhibiting acetylcholinesterase, through contact, stomach and respiratory action.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        205,
+        250
+      ],
+      [
+        "1 L",
+        390,
+        500
+      ]
+    ],
+    "images": [
+      "images/chalo-50.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "cypermethrin-25-ec-17",
+    "n": "Cypermethrin 25% EC",
+    "c": "Insecticide",
+    "brand": "",
+    "head": "",
+    "t": "",
+    "ftype": "",
+    "form": "",
+    "conc": "",
+    "apptype": "",
+    "phys": "",
+    "ptype": "",
+    "dose": "",
+    "moq": "",
+    "desc": "",
+    "features": "",
+    "mode": "",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500ml",
+        330,
+        350
+      ],
+      [
+        "1 L",
+        310,
+        330
+      ]
+    ],
+    "images": [],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "deltamethrin-11-ec",
+    "n": "Deltamethrin 11% EC",
+    "c": "Insecticide",
+    "brand": "DOLFIN",
+    "head": "Fast-Knockdown Pyrethroid Insecticide for Crop Protection",
+    "t": "Deltamethrin 11% EC",
+    "ftype": "EC",
+    "form": "Liquid",
+    "conc": "11% w/w",
+    "apptype": "Insect Pest Control",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Deltamethrin 11% EC is a synthetic pyrethroid insecticide in liquid emulsifiable concentrate form. It acts on pests through contact and stomach action and is used as part of a crop protection programme against listed insect pests. Always apply as directed on the label.",
+    "features": "Active Ingredient: Deltamethrin 11% EC\nPyrethroid Insecticide\nContact and Stomach Action\nFast Knockdown of Target Pests\nEasy-to-Mix Liquid Formulation",
+    "mode": "Acts on the insect's nervous system through contact and stomach action, giving quick knockdown of target pests.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        550,
+        600
+      ],
+      [
+        "1 L",
+        1070,
+        1200
+      ]
+    ],
+    "images": [
+      "images/dolfin.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "profenofos-40-cypermethrin-4-ec",
+    "n": "Profenofos 40% + Cypermethrin 4% EC",
+    "c": "Insecticide",
+    "brand": "PROCED SUPER",
+    "head": "Dual-Action Insecticide Combining Profenofos and Cypermethrin",
+    "t": "Profenofos 40% + Cypermethrin 4% EC",
+    "ftype": "EC",
+    "form": "Liquid",
+    "conc": "Profenofos 40% + Cypermethrin 4%",
+    "apptype": "Insect Pest Control",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "This is a combination insecticide that pairs an organophosphate (Profenofos) with a pyrethroid (Cypermethrin) in one liquid formulation. The two actives work together through contact and stomach action, which helps against chewing and sucking pests listed on the label.",
+    "features": "Active Ingredients: Profenofos 40% + Cypermethrin 4% EC\nDual-Action Combination Insecticide\nContact and Stomach Action\nUseful in Resistance Management Programmes\nEasy-to-Mix Liquid Formulation",
+    "mode": "Combines an organophosphate and a pyrethroid; both act on the pest's nervous system through contact and stomach action.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "250 ml",
+        200,
+        250
+      ],
+      [
+        "500 ml",
+        385,
+        400
+      ],
+      [
+        "1 L",
+        750,
+        800
+      ]
+    ],
+    "images": [
+      "images/proced-super.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "neem-oil-based-ec-containing-azadirachtin-0-03-300-ppm-min",
+    "n": "Neem oil based EC containing Azadirachtin 0.03% (300 PPM Min.)",
+    "c": "Insecticide",
+    "brand": "FLIP",
+    "head": "Neem-Based Botanical Insecticide for IPM Programmes",
+    "t": "Neem oil based EC containing Azadirachtin 0.03% (300 PPM) min.",
+    "ftype": "EC",
+    "form": "Liquid",
+    "conc": "Azadirachtin 0.03% (300 PPM) min.",
+    "apptype": "Bio-Pesticide / Insect Pest Management",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "A plant-based insecticide made from neem oil and standardised to a minimum of 300 PPM Azadirachtin. It works as an antifeedant and growth disruptor on target insects, which makes it a good fit for integrated pest management (IPM) programmes.",
+    "features": "Azadirachtin 0.03% (300 PPM) min.\nNeem-Based Botanical Insecticide\nAntifeedant and Growth-Disrupting Action\nSuitable for Use in IPM Programmes\nEasy-to-Mix Liquid Formulation",
+    "mode": "Azadirachtin acts as an antifeedant and disrupts the growth and development of target insects.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "250 ml",
+        88,
+        100
+      ],
+      [
+        "500 ml",
+        165,
+        200
+      ],
+      [
+        "1 L",
+        310,
+        400
+      ]
+    ],
+    "images": [
+      "images/flip.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "bifenthrin-10-ec",
+    "n": "Bifenthrin 10% EC",
+    "c": "Insecticide",
+    "brand": "BIRD FLY",
+    "head": "Pyrethroid Insecticide and Acaricide with Contact Action",
+    "t": "Bifenthrin 10% EC",
+    "ftype": "EC",
+    "form": "Liquid",
+    "conc": "10% w/w",
+    "apptype": "Insect and Mite Control",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Bifenthrin 10% EC is a pyrethroid insecticide and acaricide. It acts by contact and stomach action on the insects and mites listed on its label.",
+    "features": "Active Ingredient: Bifenthrin 10% EC\nPyrethroid Insecticide and Acaricide\nContact and Stomach Action\nEasy-to-Mix Liquid Formulation",
+    "mode": "Acts on the nervous system of insects and mites through contact and stomach action.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        540,
+        600
+      ],
+      [
+        "1 L",
+        1060,
+        1200
+      ]
+    ],
+    "images": [
+      "images/bird-fly.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "thiamethoxam-12-6-lambda-cyhalothrin-9-5-zc",
+    "n": "Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5% ZC",
+    "c": "Insecticide",
+    "brand": "THAI-LEM",
+    "head": "Systemic plus Contact Insecticide in One Formulation",
+    "t": "Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5% ZC",
+    "ftype": "ZC",
+    "form": "Liquid",
+    "conc": "Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5%",
+    "apptype": "Insect Pest Control",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "A ready-mixed insecticide combining a systemic neonicotinoid (Thiamethoxam) with a pyrethroid (Lambda-cyhalothrin). It gives both systemic and contact/stomach action against the sucking and chewing pests listed on the label.",
+    "features": "Active Ingredients: Thiamethoxam 12.6% + Lambda-cyhalothrin 9.5% ZC\nSystemic plus Contact and Stomach Action\nTwo Modes of Action in One Product\nControls Sucking and Chewing Pests (as per label)\nEasy-to-Mix Liquid Formulation",
+    "mode": "Thiamethoxam is taken up by the plant and acts systemically on sucking pests, while lambda-cyhalothrin gives contact and stomach action.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "250 ml",
+        285,
+        300
+      ],
+      [
+        "500 ml",
+        560,
+        600
+      ],
+      [
+        "1 L",
+        1100,
+        1200
+      ]
+    ],
+    "images": [
+      "images/thai-lem.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "pyriproxyfen-10-bifenthrin-10-ec",
+    "n": "Pyriproxyfen 10% + Bifenthrin 10% EC",
+    "c": "Insecticide",
+    "brand": "PROXY",
+    "head": "",
+    "t": "Pyriproxyfen 10% + Bifenthrin 10% EC",
+    "ftype": "",
+    "form": "",
+    "conc": "",
+    "apptype": "",
+    "phys": "",
+    "ptype": "",
+    "dose": "",
+    "moq": "",
+    "desc": "",
+    "features": "",
+    "mode": "",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "250 ml",
+        275,
+        300
+      ],
+      [
+        "500 ml",
+        535,
+        600
+      ],
+      [
+        "1 L",
+        1050,
+        1200
+      ]
+    ],
+    "images": [
+      "images/proxy.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "glyset-glyphosate-41-sl-herbicide",
+    "n": "Glyphosate 41% SL",
+    "c": "Herbicide",
+    "brand": "GLYSET",
+    "head": "Systemic Non-Selective Herbicide for Total Weed Control",
+    "t": "Glyphosate 41% SL",
+    "ftype": "SL",
+    "form": "Liquid",
+    "conc": "41%",
+    "apptype": "Post-Emergence Non-Selective Weed Control",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Glyphosate 41% SL is a systemic, non-selective post-emergence herbicide in a soluble liquid formulation. It is absorbed through the green parts of the weed and moves down to the roots, helping control a wide range of annual and perennial weeds. Use only as directed on the label and as permitted by regulations.",
+    "features": "Active Ingredient: Glyphosate 41% SL\nSystemic, Non-Selective Herbicide\nPost-Emergence Action Through the Leaves\nMoves to the Roots for Thorough Weed Control\nEasy-to-Mix Soluble Liquid Formulation",
+    "mode": "Absorbed through the leaves and carried through the plant, it blocks an enzyme (EPSP synthase) the weed needs to make essential amino acids, which stops growth.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        155,
+        200
+      ],
+      [
+        "1 L",
+        290,
+        400
+      ]
+    ],
+    "images": [
+      "images/glyset.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "quite-paraquat-dichloride-24-sl-herbicide",
+    "n": "Paraquat Dichloride 24% SL",
+    "c": "Herbicide",
+    "brand": "QUITE",
+    "head": "Fast-Acting Contact Herbicide for Non-Selective Weed Burndown",
+    "t": "Paraquat Dichloride 24% SL",
+    "ftype": "SL",
+    "form": "Liquid",
+    "conc": "24%",
+    "apptype": "Post-Emergence Non-Selective Weed Control (Contact)",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Paraquat Dichloride 24% SL is a fast-acting, non-selective contact herbicide in a soluble liquid formulation. It burns down the green tissue it touches. Highly hazardous product: handle strictly as per the label and use only as permitted by regulations.",
+    "features": "Active Ingredient: Paraquat Dichloride 24% SL\nNon-Selective Contact Herbicide\nQuick Burndown of Green Weed Growth\nPost-Emergence Action\nEasy-to-Mix Soluble Liquid Formulation",
+    "mode": "Acts on contact with green plant tissue by disrupting photosynthesis, which quickly damages the cells and dries out the foliage.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        145,
+        200
+      ],
+      [
+        "1 L",
+        270,
+        400
+      ]
+    ],
+    "images": [
+      "images/quite.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "quiz-quizalofop-ethyl-10-ec-herbicide",
+    "n": "Quizalofop Ethyl 10% EC",
+    "c": "Herbicide",
+    "brand": "QUIZ",
+    "head": "Selective Post-Emergence Herbicide for Grassy Weed Control",
+    "t": "Quizalofop Ethyl 10% EC",
+    "ftype": "EC",
+    "form": "Liquid",
+    "conc": "10%",
+    "apptype": "Post-Emergence Grassy Weed Control (Selective)",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Quizalofop Ethyl 10% EC is a selective post-emergence herbicide in an emulsifiable concentrate formulation. It is absorbed by the leaves and moves through the weed, controlling the grassy weeds listed on its label without harming the broad-leaved crops it is registered for.",
+    "features": "Active Ingredient: Quizalofop Ethyl 10% EC\nSelective Herbicide for Grassy Weeds\nPost-Emergence Systemic Action\nEasy-to-Mix Liquid Formulation",
+    "mode": "Absorbed through the leaves and moved through the plant, it blocks the ACCase enzyme that grassy weeds need to make fats for new growth, so the weeds stop growing and die.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        255,
+        300
+      ],
+      [
+        "1 L",
+        490,
+        600
+      ]
+    ],
+    "images": [
+      "images/quiz.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "promex-paclobutrazol-23-sc-plant-growth-regulator",
+    "n": "Paclobutrazol 23% SC",
+    "c": "PGR & Nutrition",
+    "brand": "PROMEX",
+    "head": "Growth Regulator for Better Plant Structure and Flowering",
+    "t": "Paclobutrazol 23% SC",
+    "ftype": "SC",
+    "form": "Liquid",
+    "conc": "23%",
+    "apptype": "Plant Growth Regulation",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Paclobutrazol 23% SC is a plant growth regulator in a suspension concentrate formulation. It slows excessive shoot growth so the plant can put more energy into flowering and fruiting. Use only on the crops and at the stages given on the label.",
+    "features": "Active Ingredient: Paclobutrazol 23% SC\nPlant Growth Regulator\nControls Excessive Vegetative Growth\nSupports Flowering and Fruiting (as per label)\nEasy-to-Mix Liquid Suspension",
+    "mode": "Reduces the plant's own gibberellin production, which slows stem and shoot elongation and helps balance vegetative and reproductive growth.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "100 ml",
+        100,
+        125
+      ],
+      [
+        "250 ml",
+        215,
+        250
+      ],
+      [
+        "500 ml",
+        420,
+        500
+      ],
+      [
+        "1 L",
+        820,
+        1000
+      ]
+    ],
+    "images": [
+      "images/promex.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "godzilla-1-gibberellic-acid-0-001-l-plant-growth-regulator",
+    "n": "Gibberellic Acid 0.001% L",
+    "c": "PGR & Nutrition",
+    "brand": "GODZILLA-1",
+    "head": "Gibberellic Acid Growth Promoter for Stronger Plant Growth",
+    "t": "Gibberellic Acid 0.001% L",
+    "ftype": "L",
+    "form": "Liquid",
+    "conc": "0.001%",
+    "apptype": "Plant Growth Promotion",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "10 Litre",
+    "desc": "Gibberellic Acid 0.001% L is a liquid plant growth regulator containing the natural plant hormone gibberellin (GA3). It supports cell elongation and active growth, and can help with germination, flowering and fruit development on the crops listed on the label.",
+    "features": "Active Ingredient: Gibberellic Acid 0.001% L\nPlant Growth Regulator\nSupports Cell Elongation and Active Growth\nHelps Flowering and Fruit Development (as per label)\nEasy-to-Mix Liquid Formulation",
+    "mode": "Works like the plant's own gibberellin hormone, stimulating cell division and elongation to support growth, flowering and fruit development.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        260,
+        300
+      ],
+      [
+        "1 L",
+        500,
+        600
+      ]
+    ],
+    "images": [
+      "images/godzilla-1.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "pre-on-call-carbon",
+    "n": "Carbon",
+    "c": "PGR & Nutrition",
+    "brand": "PRE-ON-CALL",
+    "head": "",
+    "t": "Carbon",
+    "ftype": "",
+    "form": "",
+    "conc": "",
+    "apptype": "",
+    "phys": "",
+    "ptype": "",
+    "dose": "",
+    "moq": "",
+    "desc": "",
+    "features": "",
+    "mode": "",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 gm",
+        140,
+        200
+      ],
+      [
+        "1 L",
+        260,
+        400
+      ]
+    ],
+    "images": [
+      "images/pre-o-call.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "wonder-plus-amino-acid-vitamins-plant-growth-promoter",
+    "n": "Amino Acid + Vitamins",
+    "c": "PGR & Nutrition",
+    "brand": "WONDER PLUS",
+    "head": "Amino Acid and Vitamin Booster for Healthy, Active Growth",
+    "t": "Amino Acid + Vitamins",
+    "ftype": "",
+    "form": "Liquid",
+    "conc": "",
+    "apptype": "Plant Growth Promotion",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Wonder Plus is a plant growth promoter that combines amino acids with vitamins. Amino acids supply building blocks for plant metabolism, while vitamins support healthy plant processes. Together they help crops stay active and recover from stress such as heat, drought or transplanting.",
+    "features": "Amino Acids + Vitamins Combination\nSupports Healthy and Active Plant Growth\nHelps Crops Recover from Stress\nSuitable for Foliar Application\nEasy-to-Mix Formulation",
+    "mode": "Amino acids are taken up by the plant and used directly in protein and enzyme formation, while vitamins support metabolic activity, helping the plant grow and recover from stress.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "250ml",
+        78,
+        90
+      ],
+      [
+        "500 ml",
+        145,
+        180
+      ]
+    ],
+    "images": [
+      "images/wonder-plus.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "humicell-humic-acid-98-soil-conditioner",
+    "n": "Humic Acid 98%",
+    "c": "PGR & Nutrition",
+    "brand": "HUMICELL",
+    "head": "High-Strength Humic Acid for Healthier Soil and Roots",
+    "t": "Humic Acid 98%",
+    "ftype": "",
+    "form": "",
+    "conc": "98%",
+    "apptype": "Soil Conditioning",
+    "phys": "",
+    "ptype": "",
+    "dose": "",
+    "moq": "100 Kg",
+    "desc": "Humic Acid 98% is a high-strength soil conditioner. Humic acid improves soil structure, helps hold water and nutrients near the root zone, and supports root growth and nutrient uptake, so crops can make better use of the fertilizer applied.",
+    "features": "Active Ingredient: Humic Acid 98%\nHigh-Strength Soil Conditioner\nImproves Soil Structure and Water Holding\nSupports Root Development\nImproves Nutrient Availability and Uptake",
+    "mode": "Humic acid binds nutrients in the soil and keeps them available to roots, while improving soil structure and supporting root development.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "1 Kg",
+        120,
+        150
+      ]
+    ],
+    "images": [
+      "images/humicell.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "special-herbicide",
+    "n": "Special Herbicide",
+    "c": "Insecticide",
+    "brand": "SUPER BOLD",
+    "head": "",
+    "t": "Special Herbicide",
+    "ftype": "",
+    "form": "",
+    "conc": "",
+    "apptype": "",
+    "phys": "",
+    "ptype": "",
+    "dose": "",
+    "moq": "",
+    "desc": "",
+    "features": "",
+    "mode": "",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "500 ml",
+        625,
+        650
+      ],
+      [
+        "1 L",
+        1200,
+        1300
+      ]
+    ],
+    "images": [
+      "images/super-bold.jpg"
+    ],
+    "video": "",
+    "brochure": ""
+  },
+  {
+    "id": "nutrizen-ferrous-sulphate-19-10-5-sulphur-fertilizer",
+    "n": "Ferrous Sulphate 19% & 10.5% Sulphur",
+    "c": "Fertilizer",
+    "brand": "FERTI-GROW",
+    "head": "Iron and Sulphur Fertilizer for Greener, Healthier Crops",
+    "t": "Ferrous Sulphate 19% & 10.5% Sulphur",
+    "ftype": "",
+    "form": "Solid",
+    "conc": "Fe 19% + S 10.5%",
+    "apptype": "Correcting Iron and Sulphur Deficiency",
+    "phys": "",
+    "ptype": "",
+    "dose": "",
+    "moq": "100 Kg",
+    "desc": "Nutrizen is a fertilizer that supplies iron (19%) and sulphur (10.5%) in one product. Iron is needed to form chlorophyll and helps correct yellowing of young leaves caused by iron deficiency. Sulphur supports protein and oil formation and healthy growth. Use as directed on the label.",
+    "features": "Iron 19% + Sulphur 10.5% in One Product\nHelps Correct Iron Deficiency (Yellowing of Young Leaves)\nSupports Chlorophyll Formation and Green Growth\nSulphur Supports Protein and Oil Formation\nSuitable for Soil Application",
+    "mode": "Iron supports chlorophyll formation and plant enzymes, while sulphur is a building block of proteins, vitamins and oils in the plant.",
+    "pests": "",
+    "crops": "",
+    "sale": false,
+    "deliverable": true,
+    "sizes": [
+      [
+        "1 kg",
+        25,
+        40
+      ]
+    ],
+    "images": [
+      "images/nutrizen.jpg"
+    ],
     "video": "",
     "brochure": ""
   }

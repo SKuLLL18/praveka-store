@@ -7,3 +7,6 @@ apply-*.sh
 data/orders.json
 data/messages.json
 data/subscribers.json
+data/pending.json
+data/unmatched-payments.json
+data/backups/

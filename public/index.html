@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Praveka Life Science</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=order-confirmation-spacing">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600&display=swap">
 <link rel="stylesheet" href="home.css">
 </head>
@@ -13,7 +13,7 @@
 <header class="top"><div class="wrap nav">
 <a class="logo logo-image" href="#home" aria-label="Praveka Life Science home"><img src="images/praveka-logo-display.png" alt="Praveka Life Science"></a>
 <nav class="links" aria-label="Main">
-<a href="#home">Home</a><a href="#about">About Us</a><a href="#crops">Crops</a><a href="#products">Products</a><a href="#offers">Offers</a><a href="#contact">Contact</a>
+<a href="#home">Home</a><a href="#about">About Us</a><a href="#offers">Offers</a><a href="#products">Products</a><a href="#crops">Crops</a><a href="#contact">Contact</a>
 </nav>
 <button class="ic" id="cartBtn" aria-label="Cart">Cart (<span id="cnt">0</span>)</button>
 <a class="btn nb" href="tel:+916359414594"> Talk to Praveka</a>
@@ -35,9 +35,15 @@
 </div></div></section>
 <div class="ticker pg" data-p="home"><div class="tk"><span>Quality</span><span>Innovation</span><span>Trust</span><span>Commitment</span><span>Prosperity</span><span>Quality</span><span>Innovation</span><span>Trust</span><span>Commitment</span><span>Prosperity</span><span>Quality</span><span>Innovation</span><span>Trust</span><span>Commitment</span><span>Prosperity</span><span>Quality</span><span>Innovation</span><span>Trust</span><span>Commitment</span><span>Prosperity</span><span>Quality</span><span>Innovation</span><span>Trust</span><span>Commitment</span><span>Prosperity</span><span>Quality</span><span>Innovation</span><span>Trust</span><span>Commitment</span><span>Prosperity</span></div></div>
 
-<section class="sl pg" data-p="home"><div class="slw"><h2>Our products</h2><p class="intro">Browse by category or open any product for crops, pests and dose.</p>
+<section class="sl pg home-offers" data-p="home" aria-labelledby="homeOffersTitle"><div class="slw">
+<div class="home-offers-heading"><p class="eyebrow">PRAVEKA SAVINGS</p><h2 id="homeOffersTitle">Good deals. More value for every acre.</h2></div>
+<section class="home-offer-group" aria-labelledby="homeSaleTitle"><div class="home-offer-subhead"><div><span class="eyebrow">SINGLE-PRODUCT DEALS</span><h3 id="homeSaleTitle">Special prices</h3></div><span class="home-offers-count" id="homeSaleCount"></span></div><div class="grid home-sale-grid" id="homeSaleGrid"></div></section>
+<section class="home-offer-group home-combo-group" aria-labelledby="homeComboTitle"><div class="home-offer-subhead"><div><span class="eyebrow">SMART COMBINATIONS</span><h3 id="homeComboTitle">Combo offers</h3><p class="intro">Explore practical product pairings and confirm suitability with our team.</p></div><a class="home-offers-link" href="#offers">Explore all offers <span aria-hidden="true">→</span></a></div><div class="home-combo-grid" id="homeComboGrid"></div></section>
+</div></section>
+
+<section class="sl pg home-products" data-p="home"><div class="slw"><div class="products-heading"><div><h2>Our products</h2><p class="intro">Browse by category or open any product for crops, pests and dose.</p></div><a class="btn products-more" href="#products">View all products</a></div>
 <div class="tiles" id="tiles"></div><div class="grid" id="fgrid"></div>
-<p class="more"><a class="btn" href="#products">View all products</a></p></div></section>
+</div></section>
 
 <section class="sl alt pg why-section" data-p="home"><div class="slw"><div class="split">
 <aside class="vcard"><span class="eyebrow">Our promise</span><p class="hi" lang="hi">खेती के साथ, भरोसे के साथ</p><p class="vq">Praveka helps growers make confident crop-care decisions with dependable products and practical support.</p><ul class="vl"><li>Clear product information before every purchase</li><li>Reliable solutions for changing field conditions</li><li>Respect for the grower, the crop and the environment</li><li>Support that continues after delivery</li></ul></aside>
@@ -199,12 +205,13 @@
 </div>
 </section>
 
-<section class="wrap sec pg legal" data-p="privacy"><nav class="legal-nav" aria-label="Policies"><a href="#privacy" aria-current="page">Privacy Policy</a><a href="#terms">Terms &amp; Conditions</a></nav><h1>Privacy Policy</h1><p class="upd">Last updated: 5 October 2026</p>
+<section class="wrap sec pg legal" data-p="privacy"><nav class="legal-nav" aria-label="Policies"><a href="#privacy" aria-current="page">Privacy Policy</a><a href="#terms">Terms &amp; Conditions</a><a href="#refund">Refund &amp; Cancellation</a><a href="#shipping">Shipping</a></nav><h1>Privacy Policy</h1><p class="upd">Last updated: 9 October 2026</p>
 <p>This Privacy Policy explains how Praveka Life Science (&ldquo;we&rdquo;, &ldquo;us&rdquo;) collects, uses and protects your personal information when you use this website, place an order or contact us.</p>
 <h2>1. Information we collect</h2>
 <ul>
 <li><b>Enquiries:</b> your name, phone number, the product and quantity you ask about.</li>
-<li><b>Orders:</b> your name, mobile number, delivery address, PIN code, the items you order and the payment method.</li>
+<li><b>Orders:</b> your name, mobile number, delivery address, PIN code, the items you order and the online payment transaction details needed to confirm payment.</li>
+<li><b>Reviews:</b> your name, mobile number, rating and review text. We use the mobile number for review integrity and do not display it publicly.</li>
 <li><b>Mobile number updates:</b> your mobile number, if you subscribe to farming tips and offers.</li>
 <li><b>On your device:</b> your shopping cart is saved in your browser&rsquo;s storage so it is not lost when you leave the page. It stays on your device.</li>
 <li><b>Technical data:</b> our hosting provider may keep basic technical logs (such as IP address and browser type) for security and to keep the website working.</li>
@@ -218,7 +225,7 @@
 <li>To prevent fraud and misuse of the website.</li>
 </ul>
 <h2>3. Who we share it with</h2>
-<p>We do not sell your personal information. We share it only with people who help us serve you, and only what is needed: delivery and courier partners, payment providers (if online payment is offered), website hosting and IT service providers, and government authorities when the law requires it.</p>
+<p>We do not sell your personal information. We share it only with people who help us serve you, and only what is needed: delivery and courier partners, our online payment provider (Razorpay) for payment processing and verification, website hosting and IT service providers, and government authorities when the law requires it.</p>
 <h2>4. Storage and security</h2>
 <p>We use reasonable safeguards to protect your information. No website or storage method is completely secure, so we cannot promise absolute security. We keep your information for as long as needed to complete your order, answer your questions, and meet legal and tax record-keeping requirements.</p>
 <h2>5. Cookies and tracking</h2>
@@ -232,7 +239,7 @@
 <h2>9. Changes to this policy</h2>
 <p>We may update this policy. The date at the top shows when it was last changed.</p>
 <h2>10. Contact us</h2><p class="note"><b>Praveka Life Science</b><br>Ground Floor, Plot No. 36, S.R. No-212, Karmabhumi Estate, Atlas Industrial Area, Dhebar Road, Kothariya Part, Nr. Gondal Road, Rajkot, Gujarat &ndash; 360022<br>WhatsApp: +91 84878 88667 &middot; Phone: +91 63594 14594<br>Email: <a href="mailto:pravekalifescience@gmail.com">pravekalifescience@gmail.com</a></p></section>
-<section class="wrap sec pg legal" data-p="terms"><nav class="legal-nav" aria-label="Policies"><a href="#privacy">Privacy Policy</a><a href="#terms" aria-current="page">Terms &amp; Conditions</a></nav><h1>Terms &amp; Conditions</h1><p class="upd">Last updated: 5 October 2026</p>
+<section class="wrap sec pg legal" data-p="terms"><nav class="legal-nav" aria-label="Policies"><a href="#privacy">Privacy Policy</a><a href="#terms" aria-current="page">Terms &amp; Conditions</a><a href="#refund">Refund &amp; Cancellation</a><a href="#shipping">Shipping</a></nav><h1>Terms &amp; Conditions</h1><p class="upd">Last updated: 9 October 2026</p>
 <p>By using this website or placing an order, you agree to these terms. Please read them with our <a href="#privacy">Privacy Policy</a>.</p>
 <h2>1. Product information</h2>
 <p>Product names, photos and descriptions on this website are for general information. Pack design, size and label details may change. <b>Always read and follow the label and leaflet on the pack.</b> Where the website and the label differ, the label is correct. This website is not a substitute for advice from a qualified agriculture expert.</p>
@@ -241,11 +248,11 @@
 <h2>3. Orders</h2>
 <p>Placing an order is a request to buy. An order is accepted only when we confirm it (for example by phone call, message or dispatch). We may decline or cancel an order, for example if stock is not available, a price is shown by mistake, or the law does not allow the sale.</p>
 <h2>4. Prices and payment</h2>
-<p>Prices are in Indian Rupees and may change without notice. The price confirmed when we accept your order applies. Products shown as &ldquo;Price on request&rdquo; are quoted when you enquire. Orders placed on this website are currently payable on delivery. If other payment options are added, they will be shown at checkout.</p>
+<p>Prices are in Indian Rupees and may change without notice. The price confirmed when we accept your order applies. Products shown as &ldquo;Price on request&rdquo; are quoted when you enquire. Website orders must be paid online through the payment options displayed at checkout. An order is confirmed only after payment is successfully verified.</p>
 <h2>5. Delivery and acceptance</h2>
-<p>Delivery times are estimates and may be affected by weather, transport and availability. Delivery charges, if any, will be told to you when we confirm your order. Please check the parcel, the product name, size, quantity and seal when it is delivered. Once the product has been delivered to you or to the address or person you named, it is treated as received in good condition and accepted by you. From that moment, ownership and all risk of loss, damage, leakage, theft, storage, handling and use pass to you, and we are not responsible for anything that happens to the product after delivery.</p>
-<h2>6. No returns, refunds or exchanges</h2>
-<p>Crop-protection products are regulated and can be hazardous, and we cannot check how a product has been stored or handled after it leaves us. For this reason <b>all sales are final. We do not accept returns, and we do not give refunds or exchanges</b> once a product has been delivered. Please be sure of the product, size and quantity before you place your order.</p>
+<p>Orders are generally dispatched within 3–5 business days after successful online payment and order confirmation. Delivery time after dispatch varies by product and destination PIN code. Any delivery charge is additional to the product amount paid online. Before dispatch, we will contact you with the delivery charge and share its receipt. You must pay this delivery charge to the courier when it arrives at your doorstep. Timelines are estimates and can be affected by stock, weather, transport and other circumstances outside our control. Please check the parcel, product name, size, quantity and seal when it arrives, and contact us promptly if there is a discrepancy or transit damage.</p>
+<h2>6. Cancellations, returns and refunds</h2>
+<p>Orders on this website are prepaid online. Please confirm the product, pack size, quantity and delivery details before paying: <b>customer cancellation is not accepted after successful payment and order confirmation, and we do not offer refunds, returns or exchanges for change of mind, incorrect selection, or refusal/unavailability to receive the shipment.</b> Because crop-protection products are regulated and may be unsafe if their storage or handling cannot be verified, delivered products cannot be returned for resale. If we cannot fulfil a paid order, or a payment is debited without an order being confirmed or is charged more than once, contact us with the order/transaction reference; any refund due will be handled through the original payment method in accordance with applicable law and payment-provider rules. Nothing in this policy limits rights that cannot legally be excluded.</p>
 <h2>7. Safe storage and use</h2>
 <p>After delivery you are responsible for storing, handling and using the product safely and as per its label: keep it in its original pack, away from children, animals, food and feed, and follow the safety instructions and pre-harvest intervals given on the label.</p>
 <h2>8. Limits on our responsibility</h2>
@@ -259,6 +266,19 @@
 <h2>12. Changes</h2>
 <p>We may update these terms. The date at the top shows the latest version. Orders are covered by the terms that applied when you ordered.</p>
 <h2>13. Contact us</h2><p class="note"><b>Praveka Life Science</b><br>Ground Floor, Plot No. 36, S.R. No-212, Karmabhumi Estate, Atlas Industrial Area, Dhebar Road, Kothariya Part, Nr. Gondal Road, Rajkot, Gujarat &ndash; 360022<br>WhatsApp: +91 84878 88667 &middot; Phone: +91 63594 14594<br>Email: <a href="mailto:pravekalifescience@gmail.com">pravekalifescience@gmail.com</a></p></section>
+<section class="wrap sec pg legal" data-p="refund"><nav class="legal-nav" aria-label="Policies"><a href="#privacy">Privacy Policy</a><a href="#terms">Terms &amp; Conditions</a><a href="#refund" aria-current="page">Refund &amp; Cancellation</a><a href="#shipping">Shipping</a></nav><h1>Refund &amp; Cancellation Policy</h1><p class="upd">Last updated: 9 October 2026</p>
+<p><b>Praveka Life Science</b> accepts website orders with online payment only. Review your cart and delivery details carefully before payment.</p>
+<h2>Order cancellation</h2><p>Once online payment is successful and your order is confirmed, customer cancellation is not accepted. We do not cancel orders for change of mind, incorrect product/pack selection, or because the customer is unavailable or refuses delivery.</p>
+<h2>Returns and refunds</h2><p>All sales are final. We do not accept returns, exchanges or discretionary refunds for delivered products. Regulated crop-care products cannot be returned to stock because storage and handling after dispatch cannot be verified.</p>
+<h2>Payment or fulfilment issue</h2><p>If a payment is debited but no order confirmation is received, a payment is duplicated, or we cannot fulfil a paid order, contact us with your payment/order reference. We will verify the transaction and process any refund due through the original payment method as required by applicable law and payment-provider rules. Refund timing depends on the payment provider and bank.</p>
+<p class="note">This policy does not remove any right or remedy that cannot be excluded under applicable law.</p>
+<h2>Contact for payment support</h2><p class="note"><b>Praveka Life Science</b><br>Ground Floor, Plot No. 36, S.R. No-212, Karmabhumi Estate, Atlas Industrial Area, Dhebar Road, Kothariya Part, Nr. Gondal Road, Rajkot, Gujarat &ndash; 360022<br>WhatsApp: <a href="https://wa.me/918487888667">+91 84878 88667</a> &middot; Phone: <a href="tel:+916359414594">+91 63594 14594</a><br>Email: <a href="mailto:pravekalifescience@gmail.com">pravekalifescience@gmail.com</a></p></section>
+<section class="wrap sec pg legal" data-p="shipping"><nav class="legal-nav" aria-label="Policies"><a href="#privacy">Privacy Policy</a><a href="#terms">Terms &amp; Conditions</a><a href="#refund">Refund &amp; Cancellation</a><a href="#shipping" aria-current="page">Shipping</a></nav><h1>Shipping &amp; Delivery Policy</h1><p class="upd">Last updated: 9 October 2026</p>
+<p><b>Praveka Life Science</b> delivers paid website orders to serviceable Indian PIN codes using suitable delivery partners. Delivery serviceability is checked against the PIN code provided at checkout.</p>
+<h2>Order processing</h2><p>We begin processing after online payment is successfully verified and the order is confirmed. Orders are generally dispatched within 3–5 business days. We may contact you to verify order or delivery details. If a product is unavailable or we cannot fulfil the order, we will contact you using the details supplied with the order.</p>
+<h2>Delivery timelines and charges</h2><p>Delivery time after dispatch varies by product and destination PIN code. Orders are generally dispatched within 3–5 business days after online payment and confirmation. Any delivery charge is additional to the product amount paid online. Before dispatch, we will contact you with the delivery charge and share its receipt; you must pay this separate delivery charge to the courier when it arrives at your doorstep. Delivery timelines are estimates, not guarantees, and may vary due to stock availability, weather, courier operations and other circumstances outside our control.</p>
+<h2>Receiving your parcel</h2><p>Please provide a complete address and reachable mobile number, and ensure someone can receive the shipment and pay the stated delivery charge to the courier at the doorstep. At delivery, check the parcel, product name, pack size, quantity and seal. Report any visible damage or mismatch to us promptly and retain the parcel and packaging while we review it. Do not use a product if its seal is damaged; follow its label and contact us for guidance.</p>
+<h2>Contact for delivery support</h2><p class="note"><b>Praveka Life Science</b><br>Ground Floor, Plot No. 36, S.R. No-212, Karmabhumi Estate, Atlas Industrial Area, Dhebar Road, Kothariya Part, Nr. Gondal Road, Rajkot, Gujarat &ndash; 360022<br>WhatsApp: <a href="https://wa.me/918487888667">+91 84878 88667</a> &middot; Phone: <a href="tel:+916359414594">+91 63594 14594</a><br>Email: <a href="mailto:pravekalifescience@gmail.com">pravekalifescience@gmail.com</a></p></section>
 <footer class="pf">
 <div class="pf-shelf">
 <p class="pf-h">All our products, <span>one trusted name</span></p>
@@ -295,14 +315,14 @@
 </ul></div>
 </div>
 <div class="pf-newsrow"><span>Get farming tips and offers on your mobile.</span><form class="news" id="nf"><input name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" required placeholder="Your mobile number" aria-label="Mobile number"><button>Subscribe</button></form></div>
-<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science</span><span>Registered business</span><span><a href="#privacy">Privacy</a> &middot; <a href="#terms">Terms</a></span></div>
+<div class="pf-bottom"><span>&copy; 2026 Praveka Life Science</span><span>Registered business</span><span><a href="#privacy">Privacy Policy</a> &middot; <a href="#terms">Terms</a> &middot; <a href="#refund">Refund/Cancellation</a> &middot; <a href="#shipping">Shipping</a></span></div>
 </div>
 </footer>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="products.js"></script>
-<script src="script.js?v=category-art"></script>
+<script src="script.js?v=order-confirmation-v2"></script>
 <script src="home.js"></script>
 </body>
 </html>

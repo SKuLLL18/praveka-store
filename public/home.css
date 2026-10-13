@@ -5,6 +5,15 @@
 .eyebrow::before{content:"";display:inline-block;width:28px;height:2px;background:#e3a817;vertical-align:middle;margin-right:10px}
 .nav .logo-image{width:220px;height:86px;overflow:visible;flex-shrink:0}
 .nav .logo-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:transparent}
+.links a{position:relative;padding:8px 0!important;border:0!important;color:#58705e;font-family:"Bricolage Grotesque","Source Sans 3",system-ui,sans-serif;font-size:15px;font-weight:600;letter-spacing:.01em;transition:color .2s ease,transform .2s ease}
+.links a::after{position:absolute;right:50%;bottom:2px;left:50%;height:2px;border-radius:2px;background:linear-gradient(90deg,#e3a817,#7fcf98);content:"";transition:left .22s ease,right .22s ease}
+header.top .links a:hover,header.top .links a:focus-visible,header.top .links a[aria-current]:hover{color:#1f4d2e;transform:translateY(-2px)}
+header.top .links a:hover::after,header.top .links a:focus-visible::after,header.top .links a[aria-current]::after{right:0;left:0}
+header.top .links a[aria-current]{color:#24352a}
+.nav .ic,.nav .nb{transition:transform .2s ease,box-shadow .2s ease,background-color .2s ease}
+.nav .ic:hover,.nav .ic:focus-visible{transform:translateY(-2px);border-color:#d79b21;box-shadow:0 5px 14px rgba(31,77,46,.12)}
+.nav .nb:hover,.nav .nb:focus-visible{transform:translateY(-2px);box-shadow:0 7px 16px rgba(31,77,46,.18)}
+@media (prefers-reduced-motion:reduce){.links a,.links a::after,.nav .ic,.nav .nb{transition:none}}
 
 /* shared fixes (photos 4:3, equal cards) */
 .card{display:flex!important;flex-direction:column;justify-content:flex-start!important}
@@ -54,6 +63,73 @@
 .sl h2{position:relative;font-size:clamp(26px,min(3vw,5.2vh),38px);margin:0 0 clamp(8px,1.4vh,12px);padding-bottom:12px}
 .sl h2::after{content:"";position:absolute;left:0;bottom:0;width:56px;height:4px;border-radius:4px;background:linear-gradient(90deg,#e3a817,#7fcf98)}
 .sl .intro{margin:0 0 clamp(14px,2.6vh,26px);font-size:clamp(15px,2.2vh,18px)}
+.home-products .products-heading{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:clamp(10px,1.5vh,16px)}
+.home-products .products-heading h2{margin-bottom:clamp(6px,1vh,10px)}
+.home-products .products-heading .intro{margin:0}
+.home-products .products-more{flex:none;margin-bottom:2px;white-space:nowrap}
+.home-offers{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(120deg,#f5eedc 0%,#fbf8ee 48%,#e8f0e2 100%)}
+.home-offers::before{content:"";position:absolute;z-index:-1;inset:0;opacity:.45;background:radial-gradient(ellipse at 8% 88%,rgba(47,107,69,.16) 0 14%,transparent 15%),radial-gradient(ellipse at 94% 12%,rgba(215,155,33,.18) 0 12%,transparent 13%),repeating-linear-gradient(165deg,transparent 0 44px,rgba(47,107,69,.045) 45px 47px,transparent 48px 88px);transition:opacity .35s}
+.home-offers:hover::before{opacity:.7}
+.home-offers .slw{position:relative}
+.home-offers-heading{grid-column:1/-1;position:relative;margin:0 0 -8px;padding:0 0 12px;border-bottom:1px solid rgba(47,107,69,.16);animation:offers-arrive .55s both}
+.home-offers-heading::after{content:"";position:absolute;bottom:-1px;left:0;width:clamp(64px,9vw,112px);height:3px;border-radius:3px;background:linear-gradient(90deg,#e3a817,#7fcf98)}
+.home-offers-heading .eyebrow{margin:0 0 5px;color:#a87408}
+.home-offers-heading h2{max-width:none;margin:0 0 4px;padding:0;border:0;color:#1f3e2a;font-size:clamp(12px,3.8vw,36px);line-height:1.12;white-space:nowrap}
+.home-offers-heading h2::after{display:none}
+.home-offers-heading .intro{margin:0;color:var(--mute);font-size:clamp(14px,1.3vw,16px)}
+.home-offers .home-offer-group{animation:offers-arrive .6s both}
+.home-offers .home-combo-group{animation-delay:.12s}
+@keyframes offers-arrive{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.home-offer-subhead .eyebrow{margin-bottom:7px}
+.home-offer-group{min-width:0}
+.home-offer-subhead{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:16px}
+.home-offer-subhead .eyebrow{color:#a87408}
+.home-offer-subhead h3{font-size:clamp(21px,2.5vh,28px);margin:0;color:var(--ink)}
+.home-offer-subhead .intro{margin:6px 0 0;color:var(--mute);font-size:14px}
+.home-offers-count{color:var(--mute);font-weight:700;font-size:14px}
+.home-offers-link{flex:none;color:var(--green);font-weight:700;text-decoration:none}
+.home-sale-grid{grid-template-columns:1fr;gap:14px}
+.home-sale-grid .offer-card{position:relative;display:grid!important;grid-template-columns:minmax(130px,.66fr) minmax(0,1.34fr);align-items:stretch;text-align:left;border-radius:16px;box-shadow:0 12px 26px rgba(26,61,39,.09);transition:transform .2s,box-shadow .2s}
+.home-sale-grid .offer-card:hover,.home-sale-grid .offer-card:focus-visible{transform:translateY(-4px);box-shadow:0 20px 36px rgba(26,61,39,.17)}
+.home-sale-grid .offer-card:focus-visible,.home-combo-grid .combo-card:focus-within{outline:3px solid rgba(227,168,23,.55);outline-offset:3px}
+.home-sale-grid .offer-card .pic{aspect-ratio:auto!important;height:100%!important;min-height:250px;border-radius:15px 0 0 15px}
+.home-sale-grid .offer-card .cb{min-width:0;padding:18px}
+.home-sale-grid .offer-card h3{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:18px;line-height:1.25}
+.home-sale-grid .offer-card .tech{font-size:14px}
+.home-sale-grid .offer-card .pack-price-list{gap:5px;font-size:14px}
+.home-sale-grid .offer-card .returns-note{font-size:12px}
+.home-sale-grid .offer-card .delivery-charge-note{padding:8px 10px;font-size:11px}
+.home-combo-group{min-width:0}
+.home-combo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.home-combo-grid .combo-card{grid-template-columns:1fr;gap:0;padding:14px;border:1px solid rgba(41,92,57,.14);border-radius:17px;background:rgba(255,255,255,.94);box-shadow:0 12px 26px rgba(26,61,39,.08);transition:transform .2s,box-shadow .2s}
+.home-combo-grid .combo-card:hover{transform:translateY(-4px);box-shadow:0 20px 36px rgba(26,61,39,.16);border-color:rgba(41,92,57,.3)}
+.home-combo-grid .combo-products{min-height:0;gap:14px;padding:14px;background:linear-gradient(135deg,#f5f1df,#edf2e7);border-radius:12px}
+.home-combo-grid .combo-product{font-size:13px}
+.home-combo-grid .combo-product .pic{height:clamp(112px,14vh,155px);margin-bottom:8px}
+.home-combo-grid .combo-product span{font-size:12px}
+.home-combo-grid .plus{font-size:28px}
+.home-combo-grid .combo-copy{padding:16px 5px 5px}
+.home-combo-grid .combo-copy .eyebrow{font-size:11px;letter-spacing:.16em}
+.home-combo-grid .combo-copy h3{font-size:18px;line-height:1.25;margin:3px 0 8px}
+.home-combo-grid .combo-copy p{margin:0 0 14px;font-size:14px;line-height:1.45}
+.home-combo-grid .combo-copy .btn{padding:10px 15px;font-size:14px}
+.home-offers-empty{grid-column:1/-1;margin:0;padding:24px;border:1px dashed rgba(31,77,46,.25);border-radius:12px;background:rgba(255,255,255,.58);color:var(--mute)}
+@media (min-width:1050px){
+ .home-offers{padding:20px 0}
+ .home-offers .slw{width:min(88vw,1400px);display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);align-content:center;align-items:start;gap:26px}
+ .home-offers-heading{margin-bottom:-12px;padding-bottom:10px}
+ .home-offers-heading h2{font-size:clamp(12px,3.8vw,34px)}
+ .home-offer-subhead{margin-bottom:14px}
+ .home-sale-grid .offer-card{grid-template-columns:minmax(138px,.72fr) minmax(0,1.28fr)}
+ .home-sale-grid .offer-card .pic{min-height:280px}
+ .home-sale-grid .offer-card .cb{padding:18px}
+ .home-sale-grid .offer-card h3{font-size:18px}
+ .home-combo-grid{gap:16px}
+ .home-combo-grid .combo-card{padding:13px}
+ .home-combo-grid .combo-products{gap:10px;padding:12px}
+ .home-combo-grid .combo-product .pic{height:clamp(125px,16vh,170px)}
+ .home-combo-grid .combo-copy{padding:15px 5px 4px}
+}
 .sl .tiles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:0 0 14px}
 .sl #fgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin:0}
 .sl #fgrid>*:nth-child(n+6){display:none}
@@ -127,17 +203,24 @@
  .hero{height:auto!important}.hero>.wrap{height:auto}.hero2{grid-template-columns:1fr}.hshow{height:340px}
  .hero h1 span{white-space:normal}.hero .trust{font-size:12.5px}
  .sl .tiles,.rg{grid-template-columns:repeat(2,minmax(0,1fr))}.sl #fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .home-products .products-heading{align-items:flex-start}
+ .home-sale-grid{grid-template-columns:1fr}
+ .home-combo-grid{grid-template-columns:1fr}
  .range-note{align-items:flex-start;flex-wrap:wrap}
  .range-note a{margin-left:0}
  .sl .split,.feat,.sl .steps,.sl .seasons,.sl .creds{grid-template-columns:1fr!important}
  .guide-heading{display:block}.guide-note{margin-top:12px}.farming-guide::after{right:-80px;top:34%}
 }
+@media (min-width:620px) and (max-width:860px){.home-combo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:860px){.nav .logo-image{width:180px;height:76px}}
 @media (max-width:640px){.nav .logo-image{width:155px;height:68px}}
+@media (max-width:520px){.home-products .products-heading{display:block}.home-products .products-more{display:inline-flex;margin:0 0 12px}}
+@media (max-width:520px){.home-offer-subhead{align-items:flex-start}.home-sale-grid{grid-template-columns:1fr}.home-sale-grid .offer-card{grid-template-columns:96px minmax(0,1fr)}.home-combo-grid .combo-card{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.home-offers-heading,.home-offer-group{animation:none}.home-offers::before,.home-sale-grid .offer-card,.home-combo-grid .combo-card{transition:none}}
 
 /* short laptop screens: tighter slides so each still fits one screen */
 @media (min-width:861px) and (max-height:760px){
- .sl{padding:12px 0}.sl .intro{display:none}.sl h2{margin-bottom:6px}
+ .sl{padding:12px 0}.sl:not(.home-offers) .intro{display:none}.sl:not(.home-offers) h2{margin-bottom:6px}
  .sl .tiles{margin-bottom:10px}.tile{padding:8px 6px!important}.tile i{width:46px!important;height:46px!important;margin-bottom:4px!important}
  .sl .more{margin-top:12px}.feat>div{padding:10px}.feat p{font-size:13px}.vl li{padding:4px 0 4px 24px}
  .vcard{padding:16px 20px}.sl .seasons>div{padding:16px}.rg>div{padding:18px 8px}
@@ -164,7 +247,7 @@
 }
 @media (min-width:861px) and (max-height:700px){
  .sl .tile i{width:38px!important;height:38px!important}.sl .tile{font-size:14px;padding:6px 4px!important}
- .sl #fgrid .tech{display:none}.sl h2{font-size:26px;padding-bottom:8px}.sl{padding:8px 0}
+ .sl #fgrid .tech{display:none}.sl:not(.home-offers) h2{font-size:26px;padding-bottom:8px}.sl:not(.home-offers){padding:8px 0}
 }
 
 /* never snap on pages other than Home (hero hidden = not Home) */
