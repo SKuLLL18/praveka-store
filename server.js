@@ -155,19 +155,22 @@ function cleanOffer(body,products){
       const sizeIndex=Number(item.sizeIndex);
       if(!product||product.hidden===true||product.deliverable===false)throw "Combo product "+(index+1)+" is unavailable; choose an available product";
       if(!Number.isInteger(sizeIndex)||sizeIndex<0||sizeIndex>=product.sizes.length)throw "Choose a pack size for combo product "+(index+1);
-      return{productId:product.id,sizeIndex};
+      const quantity=item.quantity===undefined?productPackQuantity(product,product.sizes[sizeIndex][0]):Number(item.quantity);
+      if(!Number.isInteger(quantity)||quantity<1||quantity>1000)throw "Enter a whole-number quantity from 1 to 1000 for combo product "+(index+1);
+      return{productId:product.id,sizeIndex,quantity};
     }
-    const name=s(item.name,120),pack=s(item.pack,60),unitPrice=Number(item.price);
+    const name=s(item.name,120),pack=s(item.pack,60),unitPrice=Number(item.price),quantity=item.quantity===undefined?1:Number(item.quantity);
     if(name.length<2||!pack||!Number.isFinite(unitPrice)||unitPrice<=0)throw "Enter a name, pack size and price for custom product "+(index+1);
-    return{name,pack,unitPrice,quantity:1};
+    if(!Number.isInteger(quantity)||quantity<1||quantity>1000)throw "Enter a whole-number quantity from 1 to 1000 for custom product "+(index+1);
+    return{name,pack,unitPrice,quantity};
   });
   return{title,description,price,items:cleaned,active:body.active!==false};
 }
 function presentOffer(offer,products){
   const items=offer.items.map(item=>{
-    if(!item.productId)return{...item,quantity:1,quantityUnit:"packs"};
+    if(!item.productId)return{...item,quantity:Number.isInteger(item.quantity)&&item.quantity>0?item.quantity:1,quantityUnit:productPackUnit(item.pack)};
     const product=products.find(p=>p.id===item.productId),size=product&&product.sizes[item.sizeIndex];
-    return{productId:item.productId,sizeIndex:item.sizeIndex,name:product?product.n:item.name||"Unavailable product",pack:size?size[0]:item.pack||"",unitPrice:size?Number(size[1]):Number(item.unitPrice)||0,quantity:size?productPackQuantity(product,size[0]):1,quantityUnit:productPackUnit(size&&size[0])};
+    return{productId:item.productId,sizeIndex:item.sizeIndex,name:product?product.n:item.name||"Unavailable product",pack:size?size[0]:item.pack||"",unitPrice:size?Number(size[1]):Number(item.unitPrice)||0,quantity:Number.isInteger(item.quantity)&&item.quantity>0?item.quantity:size?productPackQuantity(product,size[0]):1,quantityUnit:productPackUnit(size&&size[0])};
   });
   return{...offer,items,individualTotal:items.reduce((sum,item)=>sum+item.unitPrice*item.quantity,0)};
 }

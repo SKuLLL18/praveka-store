@@ -1,0 +1,21 @@
+[
+  {
+    "id": "combo-9491d6caff3d",
+    "title": "Combo 1",
+    "description": "",
+    "price": 4500,
+    "items": [
+      {
+        "productId": "black-panther-seaweed-amino-alginic-acid-fertilizer",
+        "sizeIndex": 0,
+        "quantity": 10
+      },
+      {
+        "productId": "wonder-plus-amino-acid-vitamins-plant-growth-promoter",
+        "sizeIndex": 0,
+        "quantity": 40
+      }
+    ],
+    "active": true
+  }
+]

@@ -6,7 +6,7 @@ async function loadAdminOffers(){
   $("saleProductSummary").textContent="Loading…";
   try{
     var response=await Promise.all([api("GET","/api/admin/products"),api("GET","/api/admin/offers")]);
-    PR=response[0];ADMIN_OFFERS=response[1];renderAdminSaleProducts();renderAdminOfferList();
+    PR=response[0];ADMIN_OFFERS=response[1];refreshOfferProductOptions();renderAdminSaleProducts();renderAdminOfferList();
   }finally{saveButton.disabled=false}
 }
 function renderAdminSaleProducts(){
@@ -25,23 +25,53 @@ function updateAdminSaleProductList(){
   });
   $("saleProductSummary").textContent=onSale+" product"+(onSale===1?"":"s")+" on sale · "+selected+" selected · "+shown+" shown";
 }
-function offerRowHtml(item){
-  item=item||{};var id=++OFFER_ROW_ID,selected=item.productId||"",custom=!selected,options='<option value="">Choose a catalog product</option>'+PR.map(function(p){
+function offerSourceOptions(selected){
+  return'<option value="">Choose a catalog product</option>'+PR.map(function(p){
     var unavailable=p.hidden===true||p.deliverable===false;
     return'<option value="'+esc(p.id)+'"'+(p.id===selected?' selected':'')+(unavailable&&p.id!==selected?' disabled':'')+'>'+esc(p.n)+(unavailable?' · unavailable':'')+'</option>';
-  }).join("")+'<option value="custom"'+(custom?' selected':'')+'>Enter a custom product</option>';
+  }).join("")+'<option value="custom"'+(selected==="custom"?' selected':'')+'>Enter a custom product</option>';
+}
+function offerQuantityUnit(pack){
+  return/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(pack||""))?"bottles":"packs";
+}
+function defaultOfferQuantity(product,pack){
+  var match=String(pack||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
+  if(!match)return 1;
+  var amount=Number(match[1]),unit=match[2];
+  if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}
+  else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}
+  else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";
+  else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
+  var minimum=unit==="litre"?10:unit==="kg"?100:0;
+  return minimum&&amount>0?Math.ceil(minimum/amount):1;
+}
+function offerRowHtml(item){
+  item=item||{};var id=++OFFER_ROW_ID,selected=item.productId||"custom",custom=selected==="custom",options=offerSourceOptions(selected);
   var product=PR.find(function(p){return p.id===selected}),sizeIndex=Number(item.sizeIndex),sizes=product&&Array.isArray(product.sizes)?product.sizes:[];
-  return'<div class="combo-admin-row" data-combo-row="'+id+'"><div class="combo-admin-row-head"><b>Combo product</b><button type="button" class="r" data-remove-combo-item="'+id+'">Remove</button></div><div class="combo-admin-row-grid"><div><label>Product source</label><select data-combo-source required>'+options+'</select></div><div data-catalog-pack'+(custom?' hidden':'')+'><label>Pack size</label><select data-combo-pack required>'+sizes.map(function(size,index){return'<option value="'+index+'"'+(index===sizeIndex?' selected':'')+'>'+esc(size[0])+' · '+offerMoney(size[1])+'</option>'}).join("")+'</select></div><div data-custom-field'+(!custom?' hidden':'')+'><label>Custom product name</label><input data-custom-name maxlength="120" value="'+esc(item.name||'')+'"'+(custom?' required':'')+'></div><div data-custom-field'+(!custom?' hidden':'')+'><label>Custom pack size</label><input data-custom-pack maxlength="60" value="'+esc(item.pack||'')+'"'+(custom?' required':'')+'></div><div data-custom-field'+(!custom?' hidden':'')+'><label>Individual price (Rs.)</label><input data-custom-price type="number" min="0.01" step="0.01" value="'+(item.unitPrice||item.price||'')+'"'+(custom?' required':'')+'></div></div></div>';
+  var pack=sizes[sizeIndex]&&sizes[sizeIndex][0]||item.pack||"",quantity=item.quantity||defaultOfferQuantity(product,pack);
+  return'<div class="combo-admin-row" data-combo-row="'+id+'"><div class="combo-admin-row-head"><b>Combo product</b><button type="button" class="r" data-remove-combo-item="'+id+'">Remove</button></div><div class="combo-admin-row-grid"><div><label>Product source</label><select data-combo-source required>'+options+'</select></div><div data-catalog-pack'+(custom?' hidden':'')+'><label>Available pack size</label><select data-combo-pack required>'+sizes.map(function(size,index){return'<option value="'+index+'"'+(index===sizeIndex?' selected':'')+'>'+esc(size[0])+' · '+offerMoney(size[1])+'</option>'}).join("")+'</select></div><div data-custom-field'+(!custom?' hidden':'')+'><label>Custom product name</label><input data-custom-name maxlength="120" value="'+esc(item.name||'')+'"'+(custom?' required':'')+'></div><div data-custom-field'+(!custom?' hidden':'')+'><label>Custom pack size</label><input data-custom-pack maxlength="60" value="'+esc(item.pack||'')+'"'+(custom?' required':'')+'></div><div data-custom-field'+(!custom?' hidden':'')+'><label>Individual price (Rs.) per pack</label><input data-custom-price type="number" min="0.01" step="0.01" value="'+(item.unitPrice||item.price||'')+'"'+(custom?' required':'')+'></div><div><label>Quantity in combo</label><input data-combo-quantity type="number" min="1" max="1000" step="1" value="'+quantity+'" required><small class="role-note" data-combo-quantity-hint>Number of '+offerQuantityUnit(pack)+' of the selected pack size</small></div></div></div>';
 }
 function addOfferRow(item){$("comboItemsEditor").insertAdjacentHTML("beforeend",offerRowHtml(item));syncOfferRows()}
 function syncOfferRows(){
-  var rows=$$("comboItemsEditor [data-combo-row]");
+  var rows=$$("#comboItemsEditor [data-combo-row]");
   rows.forEach(function(row){var select=row.querySelector("[data-combo-source]"),custom=select.value==="custom",product=PR.find(function(p){return p.id===select.value}),pack=row.querySelector("[data-combo-pack]"),catalog=row.querySelector("[data-catalog-pack]");
     catalog.hidden=custom;row.querySelectorAll("[data-custom-field]").forEach(function(field){field.hidden=!custom;var input=field.querySelector("input");input.required=custom});
     if(!custom){var current=pack.value,html=product?product.sizes.map(function(size,index){return'<option value="'+index+'">'+esc(size[0])+' · '+offerMoney(size[1])+'</option>'}).join(""):"";pack.innerHTML=html;if(current!==""&&Number(current)<pack.options.length)pack.value=current;pack.required=true}else pack.required=false;
+    var quantity=row.querySelector("[data-combo-quantity]"),selectedPack=!custom&&product&&product.sizes[Number(pack.value)]?product.sizes[Number(pack.value)][0]:row.querySelector("[data-custom-pack]").value;
+    var unit=offerQuantityUnit(selectedPack);
+    quantity.setAttribute("aria-label","Quantity in combo: number of "+unit);
+    row.querySelector("[data-combo-quantity-hint]").textContent="Number of "+unit+" of the selected pack size";
     row.querySelector("[data-remove-combo-item]").hidden=rows.length<=2;
   });
   $("addComboItem").disabled=rows.length>=6;
+}
+function refreshOfferProductOptions(){
+  $$("#comboItemsEditor [data-combo-row]").forEach(function(row){
+    var select=row.querySelector("[data-combo-source]"),selected=select.value;
+    select.innerHTML=offerSourceOptions(selected);
+    select.value=selected;
+  });
+  syncOfferRows();
 }
 function renderAdminOfferList(){
   $("adminComboList").innerHTML=ADMIN_OFFERS.length?ADMIN_OFFERS.map(function(offer){
@@ -57,16 +87,26 @@ function editComboOffer(offer){
   $("comboFormTitle").textContent="Edit combo offer";$("saveComboOffer").textContent="Update combo offer";$("cancelComboEdit").hidden=false;$("comboFormMessage").textContent="";$("comboItemsEditor").innerHTML="";offer.items.forEach(addOfferRow);syncOfferRows();$("comboForm").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function collectComboItems(){
-  return Array.from($$("comboItemsEditor [data-combo-row]")).map(function(row){
-    var source=row.querySelector("[data-combo-source]").value;
-    if(source==="custom")return{name:row.querySelector("[data-custom-name]").value.trim(),pack:row.querySelector("[data-custom-pack]").value.trim(),price:Number(row.querySelector("[data-custom-price]").value)};
-    return{productId:source,sizeIndex:Number(row.querySelector("[data-combo-pack]").value)};
+  return Array.from($$("#comboItemsEditor [data-combo-row]")).map(function(row){
+    var source=row.querySelector("[data-combo-source]").value,quantity=Number(row.querySelector("[data-combo-quantity]").value);
+    if(source==="custom")return{name:row.querySelector("[data-custom-name]").value.trim(),pack:row.querySelector("[data-custom-pack]").value.trim(),price:Number(row.querySelector("[data-custom-price]").value),quantity:quantity};
+    return{productId:source,sizeIndex:Number(row.querySelector("[data-combo-pack]").value),quantity:quantity};
   });
 }
 $$("header [data-t]").forEach(function(button){button.addEventListener("click",function(){if(button.dataset.t==="offers")loadAdminOffers().catch(function(error){$("saleProductsMessage").textContent=error.message;$("comboFormMessage").textContent=error.message})})});
-$("addComboItem").onclick=function(){if($$("comboItemsEditor [data-combo-row]").length<6)addOfferRow()};
-$("comboItemsEditor").addEventListener("change",function(event){if(event.target.matches("[data-combo-source]"))syncOfferRows()});
-$("comboItemsEditor").addEventListener("click",function(event){var button=event.target.closest("[data-remove-combo-item]");if(button&&$$("comboItemsEditor [data-combo-row]").length>2){button.closest("[data-combo-row]").remove();syncOfferRows()}});
+$("addComboItem").onclick=function(){if($$("#comboItemsEditor [data-combo-row]").length<6)addOfferRow()};
+$("comboItemsEditor").addEventListener("change",function(event){
+  if(event.target.matches("[data-combo-source]")){
+    var row=event.target.closest("[data-combo-row]"),quantity=row.querySelector("[data-combo-quantity]"),product=PR.find(function(p){return p.id===event.target.value}),pack=row.querySelector("[data-combo-pack]");
+    quantity.value=product&&product.sizes[Number(pack.value)]?defaultOfferQuantity(product,product.sizes[Number(pack.value)][0]):1;
+    syncOfferRows();
+  }else if(event.target.matches("[data-combo-pack]")){
+    var selectedProduct=PR.find(function(p){return p.id===event.target.closest("[data-combo-row]").querySelector("[data-combo-source]").value}),selectedSize=selectedProduct&&selectedProduct.sizes[Number(event.target.value)];
+    if(selectedSize)event.target.closest("[data-combo-row]").querySelector("[data-combo-quantity]").value=defaultOfferQuantity(selectedProduct,selectedSize[0]);
+    syncOfferRows();
+  }else if(event.target.matches("[data-custom-pack]"))syncOfferRows();
+});
+$("comboItemsEditor").addEventListener("click",function(event){var button=event.target.closest("[data-remove-combo-item]");if(button&&$$("#comboItemsEditor [data-combo-row]").length>2){button.closest("[data-combo-row]").remove();syncOfferRows()}});
 $("saveSaleProducts").onclick=async function(){
   var productIds=$$("#adminSaleProducts [data-sale-product]:checked").map(function(input){return input.dataset.saleProduct});
   var button=$("saveSaleProducts");button.disabled=true;$("saleProductsMessage").textContent="Saving sale products…";
