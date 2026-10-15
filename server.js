@@ -273,13 +273,14 @@ app.post("/api/payment/verify",limit(20,3600e3),wrap((q,r)=>{
 app.post("/api/payment/webhook",(q,r)=>{
   if(!RAZORPAY_WEBHOOK_SECRET||!q.rawBody)return r.status(503).end();
   const sig=String(q.get("x-razorpay-signature")||""),expected=crypto.createHmac("sha256",RAZORPAY_WEBHOOK_SECRET).update(q.rawBody).digest("hex");
-  if(sig.length!==expected.length||!crypto.timingSafeEqual(Buffer.from(expected),Buffer.from(sig)))return r.status(400).end();
+  if(sig.length!==expected.length||!crypto.timingSafeEqual(Buffer.from(expected),Buffer.from(sig))){console.warn("Webhook rejected: signature does not match RAZORPAY_WEBHOOK_SECRET");return r.status(400).end()}
+  console.log("Webhook received:",q.body&&q.body.event);
   try{
     const ev=q.body&&q.body.event;
     if(ev==="payment.captured"||ev==="order.paid"){
       const pay=q.body.payload&&q.body.payload.payment&&q.body.payload.payment.entity,rpOrder=pay&&pay.order_id,payId=pay&&pay.id;
       if(rpOrder&&payId){
-        const res=finalizeOrder(rpOrder,payId);
+        const res=finalizeOrder(rpOrder,payId);console.log("Webhook payment",payId,res?(res.existing?"-> order already saved":"-> order created from webhook"):"-> no pending order found");
         if(!res){const U=rd("unmatched-payments",[]);if(!U.some(x=>x.paymentId===payId)){U.unshift({date:new Date().toISOString(),paymentId:payId,razorpayOrderId:rpOrder,amount:(pay.amount||0)/100});wr("unmatched-payments",U);console.error("Payment received but no pending order found:",payId)}}
       }
     }
