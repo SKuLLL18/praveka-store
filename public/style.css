@@ -1282,6 +1282,7 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .offer-group-head{align-items:flex-start;margin-bottom:18px}
 .offer-count{color:var(--muted);font-weight:700}
 .offer-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.offer-empty-state{grid-column:1/-1;display:grid;place-items:center;min-height:150px;margin:0;padding:28px;border:1px dashed rgba(31,77,46,.25);border-radius:14px;background:rgba(255,255,255,.58);color:var(--muted);font-size:16px;font-weight:700;text-align:center}
 .offer-card{position:relative;text-align:left}
 .offer-card .saving{display:block;color:#2f7a4c;font-size:12px;margin-top:4px}
 .combo-group{border-top:1px solid var(--line);margin-top:42px}
@@ -1291,6 +1292,18 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .combo-product{flex:1 1 0;width:0;border:0;background:none;padding:0;min-width:0;display:block;cursor:pointer;color:var(--ink);font:600 12px inherit}
 .combo-product .pic{width:100%;height:125px;background:#fff;border-radius:8px;margin-bottom:6px}
 .combo-product span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;max-width:none}
+.combo-product small{display:block;margin-top:3px;color:var(--mute);font-size:11px;line-height:1.35}
+.combo-custom{cursor:default;padding:12px 8px;text-align:center;color:var(--ink)}
+.combo-custom-mark{display:grid;place-items:center;width:44px;height:44px;margin:0 auto 8px;border-radius:12px;background:#e8efdf;color:var(--green);font-size:24px}
+.combo-custom b{display:block;overflow-wrap:anywhere}
+.combo-price-breakdown{display:grid;gap:4px;margin:14px 0;padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:#f8faf4;font-size:13px}
+.combo-price-breakdown strong{color:var(--green);font-size:16px}
+.combo-price-breakdown small{color:#a87408;font-weight:800}
+.combo-products-many{display:grid;grid-template-columns:1fr;gap:6px}
+.combo-products-many .combo-product{display:grid;grid-template-columns:48px minmax(0,1fr);align-items:center;gap:4px 10px;width:100%;text-align:left}
+.combo-products-many .combo-product .pic{grid-row:span 2;width:48px;height:48px;margin:0}
+.combo-products-many .combo-product span,.combo-products-many .combo-product b,.combo-products-many .combo-product small{grid-column:2}
+.combo-products-many .plus{font-size:16px;line-height:1}
 .plus{font-size:24px;color:var(--gold);font-weight:800}
 .combo-copy h3{margin:2px 0 7px;font-size:20px}
 .combo-copy p{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.5}

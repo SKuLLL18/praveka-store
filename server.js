@@ -30,6 +30,7 @@ app.post("/api/contact",limit(10,3600e3),wrap((q,r)=>{
   const name=s(q.body.name,80),phone=s(q.body.phone,20),message=s(q.body.message,1000),qty=s(q.body.quantity,30);
   if(name.length<2)throw "Please enter your name";if(phone.replace(/\D/g,"").length<10)throw "Enter a valid phone number";
   const pr=rd("products",[]).find(x=>x.id===s(q.body.product,150));
+  if(pr&&pr.hidden===true)throw "This product is temporarily unavailable.";
   const QTY=["1","2","3","4","5","10","15","20","25","50","100","More than 100"];
   const L=rd("messages",[]);L.unshift({date:new Date().toISOString(),name,phone,product:pr?pr.n:"",quantity:qty,message});wr("messages",L);r.json({ok:true})}));
 const adminRole=(q)=>{const e=tokens.get(q.get("x-admin-token"));if(!e||e.expires<Date.now())return "";return e.role};
@@ -44,22 +45,24 @@ const img=v=>{v=s(v,300);if(!v)return"";if(/^https:\/\/[^\s"'<>]+$/i.test(v))ret
   throw "Image must be a https link or a file name such as no-one.jpg (put the file in public/images)"};
 function cleanProduct(b){
   const n=s(b.n,120);if(n.length<2)throw "Product name is required";
+  if(b.hidden!==undefined&&typeof b.hidden!=="boolean")throw "Visibility must be true or false";
   const sizes=(Array.isArray(b.sizes)?b.sizes:[]).slice(0,10).map(z=>[s(z[0],30),Number(z[1]),Number(z[2])]);
   if(!sizes.length||sizes.some(z=>!z[0]||!(z[1]>0)||!(z[2]>=z[1])))throw "Each pack size needs a label, a price above 0, and an MRP not below the price";
   const images=(Array.isArray(b.images)?b.images:[]).slice(0,4).map(img).filter(Boolean);
   return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq:s(b.moq,60),
-    desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),sale:!!b.sale,deliverable:b.deliverable!==false,sizes,images,video:url(b.video),brochure:url(b.brochure)}}
-app.get("/api/products",(q,r)=>r.json(rd("products",[])));
+    desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),deliverable:b.deliverable!==false,hidden:b.hidden===true,sizes,images,video:url(b.video),brochure:url(b.brochure)}}
+app.get("/api/products",(q,r)=>r.json(rd("products",[]).filter(p=>p.hidden!==true)));
+app.get("/api/admin/products",staffOrManager,(q,r)=>r.json(rd("products",[])));
 app.get("/api/products/:id/reviews",wrap((q,r)=>{
   const p=rd("products",[]).find(x=>x.id===q.params.id);
-  if(!p)return r.status(404).json({error:"Product not found"});
+  if(!p||p.hidden===true)return r.status(404).json({error:"Product not found"});
   r.json(rd("reviews",[]).filter(x=>x.productId===p.id&&x.status==="published").map(function(x){
     return{id:x.id,name:x.name,rating:x.rating,comment:x.comment,date:x.date};
   }));
 }));
 app.post("/api/products/:id/reviews",limit(5,3600e3),wrap((q,r)=>{
   const p=rd("products",[]).find(x=>x.id===q.params.id);
-  if(!p)return r.status(404).json({error:"Product not found"});
+  if(!p||p.hidden===true)return r.status(404).json({error:"Product not found"});
   const name=s(q.body.name,80),comment=s(q.body.comment,1000),rating=Number(q.body.rating);
   const phone=s(q.body.phone,20);
   if(name.length<2)throw "Please enter your name";
@@ -88,7 +91,7 @@ app.delete("/api/admin/reviews/:id",managerOnly,wrap((q,r)=>{
 }));
 app.post("/api/admin/products",managerOnly,wrap((q,r)=>{const L=rd("products",[]),p=cleanProduct(q.body);
   let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);
-  L.push({id,...p});wr("products",L);r.json({ok:true,id})}));
+  L.push({id,...p,sale:false});wr("products",L);r.json({ok:true,id})}));
 
 // ---- bulk import from CSV (all rows are checked first; nothing is saved if any row is wrong) ----
 const CATS=["Insecticide","Fungicide","Herbicide","Fertilizer","PGR & Nutrition"];
@@ -101,17 +104,104 @@ app.post("/api/admin/products/import",managerOnly,wrap((q,r)=>{
     let p;try{p=cleanProduct({...b,c:cat})}catch(e){throw row+(typeof e==="string"?e:"invalid row")}
     const key=p.n.toLowerCase();if(seen.has(key))throw row+"this product name appears twice in the file";seen.add(key);
     const id0=s(b.id,80),ex=(id0&&L.find(x=>x.id===id0))||L.find(x=>x.n.toLowerCase()===key);
-    if(ex){Object.assign(ex,p);updated++}
-    else{let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);L.push({id,...p});added++}});
+    if(ex){Object.assign(ex,p,{hidden:ex.hidden===true,sale:ex.sale===true});updated++}
+    else{let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);L.push({id,...p,sale:false});added++}});
   wr("products",L);r.json({ok:true,added,updated})}));
 app.put("/api/admin/products/:id",managerOnly,wrap((q,r)=>{const L=rd("products",[]),i=L.findIndex(x=>x.id===q.params.id);
-  if(i<0)return r.status(404).json({error:"Product not found"});L[i]={id:L[i].id,...cleanProduct({...q.body,deliverable:q.body.deliverable===undefined?L[i].deliverable:q.body.deliverable})};wr("products",L);r.json({ok:true})}));
+  if(i<0)return r.status(404).json({error:"Product not found"});L[i]={id:L[i].id,...cleanProduct({...q.body,deliverable:q.body.deliverable===undefined?L[i].deliverable:q.body.deliverable,hidden:q.body.hidden===undefined?L[i].hidden:q.body.hidden}),sale:L[i].sale===true};wr("products",L);r.json({ok:true})}));
 app.delete("/api/admin/products/:id",managerOnly,wrap((q,r)=>{wr("products",rd("products",[]).filter(x=>x.id!==q.params.id));r.json({ok:true})}));
 app.patch("/api/admin/products/:id/delivery",staffOrManager,wrap((q,r)=>{
   const L=rd("products",[]),p=L.find(x=>x.id===q.params.id);
   if(!p)return r.status(404).json({error:"Product not found"});
   if(typeof q.body.deliverable!=="boolean")throw "Delivery status must be true or false";
   p.deliverable=q.body.deliverable;wr("products",L);r.json({ok:true,deliverable:p.deliverable});
+}));
+app.patch("/api/admin/products/:id/visibility",managerOnly,wrap((q,r)=>{
+  const L=rd("products",[]),p=L.find(x=>x.id===q.params.id);
+  if(!p)return r.status(404).json({error:"Product not found"});
+  if(typeof q.body.hidden!=="boolean")throw "Visibility must be true or false";
+  p.hidden=q.body.hidden;wr("products",L);r.json({ok:true,hidden:p.hidden});
+}));
+
+function productPackQuantity(product,size){
+  const match=String(size||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
+  if(!match)return 1;
+  let amount=Number(match[1]),unit=match[2];
+  if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}
+  else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}
+  else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";
+  else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
+  const minimum=unit==="litre"?10:unit==="kg"?100:0;
+  return minimum&&amount>0?Math.ceil(minimum/amount):1;
+}
+function productPackUnit(size){
+  const match=String(size||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
+  if(!match)return"packs";
+  const unit=match[2];
+  return unit==="ml"||unit==="l"||unit.startsWith("milliliter")||unit.startsWith("millilitre")||unit.startsWith("litre")||unit.startsWith("liter")?"bottles":"packs";
+}
+function cleanOffer(body,products){
+  const title=s(body.title,100),description=s(body.description,500),items=body.items;
+  const price=Number(body.price);
+  if(title.length<2)throw "Enter a combo offer name";
+  if(!Array.isArray(items)||items.length<2||items.length>6)throw "A combo must have 2 to 6 products";
+  if(!Number.isFinite(price)||price<=0)throw "Enter a combo price greater than zero";
+  if(body.active!==undefined&&typeof body.active!=="boolean")throw "Combo visibility must be true or false";
+  const cleaned=items.map((item,index)=>{
+    if(!item||typeof item!=="object")throw "Choose a product or enter product details for combo item "+(index+1);
+    if(item.productId){
+      const product=products.find(p=>p.id===s(item.productId,100));
+      if(item.sizeIndex===undefined||item.sizeIndex===null||String(item.sizeIndex).trim()==="")throw "Choose a pack size for combo product "+(index+1);
+      const sizeIndex=Number(item.sizeIndex);
+      if(!product||product.hidden===true||product.deliverable===false)throw "Combo product "+(index+1)+" is unavailable; choose an available product";
+      if(!Number.isInteger(sizeIndex)||sizeIndex<0||sizeIndex>=product.sizes.length)throw "Choose a pack size for combo product "+(index+1);
+      return{productId:product.id,sizeIndex};
+    }
+    const name=s(item.name,120),pack=s(item.pack,60),unitPrice=Number(item.price);
+    if(name.length<2||!pack||!Number.isFinite(unitPrice)||unitPrice<=0)throw "Enter a name, pack size and price for custom product "+(index+1);
+    return{name,pack,unitPrice,quantity:1};
+  });
+  return{title,description,price,items:cleaned,active:body.active!==false};
+}
+function presentOffer(offer,products){
+  const items=offer.items.map(item=>{
+    if(!item.productId)return{...item,quantity:1,quantityUnit:"packs"};
+    const product=products.find(p=>p.id===item.productId),size=product&&product.sizes[item.sizeIndex];
+    return{productId:item.productId,sizeIndex:item.sizeIndex,name:product?product.n:item.name||"Unavailable product",pack:size?size[0]:item.pack||"",unitPrice:size?Number(size[1]):Number(item.unitPrice)||0,quantity:size?productPackQuantity(product,size[0]):1,quantityUnit:productPackUnit(size&&size[0])};
+  });
+  return{...offer,items,individualTotal:items.reduce((sum,item)=>sum+item.unitPrice*item.quantity,0)};
+}
+app.get("/api/offers",(q,r)=>{
+  const products=rd("products",[]);
+  const offers=rd("offers",[]).filter(offer=>offer.active!==false&&offer.items.every(item=>!item.productId||products.some(p=>p.id===item.productId&&p.hidden!==true&&p.deliverable!==false&&Array.isArray(p.sizes)&&p.sizes[item.sizeIndex]))).map(offer=>presentOffer(offer,products));
+  r.json(offers);
+});
+app.get("/api/admin/offers",staffOrManager,(q,r)=>{
+  const products=rd("products",[]);
+  r.json(rd("offers",[]).map(offer=>presentOffer(offer,products)));
+});
+app.put("/api/admin/offers/sales",managerOnly,wrap((q,r)=>{
+  if(!Array.isArray(q.body.productIds))throw "Choose the products to put on sale";
+  const L=rd("products",[]),ids=new Set(q.body.productIds.map(id=>s(id,100)));
+  if(Array.from(ids).some(id=>!L.some(p=>p.id===id)))throw "A selected product no longer exists";
+  L.forEach(product=>{product.sale=product.hidden!==true&&ids.has(product.id)});
+  wr("products",L);r.json({ok:true,count:L.filter(product=>product.hidden!==true&&product.sale===true).length});
+}));
+app.post("/api/admin/offers",managerOnly,wrap((q,r)=>{
+  const offers=rd("offers",[]),offer=cleanOffer(q.body,rd("products",[]));
+  let id="combo-"+crypto.randomBytes(6).toString("hex");
+  while(offers.some(existing=>existing.id===id))id="combo-"+crypto.randomBytes(6).toString("hex");
+  offers.push({id,...offer});wr("offers",offers);r.status(201).json({ok:true,id});
+}));
+app.put("/api/admin/offers/:id",managerOnly,wrap((q,r)=>{
+  const offers=rd("offers",[]),index=offers.findIndex(offer=>offer.id===q.params.id);
+  if(index<0)return r.status(404).json({error:"Combo offer not found"});
+  offers[index]={id:offers[index].id,...cleanOffer(q.body,rd("products",[]))};wr("offers",offers);r.json({ok:true});
+}));
+app.delete("/api/admin/offers/:id",managerOnly,wrap((q,r)=>{
+  const offers=rd("offers",[]),remaining=offers.filter(offer=>offer.id!==q.params.id);
+  if(remaining.length===offers.length)return r.status(404).json({error:"Combo offer not found"});
+  wr("offers",remaining);r.json({ok:true});
 }));
 
 // ---- orders and online payments (prices are always taken from the server) ----
@@ -133,13 +223,14 @@ function validateOrder(b){
   if(phone.length===12&&phone.startsWith("91"))phone=phone.slice(2);
   if(name.length<2)throw "Please enter your name";if(!/^[6-9]\d{9}$/.test(phone))throw "Enter a valid 10-digit mobile number";
   if(address.length<10)throw "Please enter your full address";if(!/^[1-8]\d{5}$/.test(pincode))throw "Enter a valid Indian 6-digit PIN code";
-  if(!Array.isArray(b.items)||!b.items.length||b.items.length>50)throw "Your cart is empty";
+  const productItems=Array.isArray(b.items)?b.items:[],comboItems=Array.isArray(b.combos)?b.combos:[];
+  if(!productItems.length&&!comboItems.length||productItems.length>50||comboItems.length>20)throw "Your cart is empty";
   const P=rd("products",[]);
-  const items=b.items.map(i=>{const p=P.find(x=>x.id===i.id),index=Number(i.s),hasSizeSelection=i.s!==undefined&&i.s!==null&&String(i.s).trim()!==""&&Number.isInteger(index)&&index>=0,z=p&&hasSizeSelection&&p.sizes[index],qty=Number(i.q);
+  const items=productItems.map(i=>{const p=P.find(x=>x.id===i.id),index=Number(i.s),hasSizeSelection=i.s!==undefined&&i.s!==null&&String(i.s).trim()!==""&&Number.isInteger(index)&&index>=0,z=p&&hasSizeSelection&&p.sizes[index],qty=Number(i.q);
     const sizes=p&&Array.isArray(p.sizes)?p.sizes:[];
     const isLiquid=sizes.some(x=>/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(x[0])));
     if(p&&isLiquid&&!hasSizeSelection){const labels=sizes.filter(x=>/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(x[0]))).map(x=>String(x[0]).replace(/\b(litre|litres|liter|liters)\b/ig,"L"));const last=labels.pop(),list=labels.length?labels.join(", ")+" or "+last:last||"available pack";throw "Please select a bottle size ("+list+") first."}
-    if(!p||!z||!Number.isInteger(qty)||qty<1||qty>1000)throw "A product in your cart is no longer available. Please refresh and try again.";
+    if(!p||p.hidden===true||p.deliverable===false||!z||!Number.isInteger(qty)||qty<1||qty>1000)throw "A product in your cart is no longer available. Please refresh and try again.";
     const match=String(z[0]).toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
     let amount=match?Number(match[1]):0,unit=match?match[2]:"";
     if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
@@ -148,7 +239,19 @@ function validateOrder(b){
     const actualVolume=unit==="litre"?Math.round(amount*qty*10000)/10000:null;
     const actualWeight=unit==="kg"?Math.round(amount*qty*10000)/10000:null;
     return{id:p.id,name:p.n,size:z[0],qty,price:z[1],quantityUnit:unit==="litre"?"bottles":"packs",...(actualVolume!==null?{litres:actualVolume}:{}),...(actualWeight!==null?{kilograms:actualWeight}:{})}});
-  return {name,phone,address,pincode,items,total:items.reduce((a,i)=>a+i.price*i.qty,0)};
+  const offers=rd("offers",[]);
+  comboItems.forEach(entry=>{
+    const offer=offers.find(item=>item.id===entry.id&&item.active!==false),quantity=Number(entry.q);
+    if(!offer||!Number.isInteger(quantity)||quantity<1||quantity>100)throw "A combo offer in your cart is no longer available. Please refresh and try again.";
+    const bundle=presentOffer(offer,P),bundleItems=bundle.items.map(item=>{
+      const product=item.productId&&P.find(p=>p.id===item.productId);
+      if(item.productId&&(!product||product.hidden===true||product.deliverable===false||!product.sizes[item.sizeIndex]))throw "A product in this combo is no longer available. Please refresh and try again.";
+      return{productId:item.productId||"",category:product?product.c:"Combo products",name:item.name,size:item.pack,qty:item.quantity,quantityUnit:item.quantityUnit,price:item.unitPrice};
+    });
+    items.push({id:"COMBO-"+offer.id,name:offer.title,size:"Combo offer",qty:quantity,price:offer.price,quantityUnit:"combos",comboItems:bundleItems});
+  });
+  const total=items.reduce((sum,item)=>sum+item.price*item.qty,0);
+  return {name,phone,address,pincode,items,total};
 }
 function razorpayRequest(path,body){return new Promise((resolve,reject)=>{const req=https.request({hostname:"api.razorpay.com",path,method:"POST",auth:RAZORPAY_KEY_ID+":"+RAZORPAY_KEY_SECRET,headers:{"Content-Type":"application/json"}},res=>{let out="";res.on("data",c=>out+=c);res.on("end",()=>{let data;try{data=JSON.parse(out)}catch(e){return reject(new Error("Invalid payment provider response"))}if(res.statusCode<200||res.statusCode>=300)return reject(new Error(data.error?.description||"Payment provider request failed"));resolve(data)})});req.on("error",reject);req.write(JSON.stringify(body));req.end()})}
 app.get("/api/payment/config",(q,r)=>r.json({enabled:!!(RAZORPAY_KEY_ID&&RAZORPAY_KEY_SECRET),keyId:RAZORPAY_KEY_ID||null}));

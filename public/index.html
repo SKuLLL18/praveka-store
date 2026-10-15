@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Praveka Life Science</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=order-confirmation-spacing">
+<link rel="stylesheet" href="style.css?v=offers-empty-state">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600&display=swap">
-<link rel="stylesheet" href="home.css">
+<link rel="stylesheet" href="home.css?v=explore-offers-button">
 </head>
 <body>
 <header class="top"><div class="wrap nav">
@@ -38,7 +38,7 @@
 <section class="sl pg home-offers" data-p="home" aria-labelledby="homeOffersTitle"><div class="slw">
 <div class="home-offers-heading"><p class="eyebrow">PRAVEKA SAVINGS</p><h2 id="homeOffersTitle">Good deals. More value for every acre.</h2></div>
 <section class="home-offer-group" aria-labelledby="homeSaleTitle"><div class="home-offer-subhead"><div><span class="eyebrow">SINGLE-PRODUCT DEALS</span><h3 id="homeSaleTitle">Special prices</h3></div><span class="home-offers-count" id="homeSaleCount"></span></div><div class="grid home-sale-grid" id="homeSaleGrid"></div></section>
-<section class="home-offer-group home-combo-group" aria-labelledby="homeComboTitle"><div class="home-offer-subhead"><div><span class="eyebrow">SMART COMBINATIONS</span><h3 id="homeComboTitle">Combo offers</h3><p class="intro">Explore practical product pairings and confirm suitability with our team.</p></div><a class="home-offers-link" href="#offers">Explore all offers <span aria-hidden="true">→</span></a></div><div class="home-combo-grid" id="homeComboGrid"></div></section>
+<section class="home-offer-group home-combo-group" aria-labelledby="homeComboTitle"><div class="home-offer-subhead"><div><span class="eyebrow">SMART COMBINATIONS</span><h3 id="homeComboTitle">Combo offers</h3><p class="intro">Explore practical product pairings and confirm suitability with our team.</p></div><a class="btn products-more home-offers-link" href="#offers">Explore all offers <span aria-hidden="true">→</span></a></div><div class="home-combo-grid" id="homeComboGrid"></div></section>
 </div></section>
 
 <section class="sl pg home-products" data-p="home"><div class="slw"><div class="products-heading"><div><h2>Our products</h2><p class="intro">Browse by category or open any product for crops, pests and dose.</p></div><a class="btn products-more" href="#products">View all products</a></div>
@@ -74,11 +74,11 @@
 
 <section class="sl pg range-section" data-p="home"><div class="slw"><p class="eyebrow">Our range</p><h2>Complete crop care in one place</h2><p class="intro">Move from the field problem to a more informed product conversation. Explore each range by the job it is designed to support.</p>
 <div class="rg">
-<a href="#products" data-c="Insecticide"><b>22</b><strong>Insecticides</strong><span>Support against chewing, sucking and damaging pests.</span><em>View range →</em></a>
-<a href="#products" data-c="Fungicide"><b>10</b><strong>Fungicides</strong><span>Help protect crops when disease pressure rises.</span><em>View range →</em></a>
-<a href="#products" data-c="Herbicide"><b>12</b><strong>Herbicides</strong><span>Options for managing unwanted weeds around the crop.</span><em>View range →</em></a>
-<a href="#products" data-c="PGR &amp; Nutrition"><b>8</b><strong>PGR &amp; Nutrition</strong><span>Nutrition and growth support for stronger crop performance.</span><em>View range →</em></a>
-<a href="#products" data-c="Fertilizer"><b>13</b><strong>Fertilizers</strong><span>Targeted nutrients for different crop stages and needs.</span><em>View range →</em></a>
+<a href="#products" data-c="Insecticide"><b data-range-count="Insecticide">0</b><strong>Insecticides</strong><span>Support against chewing, sucking and damaging pests.</span><em>View range →</em></a>
+<a href="#products" data-c="Fungicide"><b data-range-count="Fungicide">0</b><strong>Fungicides</strong><span>Help protect crops when disease pressure rises.</span><em>View range →</em></a>
+<a href="#products" data-c="Herbicide"><b data-range-count="Herbicide">0</b><strong>Herbicides</strong><span>Options for managing unwanted weeds around the crop.</span><em>View range →</em></a>
+<a href="#products" data-c="PGR &amp; Nutrition"><b data-range-count="PGR &amp; Nutrition">0</b><strong>PGR &amp; Nutrition</strong><span>Nutrition and growth support for stronger crop performance.</span><em>View range →</em></a>
+<a href="#products" data-c="Fertilizer"><b data-range-count="Fertilizer">0</b><strong>Fertilizers</strong><span>Targeted nutrients for different crop stages and needs.</span><em>View range →</em></a>
 </div>
 <div class="range-note"><strong>Not sure where to start?</strong><span>Choose your crop first, then compare the product details, pack sizes and application information.</span><a href="#crops">Browse crop guides →</a></div>
 </div></section>
@@ -322,7 +322,7 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="products.js"></script>
-<script src="script.js?v=order-confirmation-v2"></script>
+<script src="script.js?v=offers-empty-state"></script>
 <script src="home.js"></script>
 </body>
 </html>

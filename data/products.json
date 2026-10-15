@@ -19,7 +19,7 @@
     "mode": "Inhibits molting and feeding, causing quick larval death",
     "pests": "Bollworms, fruit borers, pod borers, and other lepidopteran pests",
     "crops": "Cotton, brinjal, tomato, okra, red gram, and chickpea",
-    "sale": true,
+    "sale": false,
     "deliverable": true,
     "sizes": [
       [
@@ -811,6 +811,7 @@
     "crops": "Fruiting and flowering crops",
     "sale": false,
     "deliverable": true,
+    "hidden": false,
     "sizes": [
       [
         "1 Kg",
