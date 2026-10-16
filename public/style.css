@@ -1485,6 +1485,10 @@ header.top{background:rgba(250,248,239,.94);backdrop-filter:blur(12px)}
 .crow{grid-template-columns:88px minmax(0,1fr) auto;gap:16px;align-items:center;margin:0 0 12px;padding:15px;border:1px solid #e2e5d9;border-radius:17px;background:rgba(255,253,247,.95);box-shadow:0 6px 20px rgba(39,61,40,.045);transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease}
 .crow:hover{transform:translateY(-2px);border-color:#cbd8c4;box-shadow:0 12px 26px rgba(39,61,40,.09)}
 .cart-product-image{width:88px;height:88px;overflow:hidden;border:1px solid #ecece4;border-radius:12px;background:#fff}
+.cart-product-link{display:block;cursor:pointer}
+.cart-product-name{color:inherit;text-decoration:none}
+.cart-product-name:hover{text-decoration:underline}
+.cart-product-link:focus-visible,.cart-product-name:focus-visible{outline:3px solid #638b55;outline-offset:3px}
 .cart-product-image .pic{width:100%;height:100%;aspect-ratio:1/1}
 .cart-product-image .pic img{padding:5px}
 .cart-product-image .bottle{transform:scale(.58)}
