@@ -225,7 +225,7 @@ header.top .links a[aria-current]{color:#24352a}
 @media (max-width:860px){.nav .logo-image{width:180px;height:76px}}
 @media (max-width:640px){.nav .logo-image{width:155px;height:68px}}
 @media (max-width:520px){.home-products .products-heading{display:block}.home-products .products-more{display:inline-flex;margin:0 0 12px}}
-@media (max-width:520px){.home-offer-subhead{align-items:flex-start}.home-offers-link{display:inline-flex;margin:10px 0 0}.home-sale-grid{grid-template-columns:1fr}.home-sale-grid .offer-card{grid-template-columns:96px minmax(0,1fr)}.home-combo-grid .combo-card{grid-template-columns:1fr}}
+@media (max-width:520px){.home-offers-heading{margin:0 0 22px;padding-bottom:17px}.home-offers-heading .eyebrow{margin-bottom:8px}.home-offers-heading h2{font-size:clamp(20px,5.4vw,25px);line-height:1.22;white-space:normal}.home-offer-subhead{display:block;margin-bottom:16px}.home-offer-subhead .eyebrow{margin-bottom:9px}.home-offers-link{display:inline-flex;margin:12px 0 0}.home-sale-grid{grid-template-columns:1fr}.home-sale-grid .offer-card{grid-template-columns:96px minmax(0,1fr)}.home-combo-grid .combo-card{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.home-offers-heading,.home-offer-group{animation:none}.home-offers::before,.home-sale-grid .offer-card,.home-combo-grid .combo-card{transition:none}}
 
 /* short laptop screens: tighter slides so each still fits one screen */
@@ -269,7 +269,6 @@ html:has(.hero.hide){scroll-snap-type:none!important}
 .pf-item:hover,.pf-item:focus-visible{transform:translateY(-10px) scale(1.05);outline:none}
 .pf-item::after{content:attr(data-n);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);width:max-content;max-width:210px;padding:6px 10px;border-radius:8px;background:#e3a817;color:#123420;font:600 13px/1.3 "Source Sans 3",system-ui,sans-serif;opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 .pf-item:hover::after,.pf-item:focus-visible::after{opacity:1}
-body.footer-visible header.top{display:none!important}
 header.top{transition:transform .25s ease}
 .pf-bottles{gap:clamp(8px,2.2vw,30px)}
 @media (min-width:1000px){.pf-bottles{--s:1.22}}
