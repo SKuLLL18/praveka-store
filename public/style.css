@@ -1248,11 +1248,11 @@ footer .mark{background:var(--sun)}
 .form-group select option,
 .form-group select optgroup { background: #0e1e15; color: #ffffff; }
 /* ===== Footer (Option D) - added at the END of style.css ===== */
-footer.pf{--f1:#1f3829;--f2:#12241a;--fin:#f3f6ef;--fmute:#a9bcae;--fsun:#e3a817;background:var(--f2);color:var(--fin);margin-top:40px;padding:0;font-size:15px;box-sizing:border-box}
+footer.pf{--f1:#eef2e7;--f2:#f8f8ef;--fin:#26382c;--fmute:#66776b;--fsun:#a66a0a;background:var(--f2);color:var(--fin);margin-top:40px;padding:0;font-size:15px;box-sizing:border-box}
 footer.pf a{display:inline;opacity:1;margin:0;text-decoration:none;color:var(--fin)}
 footer.pf a:hover{color:var(--fsun)}
 footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;color:var(--fin)}
-.pf-brand .footer-logo-image{width:220px;height:110px;max-width:100%;display:flex;align-items:center;background:#f3f0df;border-radius:12px;padding:10px;box-sizing:border-box}
+.pf-brand .footer-logo-image{width:220px;height:110px;max-width:100%;display:flex;align-items:center;box-sizing:border-box}
 .pf-brand .footer-logo-image img{display:block;width:100%;height:100%;object-fit:contain;object-position:center}
 @media (max-width:520px){.pf-brand .footer-logo-image{width:190px;height:96px}}
 .about-story-grid,.about-belief{display:grid;grid-template-columns:minmax(240px,.8fr) minmax(0,1.2fr);gap:clamp(24px,5vw,80px);align-items:start}
@@ -1325,9 +1325,9 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .pf-brand p{margin:0}.pf-brand p:last-child{color:var(--fmute)}
 .pf-contact li{display:flex;gap:12px;align-items:flex-start}
 .pf-contact svg{flex:none;width:18px;height:18px;margin-top:4px;stroke:var(--fsun);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.pf-newsrow{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid rgba(255,255,255,.14);color:var(--fmute)}
+.pf-newsrow{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid rgba(38,56,44,.16);color:var(--fmute)}
 .pf-newsrow .news{margin:0;flex:0 1 380px}
-.pf-bottom{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding:16px 0 22px;border-top:1px solid rgba(255,255,255,.14);color:var(--fmute);font-size:14px}
+.pf-bottom{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding:16px 0 22px;border-top:1px solid rgba(38,56,44,.16);color:var(--fmute);font-size:14px}
 .pf-bottom a{color:var(--fmute)}
 @media (max-width:860px){.pf-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.pf-grid{grid-template-columns:1fr}.pf-bottles{--s:.62}.pf-bottles i:nth-child(n+7){display:none}}
@@ -1390,6 +1390,7 @@ body:has(.ct:not(.hide)) footer.pf{margin-top:0}
 .crop-card{appearance:none;border:1px solid #e0e7e0;background:#fff;border-radius:18px;padding:18px;text-align:left;display:flex;align-items:center;gap:14px;cursor:pointer;min-height:112px;transition:.2s ease;box-shadow:0 4px 14px rgba(20,45,22,.035)}
 .crop-card:hover{transform:translateY(-3px);border-color:#b8d0ba;box-shadow:0 14px 30px rgba(20,45,22,.09)}
 .crop-icon{width:55px;height:55px;border-radius:16px;background:#f0f7ee;display:grid;place-items:center;font-size:30px;flex:0 0 55px}
+.crop-icon img,.crop-detail-icon img{display:block;width:100%;height:100%;object-fit:contain}
 .crop-card-main{display:flex;flex-direction:column;min-width:0;gap:3px}.crop-card-main b{font-size:16px;color:#243126}.crop-card-main small{color:#7a837b;font-size:11px}.crop-card-main em{font-style:normal;color:#4c8756;font-size:11px;margin-top:3px}
 .crop-arrow{margin-left:auto;color:#3f8a4c;font-size:20px}
 .crop-empty{grid-column:1/-1;padding:45px;text-align:center;background:#f7faf7;border-radius:16px;color:#6b756c}

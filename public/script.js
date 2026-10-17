@@ -112,6 +112,8 @@ var CROPS=[
 ];
 var cropQuery="",cropFilter="All";
 function cropObj(a){return {name:a[0],local:a[1],season:a[2],icon:a[3],soil:a[4],sowing:a[5],grow:a[6],maintain:a[7],harvest:a[8],types:a[9],match:a[10],duration:a[11],slug:a[0].toLowerCase().replace(/[^a-z0-9]+/g,"-")}}
+var CUSTOM_CROP_ICONS={"rice":true,"chickpea":true,"okra":true,"cumin":true,"coriander":true,"pomegranate":true,"cotton":true,"sesame":true,"green-gram":true,"black-gram":true};
+function cropIcon(c){return CUSTOM_CROP_ICONS[c.slug]?'<img src="images/crops/'+c.slug+'.svg" alt="" aria-hidden="true">':esc(c.icon)}
 function cropMatchesProducts(c){
  var words=(c.match+" "+c.name).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
  return P.filter(function(p){var s=((p.crops||"")+" "+(p.n||"")+" "+(p.t||"")).toLowerCase();return words.some(function(w){return w.length>3&&s.indexOf(w)>-1})}).slice(0,6);
@@ -123,13 +125,13 @@ function renderCropFilters(){
 function renderCrops(){
  var el=$("cropGrid");if(!el)return;
  var list=CROPS.map(cropObj).filter(function(c){return (cropFilter=="All"||c.season==cropFilter||c.types.indexOf(cropFilter)>-1)&&(!cropQuery||(c.name+" "+c.local+" "+c.match).toLowerCase().indexOf(cropQuery)>-1)});
- el.innerHTML=list.length?list.map(function(c){return '<button class="crop-card" data-crop="'+c.slug+'"><span class="crop-icon">'+c.icon+'</span><span class="crop-card-main"><b>'+esc(c.name)+'</b><small>'+esc(c.local)+'</small><em>'+esc(c.season)+' · '+esc(c.duration)+'</em></span><span class="crop-arrow">→</span></button>'}).join(""):'<div class="crop-empty">No crops found. Try another crop name.</div>';
+ el.innerHTML=list.length?list.map(function(c){return '<button class="crop-card" data-crop="'+c.slug+'"><span class="crop-icon">'+cropIcon(c)+'</span><span class="crop-card-main"><b>'+esc(c.name)+'</b><small>'+esc(c.local)+'</small><em>'+esc(c.season)+' · '+esc(c.duration)+'</em></span><span class="crop-arrow">→</span></button>'}).join(""):'<div class="crop-empty">No crops found. Try another crop name.</div>';
 }
 function renderCropDetail(slug){
  var c=CROPS.map(cropObj).find(function(x){return x.slug==slug});if(!c){location.hash="crops";return}
  var rec=cropMatchesProducts(c);
  $("cropDetailView").innerHTML='<a class="crop-back" href="#crops">← Back to all crops</a>'+
- '<div class="crop-detail-hero"><div class="crop-detail-icon">'+c.icon+'</div><div><span class="eyebrow">FIELD NOTE</span><h1>'+esc(c.name)+'</h1><p>'+esc(c.local)+'</p><div class="crop-meta"><span>'+esc(c.season)+'</span><span>'+esc(c.duration)+'</span></div></div></div>'+
+ '<div class="crop-detail-hero"><div class="crop-detail-icon">'+cropIcon(c)+'</div><div><span class="eyebrow">FIELD NOTE</span><h1>'+esc(c.name)+'</h1><p>'+esc(c.local)+'</p><div class="crop-meta"><span>'+esc(c.season)+'</span><span>'+esc(c.duration)+'</span></div></div></div>'+
  '<div class="crop-layout"><main><section class="crop-info-card"><h2>Start with the basics</h2><p>'+esc(c.grow)+'</p><h3>Best fit for this crop</h3><p>'+esc(c.soil)+'</p><h3>Planting window</h3><p>'+esc(c.sowing)+'</p></section>'+
  '<section class="crop-info-card"><h2>Care through the season</h2><p>'+esc(c.maintain)+'</p></section>'+
  '<section class="crop-info-card"><h2>Know when to harvest</h2><p>'+esc(c.harvest)+'</p></section></main>'+

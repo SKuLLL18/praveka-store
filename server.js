@@ -1,5 +1,5 @@
 // SERVER.JS - Praveka Life Science backend (Express + JSON files).
-const express=require("express"),fs=require("fs"),path=require("path"),crypto=require("crypto");
+const express=require("express"),fs=require("fs"),path=require("path"),crypto=require("crypto"),os=require("os"),multer=require("multer");
 try{fs.readFileSync(path.join(__dirname,".env"),"utf8").split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);if(m&&!(m[1] in process.env))process.env[m[1]]=m[2]})}catch(e){}
 const PASS=process.env.ADMIN_PASSWORD||"",PORT=process.env.PORT||3000,HOST=process.env.HOST||"0.0.0.0";
 if(PASS.length<8||PASS==="change-this-password"){console.error("\nFirst copy .env.example to .env and set ADMIN_PASSWORD to your own password (8+ characters).\n");process.exit(1)}
@@ -41,8 +41,33 @@ const staffOrManager=(q,r,n)=>{if(!adminRole(q))return r.status(401).json({error
 // ---- products ----
 const url=v=>{v=s(v,300);if(!v)return"";if(!/^https:\/\/[^\s"'<>]+$/i.test(v))throw "Links must start with https://";return v};
 const img=v=>{v=s(v,300);if(!v)return"";if(/^https:\/\/[^\s"'<>]+$/i.test(v))return v;
+  if(/^uploads\/products\/[a-f0-9]{32}\.(jpe?g|png|webp|gif)$/i.test(v))return v;
   if(/^(images\/)?[\w][\w\-. ]{0,100}\.(jpe?g|png|webp|gif)$/i.test(v))return v.startsWith("images/")?v:"images/"+v;
   throw "Image must be a https link or a file name such as no-one.jpg (put the file in public/images)"};
+const productVideo=v=>{v=s(v,300);if(!v)return"";if(/^https:\/\/[^\s"'<>]+$/i.test(v))return v;
+  if(/^uploads\/products\/[a-f0-9]{32}\.(mp4|webm)$/i.test(v))return v;
+  throw "Video must be an https link or an uploaded MP4/WebM file"};
+const mediaTemp=path.join(os.tmpdir(),"praveka-product-media");
+const mediaStorage=multer.diskStorage({destination:(q,f,cb)=>{try{fs.mkdirSync(mediaTemp,{recursive:true});cb(null,mediaTemp)}catch(e){cb(e)}},filename:(q,f,cb)=>cb(null,crypto.randomBytes(16).toString("hex"))});
+const mediaUpload=multer({storage:mediaStorage,limits:{files:5,fileSize:50*1024*1024},fileFilter:(q,f,cb)=>{
+  const image=f.fieldname==="images"&&["image/jpeg","image/png","image/webp","image/gif"].includes(f.mimetype);
+  const video=f.fieldname==="video"&&["video/mp4","video/webm","application/octet-stream"].includes(f.mimetype);
+  if(!image&&!video)return cb(new Error("Choose JPG, PNG, WebP or GIF images and MP4 or WebM videos"));
+  cb(null,true);
+}});
+function uploadedMediaType(file){
+  const b=fs.readFileSync(file.path),sig=(...bytes)=>bytes.every((x,i)=>b[i]===x);
+  if(file.fieldname==="images"){
+    if(sig(0xff,0xd8,0xff))return"jpg";
+    if(sig(0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a))return"png";
+    if(b.length>=12&&b.toString("ascii",0,4)==="RIFF"&&b.toString("ascii",8,12)==="WEBP")return"webp";
+    if(b.length>=6&&["GIF87a","GIF89a"].includes(b.toString("ascii",0,6)))return"gif";
+  }else if(file.fieldname==="video"){
+    if(b.length>=12&&b.toString("ascii",4,8)==="ftyp")return"mp4";
+    if(sig(0x1a,0x45,0xdf,0xa3))return"webm";
+  }
+  throw "Uploaded file content does not match an allowed image or video format";
+}
 function parsePackMeasure(value){
   const match=String(value||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
   if(!match)return null;
@@ -73,7 +98,7 @@ function cleanProduct(b){
   if(minimum&&minimum.unit!=="piece"&&!sizes.some(z=>{const pack=parsePackMeasure(z[0]);return pack&&pack.unit===minimum.unit}))throw "Minimum order unit must match a pack size, such as 25 kg for kg packs";
   const images=(Array.isArray(b.images)?b.images:[]).slice(0,4).map(img).filter(Boolean);
   return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq,
-    desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),deliverable:b.deliverable!==false,hidden:b.hidden===true,sizes,images,video:url(b.video),brochure:url(b.brochure)}}
+    desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),deliverable:b.deliverable!==false,hidden:b.hidden===true,sizes,images,video:productVideo(b.video),brochure:url(b.brochure)}}
 app.get("/api/products",(q,r)=>r.json(rd("products",[]).filter(p=>p.hidden!==true)));
 app.get("/api/admin/products",staffOrManager,(q,r)=>r.json(rd("products",[])));
 app.get("/api/products/:id/reviews",wrap((q,r)=>{
@@ -111,6 +136,36 @@ app.delete("/api/admin/reviews/:id",managerOnly,wrap((q,r)=>{
   const reviews=rd("reviews",[]),remaining=reviews.filter(x=>x.id!==q.params.id);
   if(remaining.length===reviews.length)return r.status(404).json({error:"Review not found"});
   wr("reviews",remaining);r.json({ok:true});
+}));
+app.post("/api/admin/products/media",managerOnly,(q,r)=>{
+  mediaUpload.fields([{name:"images",maxCount:4},{name:"video",maxCount:1}])(q,r,e=>{
+    const received=Object.values(q.files||{}).flat();
+    if(e){received.forEach(f=>{try{fs.unlinkSync(f.path)}catch{}});return r.status(400).json({error:e.message||"Could not upload media"})}
+    const moved=[];
+    try{
+      const dir=path.join(__dirname,"public","uploads","products");fs.mkdirSync(dir,{recursive:true});
+      const images=(q.files.images||[]).map(f=>({file:f,ext:uploadedMediaType(f)}));
+      const video=(q.files.video||[]).map(f=>({file:f,ext:uploadedMediaType(f)}));
+      const save=entry=>{const name=crypto.randomBytes(16).toString("hex")+"."+entry.ext,dest=path.join(dir,name);fs.renameSync(entry.file.path,dest);moved.push(dest);return"uploads/products/"+name};
+      r.status(201).json({images:images.map(save),video:video.length?save(video[0]):""});
+    }catch(err){
+      received.forEach(f=>{try{fs.unlinkSync(f.path)}catch{}});
+      moved.forEach(f=>{try{fs.unlinkSync(f)}catch{}});
+      r.status(400).json({error:typeof err==="string"?err:"Could not save uploaded media"});
+    }
+  });
+});
+app.delete("/api/admin/products/media",managerOnly,wrap((q,r)=>{
+  if(!Array.isArray(q.body.paths))throw "Uploaded media cleanup paths are required";
+  const products=rd("products",[]),dir=path.join(__dirname,"public","uploads","products");let removed=0;
+  q.body.paths.forEach(value=>{
+    const media=s(value,100);
+    if(!/^uploads\/products\/[a-f0-9]{32}\.(jpe?g|png|webp|gif|mp4|webm)$/i.test(media))throw "Invalid uploaded media path";
+    if(products.some(p=>(p.images||[]).includes(media)||p.video===media))return;
+    const file=path.join(dir,path.basename(media));
+    if(fs.existsSync(file)){fs.unlinkSync(file);removed++}
+  });
+  r.json({ok:true,removed});
 }));
 app.post("/api/admin/products",managerOnly,wrap((q,r)=>{const L=rd("products",[]),p=cleanProduct(q.body);
   let id=p.n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")||"product";while(L.some(x=>x.id===id))id+="-"+crypto.randomInt(10,99);
