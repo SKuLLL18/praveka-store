@@ -2754,5 +2754,257 @@
     ],
     "video": "",
     "brochure": ""
+  },
+  {
+    "id": "chana-prime",
+    "n": "Chana Prime",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "Complete Plant Food Nutrition with Plant Growth Hormones for Chickpea",
+    "t": "Plant Nutrition + Plant Growth Hormones + Traces",
+    "ftype": "SP",
+    "form": "SP",
+    "conc": "",
+    "apptype": "",
+    "phys": "POWDER",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "10 Kg",
+    "desc": "Chana Prime is a complete plant food nutrition product enriched with plant growth hormones and trace elements, formulated to support healthy growth, flowering and pod development in chickpea (chana). ISO 9001:2015 certified.",
+    "features": "Complete plant food nutrition\nContains plant growth hormones and traces\nCrop-specific formulation for chickpea\nISO 9001:2015 certified",
+    "mode": "",
+    "pests": "",
+    "crops": "Chickpea (Chana)",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "1KG",
+        800,
+        1250
+      ]
+    ],
+    "images": [
+      "images/chana-prime.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
+  },
+  {
+    "id": "groundnut-prime",
+    "n": "Groundnut Prime",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "Complete Plant Food Nutrition with Plant Growth Hormones for Groundnut",
+    "t": "Plant Nutrition + Plant Growth Hormones + Traces",
+    "ftype": "SP",
+    "form": "POWDER",
+    "conc": "",
+    "apptype": "",
+    "phys": "POWDER",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "50KG",
+    "desc": "Groundnut Prime is a complete plant food nutrition product enriched with plant growth hormones and trace elements, formulated to support vigorous growth, flowering and pod development in groundnut (peanut).",
+    "features": "Complete plant food nutrition\nContains plant growth hormones and traces\nCrop-specific formulation for groundnut",
+    "mode": "",
+    "pests": "",
+    "crops": "Groundnut",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "1KG",
+        800,
+        1150
+      ]
+    ],
+    "images": [
+      "images/groundnut-prime.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
+  },
+  {
+    "id": "fulbahar",
+    "n": "Fulbahar",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "Amino Acid 20% (Plant Source) + Vitamins – Crop Performance Enhancer",
+    "t": "Amino Acid 20% (Plant Source) + Vitamins",
+    "ftype": "Liquid",
+    "form": "Liquid",
+    "conc": "Amino Acid 20%",
+    "apptype": "",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Fulbahar is a bio stimulant containing 20% plant-source amino acids fortified with vitamins. It acts as a crop performance enhancer, supporting plant metabolism, flowering and overall crop vigour.",
+    "features": "Amino acid 20% from plant source\nEnriched with vitamins\nBio stimulant\nCrop performance enhancer",
+    "mode": "",
+    "pests": "",
+    "crops": "Field crops, vegetables and fruit crops",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "1 Litre",
+        1500,
+        2500
+      ]
+    ],
+    "images": [
+      "images/fulbahar.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
+  },
+  {
+    "id": "fruit-booster",
+    "n": "Fruit Booster",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "6BA + Gibberellic Acid Plant Growth Regulator for Better Fruit Set and Size",
+    "t": "6BA (6-Benzylaminopurine) + GA (Gibberellic Acid)",
+    "ftype": "Liquid",
+    "form": "Liquid",
+    "conc": "6BA + GA",
+    "apptype": "",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Fruit Booster is a plant growth regulator combining 6-Benzylaminopurine (6BA, a cytokinin) and Gibberellic Acid (GA, a gibberellin). It supports cell division, fruit set and fruit development in fruit, vegetable and other crops.",
+    "features": "Dual-hormone formulation: 6BA + GA\nSupports fruit set and fruit development\nSuitable for a wide range of crops",
+    "mode": "Cytokinin (6BA) promotes cell division; gibberellin (GA) promotes cell elongation and fruit development",
+    "pests": "",
+    "crops": "Fruit crops, vegetables, cotton and other crops",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "1L",
+        800,
+        1150
+      ]
+    ],
+    "images": [
+      "images/fruit-booster.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
+  },
+  {
+    "id": "raida-special",
+    "n": "Raida Special",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "Special Grade Liquid Micro Nutrient Fertilizer for Mustard (Raida) and Rabi Crops",
+    "t": "Liquid Micro Nutrient Fertilizer",
+    "ftype": "Liquid",
+    "form": "Liquid",
+    "conc": "",
+    "apptype": "",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Raida Special is a special grade liquid micro nutrient fertilizer that supplies essential micronutrients to support healthy growth, flowering and yield in mustard (raida) and other rabi crops. ISO 9001:2015 certified.",
+    "features": "Special grade liquid micro nutrient fertilizer\nCorrects micronutrient deficiencies\nISO 9001:2015 certified",
+    "mode": "",
+    "pests": "",
+    "crops": "Mustard (Raida) and other rabi crops",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "1 Litre",
+        700,
+        800
+      ]
+    ],
+    "images": [
+      "images/raida-special.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
+  },
+  {
+    "id": "super-chana-special",
+    "n": "Super Chana Special",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "Special Grade Liquid Micro Nutrient Fertilizer for Chickpea (Chana)",
+    "t": "Liquid Micro Nutrient Fertilizer",
+    "ftype": "Liquid",
+    "form": "Liquid",
+    "conc": "",
+    "apptype": "",
+    "phys": "Liquid",
+    "ptype": "Bottle",
+    "dose": "",
+    "moq": "",
+    "desc": "Super Chana Special is a special grade liquid micro nutrient fertilizer that supplies essential micronutrients to support healthy growth, flowering and pod filling in chickpea (chana). ISO 9001:2015 certified.",
+    "features": "Special grade liquid micro nutrient fertilizer\nCorrects micronutrient deficiencies\nISO 9001:2015 certified",
+    "mode": "",
+    "pests": "",
+    "crops": "Chickpea (Chana)",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "1 Litre",
+        700,
+        800
+      ]
+    ],
+    "images": [
+      "images/super-chana-special.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
+  },
+  {
+    "id": "flowering-booster",
+    "n": "Flowering Booster",
+    "c": "PGR & Nutrition",
+    "brand": "Praveka Life Science",
+    "head": "Gibberellic Acid 0.186% SP Plant Growth Regulator",
+    "t": "Gibberellic Acid 0.186% SP",
+    "ftype": "SP",
+    "form": "Powder",
+    "conc": "0.186%",
+    "apptype": "",
+    "phys": "Powder",
+    "ptype": "Pouch",
+    "dose": "",
+    "moq": "",
+    "desc": "Flowering Booster is a water-soluble powder plant growth regulator containing Gibberellic Acid 0.186% SP. It promotes flowering, fruit set and vegetative growth in a wide range of crops.",
+    "features": "Gibberellic Acid 0.186% SP\nPlant growth regulator\nSupports flowering and fruit set",
+    "mode": "Gibberellin that promotes cell elongation, flowering and fruit development",
+    "pests": "",
+    "crops": "Cotton, pulses, groundnut, vegetables and fruit crops",
+    "deliverable": true,
+    "hidden": false,
+    "sizes": [
+      [
+        "250 gm",
+        450,
+        1150
+      ]
+    ],
+    "images": [
+      "images/flowering-booster.jpeg"
+    ],
+    "video": "",
+    "brochure": "",
+    "sale": false
   }
 ]
