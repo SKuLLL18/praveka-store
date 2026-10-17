@@ -18,13 +18,17 @@ app.use(express.json({limit:"1mb",verify:(q,r,buf)=>{q.rawBody=buf}}));
 app.use((q,r,n)=>{r.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"same-origin"});n()});
 
 // ---- admin login ----
-const tokens=new Map();
+const adminTokenSecret=crypto.createHash("sha256").update(process.env.ADMIN_TOKEN_SECRET||PASS).digest();
+function createAdminToken(role){
+  const payload=Buffer.from(JSON.stringify({expires:Date.now()+12*60*60*1000,role})).toString("base64url");
+  const signature=crypto.createHmac("sha256",adminTokenSecret).update(payload).digest("base64url");
+  return payload+"."+signature;
+}
 app.post("/api/admin/login",limit(10,15*60e3),wrap((q,r)=>{
   const pw=s(q.body.password,200);
   if(!pw)return r.status(401).json({error:"Password is required"});
   if(pw!==PASS)return r.status(401).json({error:"Incorrect password"});
-  const token=crypto.randomBytes(32).toString("hex");
-  tokens.set(token,{expires:Date.now()+12*60*60*1000,role:"manager"});
+  const token=createAdminToken("manager");
   r.json({ok:true,token,role:"manager"});}));
 app.post("/api/contact",limit(10,3600e3),wrap((q,r)=>{
   const name=s(q.body.name,80),phone=s(q.body.phone,20),message=s(q.body.message,1000),qty=s(q.body.quantity,30);
@@ -33,7 +37,14 @@ app.post("/api/contact",limit(10,3600e3),wrap((q,r)=>{
   if(pr&&pr.hidden===true)throw "This product is temporarily unavailable.";
   const QTY=["1","2","3","4","5","10","15","20","25","50","100","More than 100"];
   const L=rd("messages",[]);L.unshift({date:new Date().toISOString(),name,phone,product:pr?pr.n:"",quantity:qty,message});wr("messages",L);r.json({ok:true})}));
-const adminRole=(q)=>{const e=tokens.get(q.get("x-admin-token"));if(!e||e.expires<Date.now())return "";return e.role};
+const adminRole=(q)=>{
+  const token=q.get("x-admin-token"),parts=token&&token.split(".");
+  if(!parts||parts.length!==2)return "";
+  const expected=crypto.createHmac("sha256",adminTokenSecret).update(parts[0]).digest();
+  let supplied;try{supplied=Buffer.from(parts[1],"base64url")}catch(e){return ""}
+  if(supplied.length!==expected.length||!crypto.timingSafeEqual(supplied,expected))return "";
+  try{const payload=JSON.parse(Buffer.from(parts[0],"base64url").toString("utf8"));return payload.expires>Date.now()&&payload.role==="manager"?payload.role:""}catch(e){return ""}
+};
 const auth=(q,r,n)=>{if(!adminRole(q))return r.status(401).json({error:"Please log in"});n()};
 const managerOnly=(q,r,n)=>{if(adminRole(q)!=="manager")return r.status(403).json({error:"Manager access is required"});n()};
 const staffOrManager=(q,r,n)=>{if(!adminRole(q))return r.status(401).json({error:"Please log in"});n()};
