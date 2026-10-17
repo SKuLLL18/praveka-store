@@ -2627,8 +2627,8 @@
     "mode": "Amino acids are taken up by the plant and used directly in protein and enzyme formation, while vitamins support metabolic activity, helping the plant grow and recover from stress.",
     "pests": "",
     "crops": "",
-    "sale": false,
     "deliverable": true,
+    "hidden": false,
     "sizes": [
       [
         "250ml",
@@ -2641,9 +2641,12 @@
         180
       ]
     ],
-    "images": [],
+    "images": [
+      "uploads/products/45f8ccaacf86f53bb97e28cadaa205c5.jpg"
+    ],
     "video": "",
-    "brochure": ""
+    "brochure": "",
+    "sale": false
   },
   {
     "id": "humicell-humic-acid-98-soil-conditioner",
