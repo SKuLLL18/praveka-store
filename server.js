@@ -157,11 +157,12 @@ app.post("/api/admin/products/media",managerOnly,(q,r)=>{
       const dir=path.join(__dirname,"public","uploads","products");fs.mkdirSync(dir,{recursive:true});
       const images=(q.files.images||[]).map(f=>({file:f,ext:uploadedMediaType(f)}));
       const video=(q.files.video||[]).map(f=>({file:f,ext:uploadedMediaType(f)}));
-      const save=entry=>{const name=crypto.randomBytes(16).toString("hex")+"."+entry.ext,dest=path.join(dir,name);fs.renameSync(entry.file.path,dest);moved.push(dest);return"uploads/products/"+name};
+      const save=entry=>{const name=crypto.randomBytes(16).toString("hex")+"."+entry.ext,dest=path.join(dir,name);fs.copyFileSync(entry.file.path,dest,fs.constants.COPYFILE_EXCL);moved.push(dest);fs.unlinkSync(entry.file.path);return"uploads/products/"+name};
       r.status(201).json({images:images.map(save),video:video.length?save(video[0]):""});
     }catch(err){
       received.forEach(f=>{try{fs.unlinkSync(f.path)}catch{}});
       moved.forEach(f=>{try{fs.unlinkSync(f)}catch{}});
+      console.error("Product media upload failed:",err);
       r.status(400).json({error:typeof err==="string"?err:"Could not save uploaded media"});
     }
   });
