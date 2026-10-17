@@ -35,15 +35,22 @@ function offerQuantityUnit(pack){
   return/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(pack||""))?"bottles":"packs";
 }
 function defaultOfferQuantity(product,pack){
-  var match=String(pack||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
-  if(!match)return 1;
-  var amount=Number(match[1]),unit=match[2];
+  var minimum=String(product&&product.moq||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g|pieces?|pcs?|packs?|bottles?|units?|each|ea)\b/);
+  if(!minimum)return 1;
+  var amount=Number(minimum[1]),unit=minimum[2],pack=String(pack||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
+  if(!Number.isFinite(amount)||amount<=0)return 1;
+  if(unit==="pieces"||unit==="piece"||unit==="pcs"||unit==="pc"||unit==="packs"||unit==="pack"||unit==="bottles"||unit==="bottle"||unit==="units"||unit==="unit"||unit==="each"||unit==="ea")return Math.ceil(amount);
+  if(!pack)return 1;
+  var packAmount=Number(pack[1]),packUnit=pack[2];
   if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}
   else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}
   else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";
-  else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
-  var minimum=unit==="litre"?10:unit==="kg"?100:0;
-  return minimum&&amount>0?Math.ceil(minimum/amount):1;
+  else unit="litre";
+  if(packUnit==="ml"||packUnit.startsWith("milliliter")||packUnit.startsWith("millilitre")){packAmount/=1000;packUnit="litre"}
+  else if(packUnit==="g"||packUnit.startsWith("gram")||packUnit.startsWith("gm")){packAmount/=1000;packUnit="kg"}
+  else if(packUnit==="kg"||packUnit.startsWith("kilogram"))packUnit="kg";
+  else packUnit="litre";
+  return packUnit===unit&&packAmount>0?Math.max(1,Math.ceil(amount/packAmount-1e-10)):1;
 }
 function offerRowHtml(item){
   item=item||{};var id=++OFFER_ROW_ID,selected=item.productId||"custom",custom=selected==="custom",options=offerSourceOptions(selected);

@@ -43,13 +43,36 @@ const url=v=>{v=s(v,300);if(!v)return"";if(!/^https:\/\/[^\s"'<>]+$/i.test(v))th
 const img=v=>{v=s(v,300);if(!v)return"";if(/^https:\/\/[^\s"'<>]+$/i.test(v))return v;
   if(/^(images\/)?[\w][\w\-. ]{0,100}\.(jpe?g|png|webp|gif)$/i.test(v))return v.startsWith("images/")?v:"images/"+v;
   throw "Image must be a https link or a file name such as no-one.jpg (put the file in public/images)"};
+function parsePackMeasure(value){
+  const match=String(value||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
+  if(!match)return null;
+  let amount=Number(match[1]),unit=match[2];
+  if(!Number.isFinite(amount)||amount<=0)return null;
+  if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}
+  else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}
+  else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";
+  else unit="litre";
+  return{amount,unit};
+}
+function parseMinimumOrder(value){
+  const measure=parsePackMeasure(value);
+  if(measure)return measure;
+  const match=String(value||"").toLowerCase().match(/([\d.]+)\s*(?:pieces?|pcs?|packs?|bottles?|units?|each|ea)\b/);
+  if(!match)return null;
+  const amount=Number(match[1]);
+  return Number.isFinite(amount)&&amount>0?{amount,unit:"piece"}:null;
+}
 function cleanProduct(b){
   const n=s(b.n,120);if(n.length<2)throw "Product name is required";
   if(b.hidden!==undefined&&typeof b.hidden!=="boolean")throw "Visibility must be true or false";
   const sizes=(Array.isArray(b.sizes)?b.sizes:[]).slice(0,10).map(z=>[s(z[0],30),Number(z[1]),Number(z[2])]);
   if(!sizes.length||sizes.some(z=>!z[0]||!(z[1]>0)||!(z[2]>=z[1])))throw "Each pack size needs a label, a price above 0, and an MRP not below the price";
+  const moq=s(b.moq,60),minimum=parseMinimumOrder(moq);
+  if(moq&&!minimum)throw "Minimum order quantity must include an amount and supported unit, such as 25 kg, 10 litre, or 10 pieces";
+  if(minimum&&minimum.unit==="piece"&&!Number.isInteger(minimum.amount))throw "Minimum order quantity in pieces must be a whole number";
+  if(minimum&&minimum.unit!=="piece"&&!sizes.some(z=>{const pack=parsePackMeasure(z[0]);return pack&&pack.unit===minimum.unit}))throw "Minimum order unit must match a pack size, such as 25 kg for kg packs";
   const images=(Array.isArray(b.images)?b.images:[]).slice(0,4).map(img).filter(Boolean);
-  return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq:s(b.moq,60),
+  return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq,
     desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),deliverable:b.deliverable!==false,hidden:b.hidden===true,sizes,images,video:url(b.video),brochure:url(b.brochure)}}
 app.get("/api/products",(q,r)=>r.json(rd("products",[]).filter(p=>p.hidden!==true)));
 app.get("/api/admin/products",staffOrManager,(q,r)=>r.json(rd("products",[])));
@@ -124,15 +147,10 @@ app.patch("/api/admin/products/:id/visibility",managerOnly,wrap((q,r)=>{
 }));
 
 function productPackQuantity(product,size){
-  const match=String(size||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
-  if(!match)return 1;
-  let amount=Number(match[1]),unit=match[2];
-  if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}
-  else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}
-  else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";
-  else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
-  const minimum=unit==="litre"?10:unit==="kg"?100:0;
-  return minimum&&amount>0?Math.ceil(minimum/amount):1;
+  const minimum=parseMinimumOrder(product&&product.moq),measure=parsePackMeasure(size);
+  if(!minimum)return 1;
+  if(minimum.unit==="piece")return Math.max(1,Math.ceil(minimum.amount));
+  return measure&&measure.unit===minimum.unit?Math.max(1,Math.ceil(minimum.amount/measure.amount-1e-10)):1;
 }
 function productPackUnit(size){
   const match=String(size||"").toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
@@ -234,11 +252,13 @@ function validateOrder(b){
     const isLiquid=sizes.some(x=>/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(x[0])));
     if(p&&isLiquid&&!hasSizeSelection){const labels=sizes.filter(x=>/[\d.]+\s*(?:ml|l|litre|liter)\b/i.test(String(x[0]))).map(x=>String(x[0]).replace(/\b(litre|litres|liter|liters)\b/ig,"L"));const last=labels.pop(),list=labels.length?labels.join(", ")+" or "+last:last||"available pack";throw "Please select a bottle size ("+list+") first."}
     if(!p||p.hidden===true||p.deliverable===false||!z||!Number.isInteger(qty)||qty<1||qty>1000)throw "A product in your cart is no longer available. Please refresh and try again.";
-    const match=String(z[0]).toLowerCase().match(/([\d.]+)\s*(millilitres?|milliliters?|ml|litres?|liters?|l|kilograms?|kgs?|grams?|gms?|g)\b/);
-    let amount=match?Number(match[1]):0,unit=match?match[2]:"";
-    if(unit==="ml"||unit.startsWith("milliliter")||unit.startsWith("millilitre")){amount/=1000;unit="litre"}else if(unit==="g"||unit.startsWith("gram")||unit.startsWith("gm")){amount/=1000;unit="kg"}else if(unit==="kg"||unit.startsWith("kilogram"))unit="kg";else if(unit==="l"||unit.startsWith("litre")||unit.startsWith("liter"))unit="litre";
-    const minimum=unit==="litre"?10:unit==="kg"?100:0;
-    if(minimum&&amount*qty<minimum)throw p.n+" requires a minimum order of "+minimum+(unit==="litre"?" L.":" kg.");
+    const measure=parsePackMeasure(z[0]),minimum=parseMinimumOrder(p.moq);
+    if(minimum){
+      if(minimum.unit==="piece"){if(qty<Math.ceil(minimum.amount))throw p.n+" requires a minimum order of "+minimum.amount+" pieces."}
+      else if(!measure||measure.unit!==minimum.unit)throw p.n+" minimum order unit does not match the selected pack size. Please choose a compatible pack or contact us.";
+      else if(qty+1e-10<Math.ceil(minimum.amount/measure.amount-1e-10))throw p.n+" requires a minimum order of "+minimum.amount+(minimum.unit==="litre"?" L.":" kg.");
+    }
+    const amount=measure?measure.amount:0,unit=measure?measure.unit:"";
     const actualVolume=unit==="litre"?Math.round(amount*qty*10000)/10000:null;
     const actualWeight=unit==="kg"?Math.round(amount*qty*10000)/10000:null;
     return{id:p.id,name:p.n,size:z[0],qty,price:z[1],quantityUnit:unit==="litre"?"bottles":"packs",...(actualVolume!==null?{litres:actualVolume}:{}),...(actualWeight!==null?{kilograms:actualWeight}:{})}});
