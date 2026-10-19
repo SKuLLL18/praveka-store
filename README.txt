@@ -11,6 +11,12 @@ public/products.js   Backup product list (used only if the server is off).
 public/admin.html    Admin page (opens at /admin).
 data/products.json   Your products (managed from the admin page).
 data/orders.json     Created automatically when the first order arrives.
+data/visits.json     Created automatically; starts at 50,000 and increments on each website page load.
+
+MAP ATTRIBUTION
+The India state map in public/images/india-states-map.svg is adapted from
+svg-maps (MapSVG), packages/india, licensed under CC BY 4.0:
+https://github.com/VictorCazanave/svg-maps/tree/master/packages/india
 
 RUN (first time)
 1. Install Node.js (LTS) from nodejs.org.

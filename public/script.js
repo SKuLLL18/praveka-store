@@ -149,16 +149,91 @@ function initCrops(){
 }
 
 var PAGES=["home","about","crops","products","offers","contact","cart","privacy","terms","refund","shipping"];
-function counters(){document.querySelectorAll("[data-t]").forEach(function(el){var t=+el.dataset.t,st=null,fin=t.toLocaleString("en-IN")+"+";
-if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.textContent=fin;return}
-function f(ts){st=st||ts;var p=Math.min((ts-st)/1200,1);el.textContent=Math.round(t*p).toLocaleString("en-IN")+"+";if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)})}
+var FARMER_REACH=[
+ ["Andhra Pradesh",210000],["Arunachal Pradesh",51500],["Assam",135000],["Bihar",280000],["Chandigarh",56000],["Chhattisgarh",160000],["Dadra and Nagar Haveli",50500],["Daman and Diu",53500],["Delhi",57500],["Goa",54000],["Gujarat",340000],["Haryana",130000],["Himachal Pradesh",77500],["Jammu and Kashmir",90000],["Jharkhand",120000],["Karnataka",270000],["Kerala",87500],["Lakshadweep",50250],["Madhya Pradesh",345000],["Maharashtra",390000],["Manipur",53500],["Meghalaya",55000],["Mizoram",51750],["Nagaland",52250],["Odisha",192500],["Puducherry",51000],["Punjab",155000],["Rajasthan",315000],["Sikkim",50500],["Tamil Nadu",255000],["Telangana",202500],["Tripura",52750],["Uttar Pradesh",475000],["Uttarakhand",72500],["West Bengal",245000]
+];
+var FARMER_STATE_CODES={"Andhra Pradesh":"AP","Arunachal Pradesh":"AR","Assam":"AS","Bihar":"BR","Chandigarh":"CH","Chhattisgarh":"CG","Dadra and Nagar Haveli":"DNH","Daman and Diu":"DD","Delhi":"DL","Goa":"GA","Gujarat":"GJ","Haryana":"HR","Himachal Pradesh":"HP","Jammu and Kashmir":"JK","Jharkhand":"JH","Karnataka":"KA","Kerala":"KL","Lakshadweep":"LD","Madhya Pradesh":"MP","Maharashtra":"MH","Manipur":"MN","Meghalaya":"ML","Mizoram":"MZ","Nagaland":"NL","Odisha":"OD","Puducherry":"PY","Punjab":"PB","Rajasthan":"RJ","Sikkim":"SK","Tamil Nadu":"TN","Telangana":"TS","Tripura":"TR","Uttar Pradesh":"UP","Uttarakhand":"UK","West Bengal":"WB"};
+var REDUCED_REACH_CODES=["GA","DD","DL","SK"];
+var HIDDEN_MAP_CODES=["LD","PY"];
+function showFarmerReach(path){
+ var name=path.dataset.state||path.getAttribute("aria-label"),item=FARMER_REACH.filter(function(state){return state[0]===name})[0];
+ if(!item)return;
+ var heading=$("reachStateName");heading.textContent=item[0];heading.style.fontSize="";
+ var headingSize=parseFloat(getComputedStyle(heading).fontSize);
+ while(heading.scrollWidth>heading.clientWidth&&headingSize>14){headingSize-=1;heading.style.fontSize=headingSize+"px"}
+ var count=item[1]/(REDUCED_REACH_CODES.indexOf(FARMER_STATE_CODES[item[0]])>-1?4:1);
+ $("reachStateCount").textContent=count.toLocaleString("en-IN")+"+ farmers using our products";
+}
+function stateLabelPoint(region,svg){
+ var box=region.getBBox(),length=region.getTotalLength(),samples=Math.max(32,Math.min(96,Math.ceil(length/8))),edge=[],point=svg.createSVGPoint();
+ for(var i=0;i<samples;i++)edge.push(region.getPointAtLength(length*i/samples));
+ var best=null;
+ function consider(x,y){
+  point.x=x;point.y=y;if(!region.isPointInFill(point))return;
+  var distance=Infinity;
+  for(var j=0;j<edge.length;j++){var dx=edge[j].x-x,dy=edge[j].y-y,d=dx*dx+dy*dy;if(d<distance)distance=d}
+  if(!best||distance>best.distance)best={x:x,y:y,distance:distance};
+ }
+ var stepsX=Math.max(16,Math.min(36,Math.ceil(box.width/4))),stepsY=Math.max(16,Math.min(36,Math.ceil(box.height/4)));
+ for(var row=0;row<stepsY;row++)for(var col=0;col<stepsX;col++)consider(box.x+box.width*(col+.5)/stepsX,box.y+box.height*(row+.5)/stepsY);
+ if(best){
+  var stepX=box.width/stepsX,stepY=box.height/stepsY;
+  for(var round=0;round<2;round++){
+   var centerX=best.x,centerY=best.y;
+   for(var oy=-2;oy<=2;oy++)for(var ox=-2;ox<=2;ox++)consider(centerX+ox*stepX,centerY+oy*stepY);
+   stepX/=2;stepY/=2;
+  }
+  return best;
+ }
+ return region.getPointAtLength(length/2);
+}
+function initIndiaMap(){
+ var mount=$("indiaMap");if(!mount)return;
+ fetch("images/india-states-map.svg").then(function(response){if(!response.ok)throw new Error("Could not load India map");return response.text()}).then(function(source){
+  var parsed=new DOMParser().parseFromString(source,"image/svg+xml"),map=parsed.documentElement;
+  if(parsed.querySelector("parsererror")||map.localName!=="svg")throw new Error("India map data is invalid");
+  map.setAttribute("role","group");map.setAttribute("aria-label","Interactive map of India's state and territory regions");map.setAttribute("focusable","false");
+  var andamanRegion=map.querySelector("#an");if(andamanRegion)andamanRegion.remove();
+  var colors=["#3978d4","#8664c8","#e0a52f","#dc6d61","#5268b7","#b45c91"];
+  Array.prototype.forEach.call(map.querySelectorAll("path[aria-label]"),function(region,index){
+   region.classList.add("india-map-region");region.setAttribute("tabindex","0");region.setAttribute("role","button");
+   region.style.setProperty("--region-color",colors[index%colors.length]);
+   var estimate=FARMER_REACH.filter(function(state){return state[0]===region.getAttribute("aria-label")})[0];
+   if(estimate){var count=estimate[1]/(REDUCED_REACH_CODES.indexOf(FARMER_STATE_CODES[estimate[0]])>-1?4:1);region.setAttribute("aria-label",estimate[0]+": "+count.toLocaleString("en-IN")+"+ farmers using our products");region.dataset.state=estimate[0];}
+  });
+  var svg=document.importNode(map,true);mount.replaceChildren(svg);
+  var labels=document.createElementNS("http://www.w3.org/2000/svg","g");labels.setAttribute("class","india-map-labels");labels.setAttribute("aria-hidden","true");
+  Array.prototype.forEach.call(svg.querySelectorAll("path[data-state]"),function(region){
+   var code=FARMER_STATE_CODES[region.dataset.state];if(HIDDEN_MAP_CODES.indexOf(code)>-1)return;
+   var box=region.getBBox(),center=stateLabelPoint(region,svg),centerX=center.x,centerY=center.y,label=document.createElementNS("http://www.w3.org/2000/svg","text"),fontSize=Math.max(4,Math.min(14,box.width*.09,box.height*.1));
+   label.setAttribute("x",centerX);label.setAttribute("y",centerY);label.setAttribute("text-anchor","middle");label.setAttribute("dominant-baseline","central");label.setAttribute("font-size",fontSize);label.textContent=code;
+   labels.appendChild(label);
+  });
+  var north=document.createElementNS("http://www.w3.org/2000/svg","g");north.setAttribute("class","india-map-north");
+  var northText=document.createElementNS("http://www.w3.org/2000/svg","text");northText.setAttribute("x","585");northText.setAttribute("y","65");northText.setAttribute("text-anchor","middle");northText.textContent="N";
+  var northArrow=document.createElementNS("http://www.w3.org/2000/svg","path");northArrow.setAttribute("d","M579 84L585 71L591 84Z");
+  north.appendChild(northText);north.appendChild(northArrow);labels.appendChild(north);
+  svg.appendChild(labels);mount.setAttribute("aria-busy","false");
+  mount.addEventListener("pointerover",function(event){var region=event.target.closest(".india-map-region");if(region)showFarmerReach(region)});
+  mount.addEventListener("focusin",function(event){var region=event.target.closest(".india-map-region");if(region)showFarmerReach(region)});
+  mount.addEventListener("click",function(event){var region=event.target.closest(".india-map-region");if(region)showFarmerReach(region)});
+ }).catch(function(error){mount.setAttribute("aria-busy","false");mount.textContent="The India map is temporarily unavailable.";console.error(error.message)});
+}
+function initVisitorCounter(){
+ var el=$("visitorCount");if(!el)return;
+ fetch("/api/visits",{cache:"no-store"}).then(function(response){if(!response.ok)throw new Error("Could not update website visit count");return response.json()}).then(function(result){
+  if(!Number.isSafeInteger(result.count)||result.count<50001)throw new Error("Website visit count response is invalid");
+  el.textContent=result.count.toLocaleString("en-IN");
+ }).catch(function(error){el.textContent="Unavailable";console.error(error.message)});
+}
+function initAboutMetrics(){initIndiaMap();initVisitorCounter()}
 function closeMobileNav(){var nav=document.querySelector(".links"),button=$("bg");nav.classList.remove("open");button.setAttribute("aria-expanded","false");button.setAttribute("aria-label","Open navigation menu")}
 function route(){var h=location.hash.slice(1),m=h.match(/^p\/(.+)/),cm=h.match(/^crop\/(.+)/),pg=(m?"products":(cm?"crops":(PAGES.indexOf(h)>-1?h:"home"))),key=m?"detail":(cm?"cropdetail":pg);
 document.querySelectorAll(".pg").forEach(function(e){e.classList.toggle("hide",e.dataset.p.split(" ").indexOf(key)<0)});
 if(m)detail(m[1]);if(cm)renderCropDetail(cm[1]);
 document.querySelectorAll(".links a").forEach(function(a){a.removeAttribute("aria-current");if(a.getAttribute("href")=="#"+pg)a.setAttribute("aria-current","page")});
 closeMobileNav();scrollTo(0,0);
-if(pg=="cart")renderCart();if(pg=="offers"){renderOffers();refreshStoreProducts()}if(pg=="home"||pg=="about")counters()}
+if(pg=="cart")renderCart();if(pg=="offers"){renderOffers();refreshStoreProducts()}}
 document.addEventListener("click",function(e){
 var season=e.target.closest("[data-season]");
 if(season){cropFilter=season.dataset.season;cropQuery="";renderCropFilters();renderCrops();setTimeout(function(){var d=$("cropDirectory");if(d)d.scrollIntoView({behavior:"smooth",block:"start"})},0);return}
@@ -214,7 +289,7 @@ el.onsubmit=function(e){e.preventDefault();var f=e.target.elements;if(cartMinimu
 function refreshStoreProducts(){return fetch("/api/products",{cache:"no-store"}).then(function(response){if(!response.ok)throw new Error("Could not refresh products");return response.json()}).then(function(products){setP(products);updateRangeCounts();updateCnt();grid();feat();renderHomeOffers();if(location.hash==="#offers")renderOffers();var detailMatch=location.hash.match(/^#p\/(.+)/);if(detailMatch)detail(detailMatch[1]);if(location.hash==="#cart")renderCart()}).catch(function(error){console.error(error.message)})}
 window.addEventListener("storage",function(event){if(event.key==="pls_sale_products_updated")refreshStoreProducts()});
 function loadStoreOffers(){fetch("/api/offers").then(function(response){if(!response.ok)throw new Error("Could not load combo offers");return response.json()}).then(function(offers){OFFERS=offers;OFFERS_READY=true;renderHomeOffers();if(location.hash==="#offers")renderOffers();updateCnt();if(location.hash==="#cart")renderCart()}).catch(function(error){OFFERS_READY=true;OFFERS=[];renderHomeOffers();updateCnt();if(location.hash==="#cart")renderCart();console.error(error.message)})}
-function start(list){setP(list);updateRangeCounts();updateCnt();tiles();cats();grid();feat();renderHomeOffers();cprod();initCrops();route();loadStoreOffers()}
+function start(list){setP(list);updateRangeCounts();updateCnt();tiles();cats();grid();feat();renderHomeOffers();cprod();initCrops();initAboutMetrics();route();loadStoreOffers()}
 function showOrderConfirmation(id,summary){$("cartView").innerHTML='<section class="order-success" aria-live="polite"><div class="order-success-mark" aria-hidden="true">✓</div><span class="cart-kicker">PAYMENT CONFIRMED</span><h1>Your order is placed!</h1><p class="order-success-lead">Thank you for choosing Praveka Life Science. Your online payment has been received, and our team will contact you soon to confirm your order and coordinate dispatch.</p><div class="order-number-card"><span>YOUR ORDER NUMBER</span><strong>'+id+'</strong><small>Please keep this number for any order-related query.</small></div><div class="order-next"><h2>What happens next?</h2><p>We’ll call you to confirm the package, delivery details and expected delivery time. Delivery charges are additional and will be shared with you before dispatch.</p><p>If you have any questions about your order, package or delivery, we’re happy to help.</p><div class="order-contact-actions"><a class="btn" href="tel:+916359414594">Call +91 63594 14594</a><a class="btn order-whatsapp" href="https://wa.me/918487888667" target="_blank" rel="noopener">WhatsApp us</a></div></div><div class="order-summary-confirm"><h2>Order summary</h2><ul>'+summary+'</ul></div><a class="order-continue" href="#products">Continue shopping <span aria-hidden="true">→</span></a></section>'}
 function startPayment(form){if(cartMinimumMessage())return toast(cartMinimumMessage());if(!PAYMENT_ENABLED)return toast("Online payments are currently unavailable. Please try again later.");if(typeof Razorpay==="undefined")return toast("Online payment is unavailable. Please try again later.");
 var f=form.elements;post("/api/payment/order",{name:f.name.value,phone:f.phone.value,address:f.address.value,pincode:f.pincode.value,items:CART.filter(function(i){return i.kind!=="combo"}).map(function(i){return{id:i.id,s:i.s,q:i.q}}),combos:CART.filter(function(i){return i.kind==="combo"}).map(function(i){return{id:i.id,q:i.q}})}).then(function(o){var r=new Razorpay({key:o.keyId,amount:o.amount,currency:o.currency,name:"Praveka Life Science",description:"Crop-care products",order_id:o.orderId,handler:function(p){post("/api/payment/verify",p).then(function(j){var summary=orderSummaryLines();CART=[];saveCart();showOrderConfirmation(j.id,summary);scrollTo(0,0)}).catch(errToast)},prefill:{name:f.name.value,contact:f.phone.value},theme:{color:"#2f6b45"}});r.on("payment.failed",function(){toast("Payment was not completed. Your cart is unchanged.")});r.open()}).catch(errToast)}

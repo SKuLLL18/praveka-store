@@ -111,6 +111,19 @@ function cleanProduct(b){
   return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq,
     desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),deliverable:b.deliverable!==false,hidden:b.hidden===true,sizes,images,video:productVideo(b.video),brochure:url(b.brochure)}}
 app.get("/api/products",(q,r)=>r.json(rd("products",[]).filter(p=>p.hidden!==true)));
+app.get("/api/visits",(q,r)=>{
+  try{
+    const visitFile=path.join(D,"visits.json");
+    let visits={count:50000};
+    if(fs.existsSync(visitFile))visits=JSON.parse(fs.readFileSync(visitFile,"utf8"));
+    if(!Number.isSafeInteger(visits.count)||visits.count<50000||visits.count>=Number.MAX_SAFE_INTEGER)throw new Error("Stored visit count is invalid");
+    visits.count+=1;wr("visits",visits);
+    r.set("Cache-Control","no-store");r.json({count:visits.count});
+  }catch(error){
+    console.error("Visit counter update failed:",error.message);
+    r.status(500).json({error:"Visit counter unavailable"});
+  }
+});
 app.get("/api/admin/products",staffOrManager,(q,r)=>r.json(rd("products",[])));
 app.get("/api/products/:id/reviews",wrap((q,r)=>{
   const p=rd("products",[]).find(x=>x.id===q.params.id);

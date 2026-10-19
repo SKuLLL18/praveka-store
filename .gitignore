@@ -9,4 +9,5 @@ data/messages.json
 data/subscribers.json
 data/pending.json
 data/unmatched-payments.json
+data/visits.json
 data/backups/

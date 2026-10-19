@@ -1272,6 +1272,33 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .certificate-slot small{display:block;margin-top:8px;color:var(--muted);font-size:12px;line-height:1.4}
 .home-credentials .intro{max-width:65ch}
 @media (max-width:700px){.about-story-grid,.about-belief{grid-template-columns:1fr}.certificate-placeholders,.certificate-gallery{grid-template-columns:1fr}}
+.about-reach{width:95%;margin:10px auto 30px;padding:clamp(22px,4vw,42px);border-radius:20px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 30px rgba(26,61,39,.08)}
+.reach-heading{max-width:680px}
+.reach-heading h2{margin:0;font-size:clamp(28px,4vw,42px)}
+.reach-heading>p:last-child{margin:8px 0 0;color:var(--mute);line-height:1.55}
+.reach-grid{display:grid;grid-template-columns:minmax(260px,.72fr) minmax(0,1.28fr);gap:clamp(24px,5vw,64px);align-items:center}
+.india-map-shell{min-width:0}
+.india-map{min-height:360px;display:grid;place-items:center}
+.india-map>p{color:var(--mute)}
+.india-map svg{display:block;width:100%;height:auto;max-height:590px;margin:0 auto;overflow:visible}
+.india-map-region{fill:var(--region-color);stroke:#fffdf5;stroke-width:1.2;stroke-linejoin:round;cursor:pointer;transition:fill .15s ease,filter .15s ease,stroke-width .15s ease}
+.india-map-region:hover,.india-map-region:focus{fill:#172554;filter:drop-shadow(0 2px 3px rgba(18,35,76,.28));stroke:#fff;stroke-width:2;outline:none}
+.india-map-labels{pointer-events:none;user-select:none}
+.india-map-labels text{fill:#fff;font-family:"Bricolage Grotesque","Source Sans 3",sans-serif;font-weight:800;paint-order:stroke;stroke:rgba(27,39,82,.72);stroke-linejoin:round;stroke-width:1.5px}
+.india-map-north text{fill:#000;font-size:14px;stroke:none}
+.india-map-north path{fill:#000;stroke:none}
+.reach-details{display:grid;gap:16px}
+.state-reach,.visitor-counter{display:grid;gap:10px;padding:22px;border:1px solid var(--line);border-radius:16px;background:var(--paper)}
+.state-reach strong,.visitor-counter strong{font:800 clamp(27px,4vw,38px) "Bricolage Grotesque",sans-serif;color:var(--green);line-height:1.12}
+.state-reach strong{font-size:clamp(15px,1.7vw,25px);letter-spacing:-.04em;white-space:nowrap}
+.state-reach>span:last-child,.visitor-counter>span:last-child{color:var(--mute);line-height:1.5}
+.visitor-counter{position:relative;overflow:hidden;border:0;background:linear-gradient(125deg,#fff4d6,#ffe6bd);padding:22px 24px 22px 28px}
+.visitor-counter::before{position:absolute;inset:0 auto 0 0;width:6px;background:linear-gradient(#e4a323,#e87953);content:""}
+.visitor-counter .eyebrow{color:#9b5c18}
+.visitor-counter strong{color:#253767;font-size:clamp(34px,4vw,48px)}
+.visitor-counter>span:last-child{font-size:14px}
+@media(max-width:760px){.about-reach{width:100%}.reach-grid{grid-template-columns:1fr}.india-map{min-height:285px}.india-map svg{max-height:513px}.reach-details{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.reach-heading{grid-column:1/-1}}
+@media(prefers-reduced-motion:reduce){.india-map-region{transition:none}}
 .offers-head{background:linear-gradient(135deg,#123a28,#245f3c)!important;color:#f7f5e9}
 .offers-head h1{color:#fff}
 .offers-page{padding-top:clamp(24px,5vw,64px);padding-bottom:clamp(40px,7vw,90px)}
