@@ -2039,8 +2039,8 @@
     "mode": "Acts on the insect's nervous system by inhibiting acetylcholinesterase, through contact, stomach and respiratory action.",
     "pests": "",
     "crops": "",
-    "sale": false,
     "deliverable": true,
+    "hidden": false,
     "sizes": [
       [
         "500 ml",
@@ -2057,7 +2057,8 @@
       "images/chalo-50.jpg"
     ],
     "video": "",
-    "brochure": ""
+    "brochure": "",
+    "sale": false
   },
   {
     "id": "cypermethrin-25-ec-17",
@@ -2079,8 +2080,8 @@
     "mode": "",
     "pests": "",
     "crops": "",
-    "sale": false,
     "deliverable": true,
+    "hidden": false,
     "sizes": [
       [
         "500ml",
@@ -2093,9 +2094,12 @@
         330
       ]
     ],
-    "images": [],
+    "images": [
+      "uploads/products/7a6dd41d013ceae062bc0f4b6fff795c.png"
+    ],
     "video": "",
-    "brochure": ""
+    "brochure": "",
+    "sale": false
   },
   {
     "id": "deltamethrin-11-ec",
