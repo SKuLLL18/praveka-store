@@ -37,17 +37,22 @@ header.top .links a[aria-current]{color:#24352a}
 .hero h1 .g{color:#f3c34a}
 .hero .lead{font-size:clamp(15px,min(1.35vw,2.6vh),20px)!important;line-height:1.55!important;max-width:520px!important;margin:0 0 clamp(14px,3vh,28px)!important;color:#e6efe6}
 .hero .acts .btn{font-size:clamp(15px,min(1.3vw,2.4vh),19px)!important;padding:clamp(10px,1.8vh,16px) clamp(20px,2.2vw,32px)!important}
-.hshow{position:relative;height:100%;min-height:0;transform:translate(12%,-10%)}
+.hero-customer-care,.ctabox-customer-care{display:inline-flex;align-items:center;gap:10px;padding:8px 13px;border:1px solid rgba(243,195,74,.85);border-radius:10px;background:rgba(243,195,74,.14);color:#ffe092;text-decoration:none;font-size:14px}
+.hero-customer-care{margin-top:clamp(10px,1.6vh,16px)}
+.hero-customer-care span,.ctabox-customer-care span{font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+.hero-customer-care b,.ctabox-customer-care b{font-size:16px}
+.hero-customer-care:hover,.ctabox-customer-care:hover{background:rgba(243,195,74,.24);border-color:#f3c34a}
+.hshow{position:relative;height:100%;min-height:0;transform:translate(14%,-10%)}
 .hshow::before{content:"";position:absolute;inset:7% 10%;border-radius:50%;background:radial-gradient(ellipse at 48% 48%,rgba(243,195,74,.2),rgba(127,207,152,.13) 38%,transparent 72%);filter:blur(10px);animation:hero-aura 8s ease-in-out infinite alternate}
 .hshow .glow{position:absolute;inset:5% 8%;border-radius:50%;background:conic-gradient(from 20deg,transparent 0deg,rgba(127,207,152,.12) 55deg,transparent 105deg,rgba(243,195,74,.16) 170deg,transparent 230deg,rgba(127,207,152,.13) 300deg,transparent 360deg);mask:radial-gradient(ellipse,transparent 43%,#000 56%,transparent 70%);animation:spin 42s linear infinite}
 .hshow .hero-product{--tilt:0deg;position:absolute;bottom:2%;display:block;width:max-content;filter:drop-shadow(0 16px 18px rgba(0,0,0,.38));transform:rotate(var(--tilt));transform-origin:bottom center}
 .hshow .hero-product img{display:block;width:auto;height:100%;max-width:100%;object-fit:contain}
 .hshow .b1{left:6%;height:58%;--tilt:-5deg}
 .hshow .b2{left:30%;height:76%;z-index:2}
-.hshow .b3{right:6%;height:62.64%;--tilt:5deg}
+.hshow .b3{right:7%;height:62.64%;--tilt:5deg}
 .hshow .b4{left:18%;width:26.4%;height:35%;z-index:3;--tilt:-3deg}
 .hshow .b4 img{width:100%}
-.hshow .b6{left:54%;width:32.4%;height:37%;z-index:3;--tilt:3deg}
+.hshow .b6{left:52%;bottom:2%;width:32.4%;height:37%;z-index:3;--tilt:3deg}
 .hshow .b6 img{width:100%}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes hero-aura{from{transform:scale(.92) translate(-2%,1%);opacity:.65}to{transform:scale(1.08) translate(2%,-1%);opacity:1}}
@@ -201,6 +206,7 @@ header.top .links a[aria-current]{color:#24352a}
 .sl .creds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .ctabox{margin-top:clamp(18px,4vh,34px);background:var(--green);color:var(--on-green);border-radius:16px;padding:clamp(20px,3.4vh,30px) 30px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .ctabox h3{font-size:clamp(20px,3vh,26px);margin:0 0 6px}.ctabox p{margin:0;opacity:.9}
+.ctabox-customer-care{flex:none;background:rgba(243,195,74,.16)}
 .fx{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .fx.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.fx{opacity:1;transform:none;transition:none}}
@@ -216,7 +222,7 @@ header.top .links a[aria-current]{color:#24352a}
  .slw{width:100%;padding:0 20px}
  .hero{height:auto!important}.hero>.wrap{height:auto}.hero2{grid-template-columns:1fr}.hshow{height:340px;transform:none}
  .hshow .b1{height:48%}.hshow .b2{height:62%}.hshow .b3{height:51.84%}
- .hshow .b4{width:26.4%;height:35%}.hshow .b6{left:54%;width:32.4%;height:37%}
+ .hshow .b4{width:26.4%;height:35%}.hshow .b6{left:52%;width:32.4%;height:37%}
  .hero h1 span{white-space:normal}.hero .trust{font-size:12.5px}
  .sl .tiles,.rg{grid-template-columns:repeat(2,minmax(0,1fr))}.sl #fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .home-products .products-heading{align-items:flex-start}

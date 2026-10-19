@@ -1355,20 +1355,35 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .pf-brand p{margin:0}.pf-brand p:last-child{color:var(--fmute)}
 .pf-contact li{display:flex;gap:12px;align-items:flex-start}
 .pf-contact svg{flex:none;width:18px;height:18px;margin-top:4px;stroke:var(--fsun);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.pf-newsrow{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid rgba(38,56,44,.16);color:var(--fmute)}
+.pf-newsrow{display:flex;align-items:center;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid rgba(38,56,44,.16);color:var(--fmute)}
 .pf-newsrow .news{margin:0;flex:0 1 380px}
+.pf-news-care{display:grid;gap:6px;padding:8px 12px;border:1px solid rgba(215,155,33,.55);border-radius:9px;background:rgba(227,168,23,.13);color:var(--fink);text-align:right;text-decoration:none;white-space:nowrap}
+.pf-news-care span{color:#98620b;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.pf-news-care b{font-size:14px}
 .pf-bottom{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;padding:16px 0 22px;border-top:1px solid rgba(38,56,44,.16);color:var(--fmute);font-size:14px}
 .pf-bottom a{color:var(--fmute)}
 @media (max-width:860px){.pf-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.pf-grid{grid-template-columns:1fr}.pf-bottles{--s:.62}.pf-bottles i:nth-child(n+7){display:none}}
 
-/* ===== Contact page (one screen) - added at the END of style.css ===== */
-.ct{background:var(--bg);min-height:calc(100vh - var(--hh,64px));display:flex;align-items:center;padding:clamp(16px,3vh,32px) 0}
-.ct-in{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(20px,3vw,40px);align-items:center;width:100%}
+/* ===== Contact page ===== */
+.ct-hero{position:relative;isolation:isolate;overflow:hidden;min-height:156px;display:flex;align-items:center;color:#fff;background:#173c25}
+.ct-hero::before{position:absolute;z-index:-2;inset:0;content:"";background:linear-gradient(90deg,rgba(9,40,24,.78),rgba(15,56,28,.48) 52%,rgba(23,56,26,.3)),url("images/farmer.jpg") center 54%/cover no-repeat}
+.ct-hero::after{position:absolute;z-index:-1;inset:auto 0 0;height:3px;content:"";background:linear-gradient(90deg,#e3a817,rgba(227,168,23,.1))}
+.ct-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-top:22px;padding-bottom:22px}
+.ct-hero-copy h1{margin:0;font-size:clamp(34px,4vw,48px);line-height:1.05;color:#fff}
+.ct-hero-copy p{margin:8px 0 0;color:rgba(255,255,255,.9);font-size:17px}
+.ct-hero-benefits{display:grid;grid-template-columns:repeat(3,minmax(115px,1fr));align-items:center}
+.ct-hero-benefits>div{display:grid;justify-items:center;gap:5px;padding:3px 18px;color:#fff;text-align:center}
+.ct-hero-benefits>div+div{border-left:1px solid rgba(255,255,255,.28)}
+.ct-hero-benefits svg{width:31px;height:31px;fill:#f3c34a;stroke:#f3c34a;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ct-hero-benefits span{font-size:13px;font-weight:700;white-space:nowrap}
+.ct{background:linear-gradient(140deg,#f6f3e8,#f9f8f1 58%,#f2f3e8);min-height:0;display:block;padding:clamp(20px,3vh,30px) 0}
+.ct-in{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2vw,28px);align-items:stretch;width:100%}
 .ct-head h1{font-size:clamp(28px,3.6vw,44px);font-weight:800}
 .ct-head p{margin:8px 0 clamp(14px,2.6vh,24px);color:var(--mute)}
-.ct-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.ct-card{display:flex;gap:14px;align-items:center;padding:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;text-decoration:none;color:var(--ink);transition:transform .2s,border-color .2s}
+.ct-cards{display:grid;grid-template-columns:1fr;gap:14px}
+.ct-cards>.ct-card{grid-column:1/-1}
+.ct-card{display:flex;gap:14px;align-items:center;padding:12px 14px;background:rgba(255,253,247,.92);border:1px solid rgba(52,75,53,.1);border-radius:14px;text-decoration:none;color:var(--ink);box-shadow:0 5px 18px rgba(33,63,38,.045);transition:transform .2s,border-color .2s}
 .ct-card:hover{transform:translateY(-3px);border-color:var(--c)}
 .ct-wide{grid-column:1/-1}
 .ct-ic{flex:none;width:48px;height:48px;border-radius:50%;background:var(--c);display:grid;place-items:center}
@@ -1383,7 +1398,11 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .ct-phone-options a:hover{color:var(--c)}
 .ct-addr{font-size:15px;line-height:1.45}
 .ct-tx .ct-link{color:var(--c);font-weight:600}
-.ct-form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vh,28px)}
+.ct-form{position:relative;isolation:isolate;overflow:hidden;align-self:stretch;background:rgba(255,253,247,.94);border:1px solid rgba(52,75,53,.12);border-radius:16px;padding:clamp(22px,3vh,30px);box-shadow:0 8px 28px rgba(33,63,38,.055)}
+.ct-form::before,.ct-form::after{position:absolute;z-index:-1;content:"";width:120px;height:90px;border-radius:100% 0 100% 0;background:radial-gradient(ellipse at 30% 70%,rgba(110,164,87,.2),rgba(110,164,87,.08) 45%,transparent 70%);pointer-events:none}
+.ct-form::before{right:-22px;top:-26px;transform:rotate(16deg)}
+.ct-form::after{left:-24px;bottom:-34px;transform:rotate(196deg)}
+.ct-form>*{position:relative}
 .ct-form h2{font-size:24px;margin:0 0 4px}
 .ct-form>p{margin:0 0 16px;color:var(--mute);font-size:15px}
 .ct-form label{display:grid;gap:5px;font-weight:600;font-size:14px;margin-bottom:12px}
@@ -1393,7 +1412,7 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .ct-form .btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* no gap between the one-screen contact section and the footer */
 body:has(.ct:not(.hide)) footer.pf{margin-top:0}
-@media (max-width:860px){.ct{min-height:0;display:block;padding:20px 0 28px}.ct-in{grid-template-columns:1fr}.ct-cards{grid-template-columns:1fr}}
+@media (max-width:860px){.ct-hero-inner{align-items:flex-start;flex-direction:column;gap:18px}.ct-hero-benefits{width:100%;max-width:480px}.ct-hero-benefits>div:first-child{padding-left:0}.ct-hero-benefits>div:last-child{padding-right:0}.ct{padding:20px 0 28px}.ct-in{grid-template-columns:1fr}.ct-cards{grid-template-columns:1fr}}
 
 /* ===== Contact page v2: product + quantity form, full-screen slide ===== */
 .ct-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -1401,6 +1420,7 @@ body:has(.ct:not(.hide)) footer.pf{margin-top:0}
 .ct-form select:disabled{opacity:.6;cursor:not-allowed}
 .ct-hint{font-weight:400;font-size:13px;color:var(--mute);min-height:1.2em}
 @media (max-width:520px){.ct-row{grid-template-columns:1fr}}
+@media (max-width:520px){.ct-hero{min-height:0}.ct-hero-inner{gap:15px;padding-top:24px;padding-bottom:20px}.ct-hero-copy h1{font-size:34px}.ct-hero-copy p{font-size:15px}.ct-hero-benefits{grid-template-columns:repeat(3,minmax(0,1fr))}.ct-hero-benefits>div{padding:3px 6px}.ct-hero-benefits svg{width:26px;height:26px}.ct-hero-benefits span{font-size:11px}.ct{padding:16px 0 24px}.ct-in{gap:18px}.ct-cards{gap:10px}.ct-card{padding:11px 12px}.ct-form{padding:20px}}
 
 
 /* ===== Crop directory redesign ===== */
