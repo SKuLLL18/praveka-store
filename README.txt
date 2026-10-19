@@ -12,6 +12,14 @@ public/admin.html    Admin page (opens at /admin).
 data/products.json   Your products (managed from the admin page).
 data/orders.json     Created automatically when the first order arrives.
 data/visits.json     Created automatically; starts at 50,000 and increments on each website page load.
+data/uploads/products Product photos and videos uploaded from the admin page.
+
+PERSISTENT PRODUCT PHOTOS AND VIDEOS
+Admin uploads are saved in DATA_DIR/uploads/products. Locally, DATA_DIR defaults
+to this project's data/ folder. On Render, attach a persistent disk mounted at
+/var/data and set the service environment variable DATA_DIR=/var/data. The
+photos and videos saved on that disk will remain available across redeploys.
+Files outside a persistent disk may be removed when the service is redeployed.
 
 MAP ATTRIBUTION
 The India state map in public/images/india-states-map.svg is adapted from

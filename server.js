@@ -3,9 +3,11 @@ const express=require("express"),fs=require("fs"),path=require("path"),crypto=re
 try{fs.readFileSync(path.join(__dirname,".env"),"utf8").split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);if(m&&!(m[1] in process.env))process.env[m[1]]=m[2]})}catch(e){}
 const PASS=process.env.ADMIN_PASSWORD||"",PORT=process.env.PORT||3000,HOST=process.env.HOST||"0.0.0.0";
 if(PASS.length<8||PASS==="change-this-password"){console.error("\nFirst copy .env.example to .env and set ADMIN_PASSWORD to your own password (8+ characters).\n");process.exit(1)}
-const SEED=path.join(__dirname,"data"),D=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):SEED;fs.mkdirSync(D,{recursive:true});
+const SEED=path.join(__dirname,"data"),D=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):SEED,PRODUCT_MEDIA_DIR=path.join(D,"uploads","products");fs.mkdirSync(D,{recursive:true});
 // If DATA_DIR points to a separate (persistent) disk, copy starter files from the repo's data/ folder the first time only.
 if(D!==SEED){["products.json","reviews.json"].forEach(f=>{try{const dst=path.join(D,f);if(!fs.existsSync(dst)&&fs.existsSync(path.join(SEED,f)))fs.copyFileSync(path.join(SEED,f),dst)}catch(e){console.error("Seed copy failed for "+f,e.message)}})}
+fs.mkdirSync(PRODUCT_MEDIA_DIR,{recursive:true});
+if(process.env.NODE_ENV==="production"&&!process.env.DATA_DIR)console.warn("DATA_DIR is not set. Admin-uploaded product photos and videos may be lost when the service is redeployed; configure a persistent disk and set DATA_DIR to its mount path.");
 const rd=(n,d)=>{try{return JSON.parse(fs.readFileSync(path.join(D,n+".json"),"utf8"))}catch(e){return d}};
 const wr=(n,v)=>{const f=path.join(D,n+".json");fs.writeFileSync(f+".tmp",JSON.stringify(v,null,2));fs.renameSync(f+".tmp",f)};
 const s=(v,m)=>String(v==null?"":v).trim().slice(0,m);
@@ -162,12 +164,13 @@ app.delete("/api/admin/reviews/:id",managerOnly,wrap((q,r)=>{
   wr("reviews",remaining);r.json({ok:true});
 }));
 app.post("/api/admin/products/media",managerOnly,(q,r)=>{
+  if(process.env.NODE_ENV==="production"&&!process.env.DATA_DIR)return r.status(503).json({error:"Product media uploads require DATA_DIR to point to the host's persistent disk."});
   mediaUpload.fields([{name:"images",maxCount:4},{name:"video",maxCount:1}])(q,r,e=>{
     const received=Object.values(q.files||{}).flat();
     if(e){received.forEach(f=>{try{fs.unlinkSync(f.path)}catch{}});return r.status(400).json({error:e.message||"Could not upload media"})}
     const moved=[];
     try{
-      const dir=path.join(__dirname,"public","uploads","products");fs.mkdirSync(dir,{recursive:true});
+      const dir=PRODUCT_MEDIA_DIR;fs.mkdirSync(dir,{recursive:true});
       const images=(q.files.images||[]).map(f=>({file:f,ext:uploadedMediaType(f)}));
       const video=(q.files.video||[]).map(f=>({file:f,ext:uploadedMediaType(f)}));
       const save=entry=>{const name=crypto.randomBytes(16).toString("hex")+"."+entry.ext,dest=path.join(dir,name);fs.copyFileSync(entry.file.path,dest,fs.constants.COPYFILE_EXCL);moved.push(dest);fs.unlinkSync(entry.file.path);return"uploads/products/"+name};
@@ -182,13 +185,12 @@ app.post("/api/admin/products/media",managerOnly,(q,r)=>{
 });
 app.delete("/api/admin/products/media",managerOnly,wrap((q,r)=>{
   if(!Array.isArray(q.body.paths))throw "Uploaded media cleanup paths are required";
-  const products=rd("products",[]),dir=path.join(__dirname,"public","uploads","products");let removed=0;
+  const products=rd("products",[]),dirs=[PRODUCT_MEDIA_DIR,path.join(__dirname,"public","uploads","products")];let removed=0;
   q.body.paths.forEach(value=>{
     const media=s(value,100);
     if(!/^uploads\/products\/[a-f0-9]{32}\.(jpe?g|png|webp|gif|mp4|webm)$/i.test(media))throw "Invalid uploaded media path";
     if(products.some(p=>(p.images||[]).includes(media)||p.video===media))return;
-    const file=path.join(dir,path.basename(media));
-    if(fs.existsSync(file)){fs.unlinkSync(file);removed++}
+    dirs.forEach(dir=>{const file=path.join(dir,path.basename(media));if(fs.existsSync(file)){fs.unlinkSync(file);removed++}});
   });
   r.json({ok:true,removed});
 }));
@@ -428,6 +430,7 @@ app.get("/api/admin/backup",managerOnly,(q,r)=>{
   const out={exportedAt:new Date().toISOString()};fs.readdirSync(D).filter(f=>f.endsWith(".json")).forEach(f=>{out[f.replace(/\.json$/,"")]=rd(f.replace(/\.json$/,""),null)});
   r.set("Content-Disposition",'attachment; filename="praveka-backup-'+out.exportedAt.slice(0,10)+'.json"');r.json(out)});
 
+app.use("/uploads",express.static(path.join(D,"uploads")));
 app.use(express.static(path.join(__dirname,"public")));
 app.get("/admin",(q,r)=>r.sendFile(path.join(__dirname,"public","admin.html")));
 app.use((e,q,r,n)=>r.status(400).json({error:"Invalid request"}));
