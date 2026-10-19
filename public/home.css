@@ -37,21 +37,25 @@ header.top .links a[aria-current]{color:#24352a}
 .hero h1 .g{color:#f3c34a}
 .hero .lead{font-size:clamp(15px,min(1.35vw,2.6vh),20px)!important;line-height:1.55!important;max-width:520px!important;margin:0 0 clamp(14px,3vh,28px)!important;color:#e6efe6}
 .hero .acts .btn{font-size:clamp(15px,min(1.3vw,2.4vh),19px)!important;padding:clamp(10px,1.8vh,16px) clamp(20px,2.2vw,32px)!important}
-.hshow{position:relative;height:100%;min-height:0}
-.hshow::before{content:"";position:absolute;inset:4% 9%;border:2px dashed rgba(243,195,74,.5);border-radius:50%;animation:spin 50s linear infinite}
-.hshow .glow{position:absolute;inset:12% 14%;border-radius:50%;background:radial-gradient(circle,rgba(243,195,74,.5),rgba(127,207,152,.15) 60%,transparent 72%)}
-.hshow img{--tilt:0deg;position:absolute;bottom:2%;width:auto;filter:drop-shadow(0 16px 18px rgba(0,0,0,.38));transform:rotate(var(--tilt));transform-origin:bottom center}
+.hshow{position:relative;height:100%;min-height:0;transform:translate(12%,-10%)}
+.hshow::before{content:"";position:absolute;inset:7% 10%;border-radius:50%;background:radial-gradient(ellipse at 48% 48%,rgba(243,195,74,.2),rgba(127,207,152,.13) 38%,transparent 72%);filter:blur(10px);animation:hero-aura 8s ease-in-out infinite alternate}
+.hshow .glow{position:absolute;inset:5% 8%;border-radius:50%;background:conic-gradient(from 20deg,transparent 0deg,rgba(127,207,152,.12) 55deg,transparent 105deg,rgba(243,195,74,.16) 170deg,transparent 230deg,rgba(127,207,152,.13) 300deg,transparent 360deg);mask:radial-gradient(ellipse,transparent 43%,#000 56%,transparent 70%);animation:spin 42s linear infinite}
+.hshow .hero-product{--tilt:0deg;position:absolute;bottom:2%;display:block;width:max-content;filter:drop-shadow(0 16px 18px rgba(0,0,0,.38));transform:rotate(var(--tilt));transform-origin:bottom center}
+.hshow .hero-product img{display:block;width:auto;height:100%;max-width:100%;object-fit:contain}
 .hshow .b1{left:6%;height:58%;--tilt:-5deg}
 .hshow .b2{left:30%;height:76%;z-index:2}
 .hshow .b3{right:6%;height:62.64%;--tilt:5deg}
-.hshow .b4{left:18%;height:auto;max-width:26.4%;max-height:35%;z-index:3;--tilt:-3deg}
-.hshow .b6{left:54%;height:auto;max-width:32.4%;max-height:37%;z-index:3;--tilt:3deg}
+.hshow .b4{left:18%;width:26.4%;height:35%;z-index:3;--tilt:-3deg}
+.hshow .b4 img{width:100%}
+.hshow .b6{left:54%;width:32.4%;height:37%;z-index:3;--tilt:3deg}
+.hshow .b6 img{width:100%}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes hero-aura{from{transform:scale(.92) translate(-2%,1%);opacity:.65}to{transform:scale(1.08) translate(2%,-1%);opacity:1}}
 .ticker{height:46px;display:flex;align-items:center;background:#e3a817;color:#123420;overflow:hidden;white-space:nowrap;font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:14px}
 .tk{display:inline-block;animation:tk 55s linear infinite}
 .tk span{margin:0 22px}.tk span::after{content:"\2726";margin-left:44px;opacity:.6}
 @keyframes tk{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.tk,.hshow::before{animation:none}}
+@media (prefers-reduced-motion:reduce){.tk,.hshow .glow,.hshow::before{animation:none}}
 
 /* ===== SLIDES ===== */
 .sl{width:100%;display:flex;align-items:center;padding:28px 0;box-sizing:border-box}
@@ -210,9 +214,9 @@ header.top .links a[aria-current]{color:#24352a}
 }
 @media (max-width:860px){
  .slw{width:100%;padding:0 20px}
- .hero{height:auto!important}.hero>.wrap{height:auto}.hero2{grid-template-columns:1fr}.hshow{height:340px}
+ .hero{height:auto!important}.hero>.wrap{height:auto}.hero2{grid-template-columns:1fr}.hshow{height:340px;transform:none}
  .hshow .b1{height:48%}.hshow .b2{height:62%}.hshow .b3{height:51.84%}
- .hshow .b4{max-width:26.4%;max-height:35%}.hshow .b6{left:54%;max-width:32.4%;max-height:37%}
+ .hshow .b4{width:26.4%;height:35%}.hshow .b6{left:54%;width:32.4%;height:37%}
  .hero h1 span{white-space:normal}.hero .trust{font-size:12.5px}
  .sl .tiles,.rg{grid-template-columns:repeat(2,minmax(0,1fr))}.sl #fgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .home-products .products-heading{align-items:flex-start}
