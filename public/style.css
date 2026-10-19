@@ -1378,6 +1378,9 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .ct-tx small{color:var(--mute);font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
 .ct-tx b{font-size:17px;overflow-wrap:anywhere}
 .ct-tx em{font-style:normal;font-size:14px;color:var(--mute)}
+.ct-phone-options{display:flex;align-items:center;flex-wrap:wrap;gap:4px 8px}
+.ct-phone-options a{color:var(--ink);font-size:17px;font-weight:700;text-decoration:none}
+.ct-phone-options a:hover{color:var(--c)}
 .ct-addr{font-size:15px;line-height:1.45}
 .ct-tx .ct-link{color:var(--c);font-weight:600}
 .ct-form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vh,28px)}
