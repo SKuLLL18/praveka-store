@@ -49,7 +49,7 @@ header.top .links a[aria-current]{color:#24352a}
 .hshow .hero-product img{display:block;width:auto;height:100%;max-width:100%;object-fit:contain}
 .hshow .b1{left:6%;height:58%;--tilt:-5deg}
 .hshow .b2{left:30%;height:76%;z-index:2}
-.hshow .b3{right:7%;height:62.64%;--tilt:5deg}
+.hshow .b3{right:1%;height:62.64%;--tilt:5deg}
 .hshow .b4{left:18%;width:26.4%;height:35%;z-index:3;--tilt:-3deg}
 .hshow .b4 img{width:100%}
 .hshow .b6{left:52%;bottom:2%;width:32.4%;height:37%;z-index:3;--tilt:3deg}
