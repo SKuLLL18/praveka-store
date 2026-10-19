@@ -30,9 +30,12 @@ header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background
 .tile:hover{border-color:var(--green)}
 .sec{padding:26px 0}
 .sec h2{font-size:28px;margin-bottom:14px}
-.cats{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.product-controls{display:flex;align-items:flex-start;gap:12px;margin:0 0 18px}
+.cats{display:flex;flex:1;gap:8px;flex-wrap:wrap;margin:0}
 .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 16px}
 .chip[aria-pressed="true"]{background:var(--green);color:var(--on-green);border-color:var(--green)}
+.product-sort{display:flex;align-items:center;gap:8px;flex:0 0 auto;margin-left:auto;color:var(--mute);font-size:14px;font-weight:600}
+.product-sort select{min-height:36px;padding:6px 30px 6px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;text-align:left;padding:0;color:inherit;display:flex;flex-direction:column;justify-content:flex-start;width:100%;position:relative}
 .card:hover{border-color:var(--green)}

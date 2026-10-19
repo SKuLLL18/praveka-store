@@ -2,7 +2,7 @@
    You normally do NOT need to edit this file. Products live in products.js. */
 
 var CC={};CATS.forEach(function(c){CC[c[0]]=c[1]});
-var cat="All",term="",$=function(i){return document.getElementById(i)};
+var cat="All",term="",productSort="az",$=function(i){return document.getElementById(i)};
 var P=[],OFFERS=[],OFFERS_READY=false;
 function esc(t){return String(t).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function setP(list){P=list.filter(function(p){return p.hidden!==true}).map(function(p){var q=JSON.parse(JSON.stringify(p));q.rn=q.n||"";["n","t","desc","mode","features","crops","pests","dose","brand","head","ftype","form","conc","apptype","phys","ptype","moq","video","brochure"].forEach(function(k){q[k]=esc(q[k]||"")});q.images=(q.images||[]).map(esc);q.sizes=q.sizes.map(function(z){return[esc(z[0]),z[1],z[2]]});q.col=CC[q.c]||"#3f8a4c";return q})}
@@ -29,7 +29,7 @@ function bottle(c){return '<div class="pic" style="--tint:'+c+'"><div class="bot
 function tiles(){$("tiles").innerHTML=CATS.map(function(c){var s=c[0].toLowerCase().replace(/[^a-z]+/g,"-").replace(/-$/,"");return '<a class="tile" href="#products" data-c="'+c[0]+'"><i style="--tint:'+c[1]+'"><img src="images/category-'+s+'.svg" alt="" loading="lazy"></i>'+c[0]+'</a>'}).join("")}
 function cats(){var a=["All"].concat(CATS.map(function(c){return c[0]}));
 $("cats").innerHTML=a.map(function(x){return '<button class="chip" aria-pressed="'+(x==cat)+'" data-c="'+x+'">'+x+'</button>'}).join("")}
-function grid(){var l=P.filter(function(p){return (cat=="All"||p.c==cat)&&(!term||(p.n+p.t+p.c).toLowerCase().indexOf(term)>-1)});
+function grid(){var l=P.filter(function(p){return (cat=="All"||p.c==cat)&&(!term||(p.n+p.t+p.c).toLowerCase().indexOf(term)>-1)});l.sort(function(a,b){var order=(a.rn||a.n).localeCompare(b.rn||b.n,"en",{sensitivity:"base"});return productSort==="za"?-order:order});
 $("grid").innerHTML=l.length?l.map(function(p){return '<button class="card'+(p.deliverable===false?" card-out":"")+'" data-id="'+p.id+'">'+(p.sale?'<span class="tag">Sale</span>':'')+pic(p)+'<div class="cb"><h3>'+p.n+'</h3><div class="tech">'+p.c+'</div>'+stockNotice(p)+cardPrice(p)+returnsNotice()+deliveryChargeNotice(false)+'</div></button>'}).join(""):'<p class="ph">No products found.</p>'}
 function pic(p,i){var u=p.images&&p.images[i||0];return u?'<div class="pic"><img src="'+u+'" alt="'+p.n+'"></div>':bottle(p.col)}
 function specRows(p){var R=[["Formulation Type",p.ftype],["Form",p.form],["Concentration",p.conc],["Application Type",p.apptype],["Physical Form",p.phys],["Packaging Size",p.sizes.map(function(z){return z[0]}).join(", ")],["Brand",p.brand],["Dosage",p.dose],["Packaging Type",p.ptype],["Technical Name",p.t]];
@@ -246,6 +246,7 @@ function homeOfferCard(p){return '<button class="card offer-card home-single-off
 function renderHomeOffers(){var sales=P.filter(function(p){return p.sale}).slice(0,3),sg=$("homeSaleGrid"),sc=$("homeSaleCount"),cg=$("homeComboGrid");if(sg)sg.innerHTML=sales.length?sales.map(homeOfferCard).join(""):'<p class="home-offers-empty">There are no products currently on sale.</p>';if(sc)sc.textContent=sales.length?sales.length+" offer"+(sales.length===1?"":"s"):"";if(cg)cg.innerHTML=OFFERS.length?OFFERS.slice(0,2).map(comboCard).join(""):'<p class="home-offers-empty">There are no combo offers currently available.</p>'}
 function renderOffers(){var sales=P.filter(function(p){return p.sale}).slice(0,8),sg=$("saleGrid"),sc=$("saleCount");if(sg)sg.innerHTML=sales.length?sales.map(offerCard).join(""):'<p class="offer-empty-state">There are no products currently on sale.</p>';if(sc)sc.textContent=sales.length?sales.length+" available now":"";var cg=$("comboGrid");if(cg)cg.innerHTML=OFFERS.length?OFFERS.map(comboCard).join(""):'<p class="offer-empty-state">There are no combo offers currently available.</p>'}
 $("sf").onsubmit=function(e){e.preventDefault();term=$("q").value.trim().toLowerCase();cat="All";cats();grid()};
+if($("productSort"))$("productSort").onchange=function(e){productSort=e.target.value;grid()};
 $("cartBtn").onclick=function(){location.hash="cart"};
 $("nf").onsubmit=function(e){e.preventDefault();var f=e.target;post("/api/subscribe",{phone:f.elements.phone.value}).then(function(){f.reset();toast("Thanks for subscribing")}).catch(errToast)};
 window.addEventListener("hashchange",route);

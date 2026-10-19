@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Praveka Life Science</title>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=about-reach-compact">
+<link rel="stylesheet" href="style.css?v=product-sort">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@600&display=swap">
 <link rel="stylesheet" href="home.css?v=mobile-home-spacing">
 </head>
@@ -169,7 +169,8 @@
 <section class="phead pg" data-p="products"><div class="wrap"><h1>Products</h1><p>Insecticides, fungicides, herbicides, fertilizers and plant nutrition.</p></div></section>
 <section class="wrap sec pg" data-p="products" id="shopView">
 <form class="search" id="sf" role="search" style="margin-bottom:14px"><input id="q" type="search" placeholder="Search products" aria-label="Search products"><button type="submit">Search</button></form>
-<div class="cats" id="cats" role="group" aria-label="Filter by category"></div>
+<div class="product-controls"><div class="cats" id="cats" role="group" aria-label="Filter by category"></div>
+<label class="product-sort" for="productSort"><span>Sort</span><select id="productSort" aria-label="Sort products alphabetically"><option value="az">A–Z</option><option value="za">Z–A</option></select></label></div>
 <div class="grid" id="grid"></div></section>
 <section class="wrap sec pg hide" data-p="detail" id="detailView"></section>
 <section class="wrap sec pg hide" data-p="cart" id="cartView"></section>
@@ -328,7 +329,7 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="products.js"></script>
-<script src="script.js?v=north-arrow-reference-visible"></script>
+<script src="script.js?v=product-name-sort"></script>
 <script src="home.js"></script>
 </body>
 </html>
