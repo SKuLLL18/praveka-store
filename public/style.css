@@ -1425,32 +1425,32 @@ body:has(.ct:not(.hide)) footer.pf{margin-top:0}
 @media (max-width:520px){.ct-row{grid-template-columns:1fr}}
 @media (max-width:520px){.ct-hero{min-height:0}.ct-hero-inner{gap:15px;padding-top:24px;padding-bottom:20px}.ct-hero-copy h1{font-size:34px}.ct-hero-copy p{font-size:15px}.ct-hero-benefits{grid-template-columns:repeat(3,minmax(0,1fr))}.ct-hero-benefits>div{padding:3px 6px}.ct-hero-benefits svg{width:26px;height:26px}.ct-hero-benefits span{font-size:11px}.ct{padding:16px 0 24px}.ct-in{gap:18px}.ct-cards{gap:10px}.ct-card{padding:11px 12px}.ct-form{padding:20px}}
 @media (min-width:861px) and (max-height:820px){
- body:has(.ct:not(.hide)) header.top .nav{min-height:76px;padding:6px 0}
- body:has(.ct:not(.hide)) .nav .logo-image{width:170px;height:62px}
- .ct-hero{min-height:108px}
- .ct-hero-inner{gap:20px;padding-top:12px;padding-bottom:12px}
- .ct-hero-copy h1{font-size:34px}
- .ct-hero-copy p{margin-top:5px;font-size:14px}
+ body:has(.ct:not(.hide)) header.top .nav{min-height:86px;padding:8px 0}
+ body:has(.ct:not(.hide)) .nav .logo-image{width:194px;height:74px}
+ .ct-hero{min-height:128px}
+ .ct-hero-inner{gap:20px;padding-top:14px;padding-bottom:14px}
+ .ct-hero-copy h1{font-size:41px}
+ .ct-hero-copy p{margin-top:5px;font-size:17px}
  .ct-hero-benefits>div{padding-inline:10px}
- .ct-hero-benefits svg{width:26px;height:26px}
- .ct{padding:12px 0}
+ .ct-hero-benefits svg{width:34px;height:34px}
+ .ct{padding:10px 0}
  .ct-in{gap:18px}
- .ct-cards{gap:8px}
- .ct-card{gap:10px;padding:8px 10px}
- .ct-ic{width:38px;height:38px}
- .ct-ic svg{width:20px;height:20px}
- .ct-tx small{font-size:11px}
- .ct-tx b{font-size:15px}
- .ct-tx em{font-size:12px}
- .ct-addr{font-size:13px}
- .ct-form{padding:16px}
- .ct-form h2{font-size:21px}
- .ct-form>p{margin-bottom:9px;font-size:13px}
- .ct-form label{gap:4px;margin-bottom:7px;font-size:12px}
- .ct-form input,.ct-form textarea,.ct-form select{padding-top:8px;padding-bottom:8px}
- .ct-form .btn{padding:9px 16px}
- .ct-form .ct-hours-card{margin-top:10px;padding:8px 10px}
- .ct-form .ct-hours-card .ct-hr{padding:4px 0;font-size:12px}
+ .ct-cards{gap:9px}
+ .ct-card{gap:12px;padding:12px}
+ .ct-ic{width:46px;height:46px}
+ .ct-ic svg{width:24px;height:24px}
+ .ct-tx small{font-size:12.5px}
+ .ct-tx b{font-size:18.5px}
+ .ct-tx em{font-size:14px}
+ .ct-addr{font-size:15px}
+ .ct-form{padding:21px}
+ .ct-form h2{font-size:25px}
+ .ct-form>p{margin-bottom:11px;font-size:16px}
+ .ct-form label{gap:5px;margin-bottom:9px;font-size:14.5px}
+ .ct-form input,.ct-form textarea,.ct-form select{padding-top:11px;padding-bottom:11px}
+ .ct-form .btn{padding:12px 16px}
+ .ct-form .ct-hours-card{margin-top:14px;padding:11px 12px}
+ .ct-form .ct-hours-card .ct-hr{padding:4px 0;font-size:14px}
 }
 
 
@@ -1546,6 +1546,8 @@ header.top{background:rgba(250,248,239,.94);backdrop-filter:blur(12px)}
 .sl.alt{background:rgba(255,253,247,.72)}
 .tile,.card,.box,.feat>div,.seasons>div,.quotes blockquote,.creds div,.rg>div,
 .ct-card,.ct-form,.rv,.crop-info-card,.crop-side-card{background:rgba(255,253,247,.92)}
+body:has(.ct:not(.hide)) .ct-card:not(.ct-hours-card){background:radial-gradient(ellipse at 100% 0%,rgba(255,153,51,.13),transparent 46%),radial-gradient(ellipse at 0% 100%,rgba(19,136,8,.1),transparent 48%),linear-gradient(120deg,#fffaf0,#fffdf8 52%,#f6faf3)}
+body:has(.ct:not(.hide)) .ct-form{background:radial-gradient(ellipse at 100% 0%,rgba(255,153,51,.17),transparent 38%),radial-gradient(ellipse at 0% 100%,rgba(19,136,8,.13),transparent 42%),linear-gradient(135deg,#fffaf0,#fffdf8 52%,#f5faf3)}
 .tile:hover,.card:hover{border-color:#d79b21}
 .phead{background:linear-gradient(120deg,#315f43,#527b4c);color:#fffdf7}
 .phead p{color:#edf4e9}
