@@ -1275,7 +1275,7 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .certificate-slot small{display:block;margin-top:8px;color:var(--muted);font-size:12px;line-height:1.4}
 .home-credentials .intro{max-width:65ch}
 @media (max-width:700px){.about-story-grid,.about-belief{grid-template-columns:1fr}.certificate-placeholders,.certificate-gallery{grid-template-columns:1fr}}
-.about-reach{width:95%;margin:10px auto 30px;padding:clamp(22px,4vw,42px);border-radius:20px;background:var(--card);border:1px solid var(--line);box-shadow:0 12px 30px rgba(26,61,39,.08)}
+.about-reach{width:95%;margin:10px auto 30px;padding:clamp(22px,4vw,42px);border-radius:20px;background:linear-gradient(180deg,#ffe0bf 0%,#fff5ea 25%,#fffdf8 42%,#fffdf8 58%,#f1f7ef 76%,#dcebd8 100%);border:1px solid var(--line);box-shadow:0 12px 30px rgba(26,61,39,.08)}
 .reach-heading{max-width:680px}
 .reach-heading h2{margin:0;font-size:clamp(28px,4vw,42px)}
 .reach-heading>p:last-child{margin:8px 0 0;color:var(--mute);line-height:1.55}
@@ -1369,7 +1369,7 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .ct-hero{position:relative;isolation:isolate;overflow:hidden;min-height:156px;display:flex;align-items:center;color:#fff;background:#173c25}
 .ct-hero::before{position:absolute;z-index:-2;inset:0;content:"";background:linear-gradient(90deg,rgba(9,40,24,.78),rgba(15,56,28,.48) 52%,rgba(23,56,26,.3)),url("images/farmer.jpg") center 54%/cover no-repeat}
 .ct-hero::after{position:absolute;z-index:-1;inset:auto 0 0;height:3px;content:"";background:linear-gradient(90deg,#e3a817,rgba(227,168,23,.1))}
-.ct-hero-inner{display:flex;align-items:center;justify-content:space-between;gap:32px;padding-top:22px;padding-bottom:22px}
+.ct-hero-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(18px,2vw,28px);width:100%;padding-top:22px;padding-bottom:22px}
 .ct-hero-copy h1{margin:0;font-size:clamp(34px,4vw,48px);line-height:1.05;color:#fff}
 .ct-hero-copy p{margin:8px 0 0;color:rgba(255,255,255,.9);font-size:17px}
 .ct-hero-benefits{display:grid;grid-template-columns:repeat(3,minmax(115px,1fr));align-items:center}
@@ -1405,6 +1405,10 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .ct-form>*{position:relative}
 .ct-form h2{font-size:24px;margin:0 0 4px}
 .ct-form>p{margin:0 0 16px;color:var(--mute);font-size:15px}
+.ct-hero-copy h1,.ct-form h2{font-family:"Source Sans 3",system-ui,sans-serif;font-weight:800;letter-spacing:-.025em}
+.ct-tx b,.ct-phone-options a{font-family:"Source Sans 3",system-ui,sans-serif;font-weight:700}
+.ct-hero-copy p,.ct-form>p,.ct-tx em,.ct-addr{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+.ct-tx em.ct-link{font-family:"Source Sans 3",system-ui,sans-serif;font-style:normal}
 .ct-form label{display:grid;gap:5px;font-weight:600;font-size:14px;margin-bottom:12px}
 .ct-form input,.ct-form textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit;font-weight:400}
 .ct-form textarea{resize:vertical;min-height:90px}
@@ -1415,7 +1419,7 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .ct-form .ct-hours-card .ct-hr{padding:6px 0;border-color:rgba(52,75,53,.12);font-size:14px}
 /* no gap between the one-screen contact section and the footer */
 body:has(.ct:not(.hide)) footer.pf{margin-top:0}
-@media (max-width:860px){.ct-hero-inner{align-items:flex-start;flex-direction:column;gap:18px}.ct-hero-benefits{width:100%;max-width:480px}.ct-hero-benefits>div:first-child{padding-left:0}.ct-hero-benefits>div:last-child{padding-right:0}.ct{padding:20px 0 28px}.ct-in{grid-template-columns:1fr}.ct-cards{grid-template-columns:1fr}}
+@media (max-width:860px){.ct-hero-inner{display:flex;align-items:flex-start;flex-direction:column;gap:18px}.ct-hero-benefits{width:100%;max-width:480px}.ct-hero-benefits>div:first-child{padding-left:0}.ct-hero-benefits>div:last-child{padding-right:0}.ct{padding:20px 0 28px}.ct-in{grid-template-columns:1fr}.ct-cards{grid-template-columns:1fr}}
 
 /* ===== Contact page v2: product + quantity form, full-screen slide ===== */
 .ct-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
