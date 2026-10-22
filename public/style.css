@@ -1355,6 +1355,11 @@ footer.pf .logo{display:inline-flex;align-items:center;gap:10px;font-size:20px;c
 .pf-brand p{margin:0}.pf-brand p:last-child{color:var(--fmute)}
 .pf-contact li{display:flex;gap:12px;align-items:flex-start}
 .pf-contact svg{flex:none;width:18px;height:18px;margin-top:4px;stroke:var(--fsun);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pf-socials{display:flex;align-items:center;gap:12px;margin-top:14px}
+footer.pf .pf-socials a{display:inline-flex;align-items:center;justify-content:center;flex:none;width:38px;height:38px;box-sizing:border-box;border:1px solid rgba(38,56,44,.12);border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(38,56,44,.08);transition:transform .18s ease,background-color .18s ease,box-shadow .18s ease}
+footer.pf .pf-socials a:hover{background:#f1f4eb;box-shadow:0 4px 10px rgba(38,56,44,.14);transform:translateY(-2px)}
+footer.pf .pf-socials a:focus-visible{outline:2px solid var(--fsun);outline-offset:3px}
+.pf-socials svg{display:block;width:23px;height:23px}
 .pf-newsrow{display:flex;align-items:center;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;padding:16px 0;border-top:1px solid rgba(38,56,44,.16);color:var(--fmute)}
 .pf-newsrow .news{margin:0;flex:0 1 380px}
 .pf-news-care{display:grid;gap:6px;padding:8px 12px;border:1px solid rgba(215,155,33,.55);border-radius:9px;background:rgba(227,168,23,.13);color:var(--fink);text-align:right;text-decoration:none;white-space:nowrap}
