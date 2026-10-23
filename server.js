@@ -32,6 +32,40 @@ app.post("/api/admin/login",limit(10,15*60e3),wrap((q,r)=>{
   if(pw!==PASS)return r.status(401).json({error:"Incorrect password"});
   const token=createAdminToken("manager");
   r.json({ok:true,token,role:"manager"});}));
+function employeePasswordHash(password,salt){return crypto.scryptSync(password,salt,64).toString("hex")}
+function cleanEmployee(body,existing){
+  const name=s(body.name,80),email=s(body.email,254).toLowerCase(),username=s(body.username,40);
+  if(name.length<2)throw "Enter an employee name";
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw "Enter a valid email address";
+  if(!/^[a-zA-Z0-9][a-zA-Z0-9._-]{2,39}$/.test(username))throw "Username must be 3–40 characters and use letters, numbers, dots, underscores or hyphens";
+  if(body.active!==undefined&&typeof body.active!=="boolean")throw "Employee access must be enabled or disabled";
+  if(rd("employees",[]).some(employee=>employee.id!==existing?.id&&String(employee.username||"").toLowerCase()===username.toLowerCase()))throw "That username is already in use";
+  const employee={id:existing?.id||"EMP-"+crypto.randomBytes(8).toString("hex"),name,email,username,active:body.active===undefined?existing?.active!==false:body.active===true,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
+  if(body.password!==undefined&&body.password!==""){
+    if(typeof body.password!=="string")throw "Password must be text";
+    const password=String(body.password);
+    if(password.length<8||password.length>200)throw "Password must be between 8 and 200 characters";
+    employee.passwordSalt=crypto.randomBytes(16).toString("hex");
+    employee.passwordHash=employeePasswordHash(password,employee.passwordSalt);
+  }else if(existing){
+    employee.passwordSalt=existing.passwordSalt;
+    employee.passwordHash=existing.passwordHash;
+  }else throw "Enter a password of at least 8 characters";
+  return employee;
+}
+function publicEmployee(employee){return{id:employee.id,name:employee.name,email:employee.email,username:employee.username,active:employee.active!==false,createdAt:employee.createdAt,updatedAt:employee.updatedAt}}
+app.post("/api/admin/employee-login",limit(10,15*60e3),wrap((q,r)=>{
+  const username=s(q.body.username,40).toLowerCase(),password=String(q.body.password||"");
+  const employee=rd("employees",[]).find(item=>item.username.toLowerCase()===username);
+  const salt=employee?.passwordSalt||"invalid-employee-login";
+  const supplied=Buffer.from(employeePasswordHash(password,salt),"hex");
+  const stored=employee?.passwordHash?Buffer.from(employee.passwordHash,"hex"):Buffer.alloc(0);
+  const valid=stored.length===supplied.length&&crypto.timingSafeEqual(stored,supplied);
+  if(!employee||employee.active===false||!valid)return r.status(401).json({error:"Incorrect username or password, or employee access is disabled"});
+  const payload=Buffer.from(JSON.stringify({expires:Date.now()+12*60*60*1000,role:"employee",employeeId:employee.id})).toString("base64url");
+  const signature=crypto.createHmac("sha256",adminTokenSecret).update(payload).digest("base64url");
+  r.json({ok:true,token:payload+"."+signature,role:"employee"});
+}));
 app.post("/api/contact",limit(10,3600e3),wrap((q,r)=>{
   const name=s(q.body.name,80),phone=s(q.body.phone,20),message=s(q.body.message,1000),qty=s(q.body.quantity,30);
   if(name.length<2)throw "Please enter your name";if(phone.replace(/\D/g,"").length<10)throw "Enter a valid phone number";
@@ -45,11 +79,34 @@ const adminRole=(q)=>{
   const expected=crypto.createHmac("sha256",adminTokenSecret).update(parts[0]).digest();
   let supplied;try{supplied=Buffer.from(parts[1],"base64url")}catch(e){return ""}
   if(supplied.length!==expected.length||!crypto.timingSafeEqual(supplied,expected))return "";
-  try{const payload=JSON.parse(Buffer.from(parts[0],"base64url").toString("utf8"));return payload.expires>Date.now()&&payload.role==="manager"?payload.role:""}catch(e){return ""}
+  try{
+    const payload=JSON.parse(Buffer.from(parts[0],"base64url").toString("utf8"));
+    if(payload.expires<=Date.now())return "";
+    if(payload.role==="manager")return payload.role;
+    if(payload.role==="employee"&&rd("employees",[]).some(employee=>employee.id===payload.employeeId&&employee.active!==false))return "employee";
+    return "";
+  }catch(e){return ""}
 };
 const auth=(q,r,n)=>{if(!adminRole(q))return r.status(401).json({error:"Please log in"});n()};
 const managerOnly=(q,r,n)=>{if(adminRole(q)!=="manager")return r.status(403).json({error:"Manager access is required"});n()};
 const staffOrManager=(q,r,n)=>{if(!adminRole(q))return r.status(401).json({error:"Please log in"});n()};
+const employeeOrManager=(q,r,n)=>{if(!["manager","employee"].includes(adminRole(q)))return r.status(401).json({error:"Please log in"});n()};
+app.get("/api/admin/employees",managerOnly,(q,r)=>r.json(rd("employees",[]).map(publicEmployee)));
+app.post("/api/admin/employees",managerOnly,wrap((q,r)=>{
+  const employees=rd("employees",[]),employee=cleanEmployee(q.body);
+  employees.unshift(employee);wr("employees",employees);r.status(201).json(publicEmployee(employee));
+}));
+app.put("/api/admin/employees/:id",managerOnly,wrap((q,r)=>{
+  const employees=rd("employees",[]),index=employees.findIndex(employee=>employee.id===q.params.id);
+  if(index<0)return r.status(404).json({error:"Employee not found"});
+  employees[index]=cleanEmployee(q.body,employees[index]);wr("employees",employees);r.json(publicEmployee(employees[index]));
+}));
+app.patch("/api/admin/employees/:id/status",managerOnly,wrap((q,r)=>{
+  const employees=rd("employees",[]),employee=employees.find(item=>item.id===q.params.id);
+  if(!employee)return r.status(404).json({error:"Employee not found"});
+  if(typeof q.body.active!=="boolean")throw "Employee status must be enabled or disabled";
+  employee.active=q.body.active;employee.updatedAt=new Date().toISOString();wr("employees",employees);r.json(publicEmployee(employee));
+}));
 
 // ---- products ----
 const url=v=>{v=s(v,300);if(!v)return"";if(!/^https:\/\/[^\s"'<>]+$/i.test(v))throw "Links must start with https://";return v};
@@ -126,7 +183,7 @@ app.get("/api/visits",(q,r)=>{
     r.status(500).json({error:"Visit counter unavailable"});
   }
 });
-app.get("/api/admin/products",staffOrManager,(q,r)=>r.json(rd("products",[])));
+app.get("/api/admin/products",managerOnly,(q,r)=>r.json(rd("products",[])));
 app.get("/api/products/:id/reviews",wrap((q,r)=>{
   const p=rd("products",[]).find(x=>x.id===q.params.id);
   if(!p||p.hidden===true)return r.status(404).json({error:"Product not found"});
@@ -148,7 +205,7 @@ app.post("/api/products/:id/reviews",limit(5,3600e3),wrap((q,r)=>{
   reviews.unshift(review);wr("reviews",reviews);
   r.status(201).json({ok:true,review:{id:review.id,name:review.name,rating:review.rating,comment:review.comment,date:review.date}});
 }));
-app.get("/api/admin/reviews",managerOnly,(q,r)=>{
+app.get("/api/admin/reviews",employeeOrManager,(q,r)=>{
   const products=rd("products",[]),reviews=rd("reviews",[]);
   let changed=false;
   reviews.forEach(function(review,index){if(!review.id){review.id="REV-legacy-"+index+"-"+Date.now().toString(36);changed=true}});
@@ -158,7 +215,7 @@ app.get("/api/admin/reviews",managerOnly,(q,r)=>{
     return{id:review.id,productId:review.productId,productName:product?product.n:"Deleted product",name:review.name,phone:review.phone||"",rating:review.rating,comment:review.comment,date:review.date};
   }));
 });
-app.delete("/api/admin/reviews/:id",managerOnly,wrap((q,r)=>{
+app.delete("/api/admin/reviews/:id",employeeOrManager,wrap((q,r)=>{
   const reviews=rd("reviews",[]),remaining=reviews.filter(x=>x.id!==q.params.id);
   if(remaining.length===reviews.length)return r.status(404).json({error:"Review not found"});
   wr("reviews",remaining);r.json({ok:true});
@@ -215,7 +272,7 @@ app.post("/api/admin/products/import",managerOnly,wrap((q,r)=>{
 app.put("/api/admin/products/:id",managerOnly,wrap((q,r)=>{const L=rd("products",[]),i=L.findIndex(x=>x.id===q.params.id);
   if(i<0)return r.status(404).json({error:"Product not found"});L[i]={id:L[i].id,...cleanProduct({...q.body,deliverable:q.body.deliverable===undefined?L[i].deliverable:q.body.deliverable,hidden:q.body.hidden===undefined?L[i].hidden:q.body.hidden}),sale:L[i].sale===true};wr("products",L);r.json({ok:true})}));
 app.delete("/api/admin/products/:id",managerOnly,wrap((q,r)=>{wr("products",rd("products",[]).filter(x=>x.id!==q.params.id));r.json({ok:true})}));
-app.patch("/api/admin/products/:id/delivery",staffOrManager,wrap((q,r)=>{
+app.patch("/api/admin/products/:id/delivery",managerOnly,wrap((q,r)=>{
   const L=rd("products",[]),p=L.find(x=>x.id===q.params.id);
   if(!p)return r.status(404).json({error:"Product not found"});
   if(typeof q.body.deliverable!=="boolean")throw "Delivery status must be true or false";
@@ -279,7 +336,7 @@ app.get("/api/offers",(q,r)=>{
   const offers=rd("offers",[]).filter(offer=>offer.active!==false&&offer.items.every(item=>!item.productId||products.some(p=>p.id===item.productId&&p.hidden!==true&&p.deliverable!==false&&Array.isArray(p.sizes)&&p.sizes[item.sizeIndex]))).map(offer=>presentOffer(offer,products));
   r.json(offers);
 });
-app.get("/api/admin/offers",staffOrManager,(q,r)=>{
+app.get("/api/admin/offers",managerOnly,(q,r)=>{
   const products=rd("products",[]);
   r.json(rd("offers",[]).map(offer=>presentOffer(offer,products)));
 });
@@ -391,8 +448,8 @@ app.post("/api/payment/webhook",(q,r)=>{
 });
 app.post("/api/orders",(q,r)=>r.status(410).json({error:"Cash on delivery is no longer accepted. Please complete payment online."}));
 const ST=["New","Confirmed","Shipped","Delivered","Cancelled"];
-app.get("/api/admin/orders",managerOnly,(q,r)=>r.json(rd("orders",[])));
-app.patch("/api/admin/orders/:id",managerOnly,wrap((q,r)=>{const L=rd("orders",[]),o=L.find(x=>x.id===q.params.id);
+app.get("/api/admin/orders",employeeOrManager,(q,r)=>r.json(rd("orders",[])));
+app.patch("/api/admin/orders/:id",employeeOrManager,wrap((q,r)=>{const L=rd("orders",[]),o=L.find(x=>x.id===q.params.id);
   if(!o)return r.status(404).json({error:"Order not found"});if(!ST.includes(q.body.status))throw "Invalid status";o.status=q.body.status;wr("orders",L);r.json({ok:true})}));
 
 // ---- contact form and newsletter ----
