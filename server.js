@@ -531,9 +531,33 @@ function seoHead({title,description,url,image,schema,robots}){
 }
 function seoPage({title,description,url,image,schema,body,robots}){
   const head=seoHead({title,description,url,image,schema,robots});
-  const header=SEO_HEADER.replace(/<button class="ic" id="cartBtn" aria-label="Cart">Cart \(<span id="cnt">0<\/span>\)<\/button>/,'<a class="ic" href="/#cart" aria-label="Cart">Cart</a>');
-  const menuScript='<script>(function(){var button=document.getElementById("bg"),nav=document.getElementById("mainNav");if(!button||!nav)return;button.addEventListener("click",function(){var open=nav.classList.toggle("open");button.setAttribute("aria-expanded",String(open));button.setAttribute("aria-label",open?"Close navigation menu":"Open navigation menu")});nav.addEventListener("click",function(event){if(event.target.closest("a")){nav.classList.remove("open");button.setAttribute("aria-expanded","false")}})})();</script>';
-  return `<!DOCTYPE html><html lang="en"><head>${head}</head><body>${header}<main>${body}</main>${SEO_FOOTER}${menuScript}</body></html>`;
+  const header=SEO_HEADER
+    .replace(/<button class="ic" id="cartBtn" aria-label="Cart">Cart \(<span id="cnt">0<\/span>\)<\/button>/,'<a class="ic" href="/cart" aria-label="Cart">Cart</a>')
+    .replace(/href="#home"/g,'href="/"')
+    .replace(/href="#about"/g,'href="/about"')
+    .replace(/href="#offers"/g,'href="/offers"')
+    .replace(/href="#products"/g,'href="/products"')
+    .replace(/href="#crops"/g,'href="/crops"')
+    .replace(/href="#contact"/g,'href="/contact"');
+  const categorySlugs={"Insecticide":"insecticide","Fungicide":"fungicide","Herbicide":"herbicide","PGR &amp; Nutrition":"pgr-and-nutrition","Fertilizer":"fertilizer"};
+  const footer=SEO_FOOTER
+    .replace(/href="#p\/([^"]+)"/g,(_,id)=>`href="/products/${encodeURIComponent(id)}"`)
+    .replace(/<a href="#products" data-c="([^"]+)"/g,(_,category)=>{
+      const slug=categorySlugs[category];
+      return `<a href="/category/${slug||"insecticide"}" data-c="${category}"`;
+    })
+    .replace(/href="#home"/g,'href="/"')
+    .replace(/href="#about"/g,'href="/about"')
+    .replace(/href="#offers"/g,'href="/offers"')
+    .replace(/href="#products"/g,'href="/products"')
+    .replace(/href="#crops"/g,'href="/crops"')
+    .replace(/href="#contact"/g,'href="/contact"')
+    .replace(/href="#privacy"/g,'href="/privacy"')
+    .replace(/href="#terms"/g,'href="/terms"')
+    .replace(/href="#refund"/g,'href="/refund"')
+    .replace(/href="#shipping"/g,'href="/shipping"');
+  const menuScript='<script>(function(){var button=document.getElementById("bg"),nav=document.getElementById("mainNav");if(button&&nav){button.addEventListener("click",function(){var open=nav.classList.toggle("open");button.setAttribute("aria-expanded",String(open));button.setAttribute("aria-label",open?"Close navigation menu":"Open navigation menu")});nav.addEventListener("click",function(event){if(event.target.closest("a")){nav.classList.remove("open");button.setAttribute("aria-expanded","false")}})}document.addEventListener("click",function(event){var link=event.target.closest("a[href^=\\"/products/\\"]");if(!link||event.defaultPrevented||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey||(link.target&&link.target!=="_self"))return;var productPath=link.getAttribute("href").split(/[?#]/)[0];if(productPath.indexOf("/products/")===0){event.preventDefault();location.href="/#p/"+productPath.slice(10)}})})();</script>';
+  return `<!DOCTYPE html><html lang="en"><head>${head}</head><body>${header}<main>${body}</main>${footer}${menuScript}</body></html>`;
 }
 function formatPrice(value){
   return typeof value==="number"&&Number.isFinite(value)&&value>=0
@@ -566,9 +590,25 @@ function productCard(product){
   const img=image?`<img src="${escHtml(assetUrl(image))}" alt="${escHtml(product.n)}" loading="lazy" width="500" height="500">`:"";
   return `<li><a href="/products/${encodeURIComponent(product.id)}">${img}<span>${escHtml(product.n)}</span></a></li>`;
 }
+function productsIndexPage(products){
+  const title="Crop Protection Products | Praveka Life Science";
+  const description="Browse insecticides, fungicides, herbicides, fertilizers and plant nutrition products from Praveka Life Science.";
+  const pageUrl=`${SEO_BASE}/products`;
+  const items=products.filter(product=>product.hidden!==true);
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Products</nav><h1>Products</h1><p>${escHtml(description)}</p><ul class="seo-product-list">${items.map(productCard).join("")}</ul></article>`;
+  return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},{"@type":"ListItem",position:2,name:"Products",item:pageUrl}]},body});
+}
+function cropsIndexPage(crops){
+  const title="Crop Guides | Praveka Life Science";
+  const description="Explore crop guides with growing seasons, duration, care advice and related crop-care products.";
+  const pageUrl=`${SEO_BASE}/crops`;
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Crops</nav><h1>Crop guides</h1><p>${escHtml(description)}</p><ul>${crops.map(crop=>`<li><a href="/crops/${encodeURIComponent(crop.slug)}">${escHtml(crop.name)}${crop.local?` — ${escHtml(crop.local)}`:""}</a></li>`).join("")}</ul></article>`;
+  return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},{"@type":"ListItem",position:2,name:"Crops",item:pageUrl}]},body});
+}
 function productSeoPage(product,products,crops){
   const category=text(product.c)||"Agri Input";
-  const title=titleUnder60(`${product.n} | ${category} | Praveka Life Science`,product.id);
+  const productName=[product.brand,product.n].map(plain).filter(Boolean).join(" ");
+  const title=`${productName} | Praveka Life Science`;
   const description=plain(product.desc||`${product.n} ${product.c||"agri input"} from Praveka Life Science, Rajkot.`).slice(0,157);
   const pageUrl=`${SEO_BASE}/products/${encodeURIComponent(product.id)}`;
   const firstImage=Array.isArray(product.images)?product.images.find(Boolean):"";
@@ -588,14 +628,14 @@ function productSeoPage(product,products,crops){
   };
   const breadcrumb={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
     {"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},
-    {"@type":"ListItem",position:2,name:"Products",item:SEO_BASE+"/#products"},
+    {"@type":"ListItem",position:2,name:"Products",item:SEO_BASE+"/products"},
     {"@type":"ListItem",position:3,name:text(product.n),item:pageUrl}
   ]};
   const features=splitList(product.features);
   const sizes=pricedSizes.map(size=>`<li>${escHtml(size.label)}${size.price===null?"":` — ${escHtml(formatPrice(size.price))}`}</li>`).join("");
   const cropsForPage=cropsForProduct(product,crops).slice(0,12);
   const related=products.filter(item=>item.id!==product.id&&item.hidden!==true&&item.c===product.c).slice(0,6);
-  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/#products">Products</a> / ${escHtml(product.n)}</nav><h1>${escHtml(product.n)}</h1><p class="intro">${escHtml(product.head||product.c||"Praveka Life Science")}</p>${firstImage?`<img src="${escHtml(assetUrl(firstImage))}" alt="${escHtml(product.n)}" loading="lazy" width="500" height="500">`:""}<p>${escHtml(product.desc||"Contact Praveka Life Science for product information.")}</p><dl><dt>Active ingredient</dt><dd>${escHtml(product.conc||product.t||"Please refer to the product label")}</dd><dt>Formulation</dt><dd>${escHtml([product.ftype,product.form].filter(Boolean).join(" — ")||"Please refer to the product label")}</dd><dt>Target pests</dt><dd>${escHtml(product.pests||"Please refer to the product label")}</dd><dt>Suitable crops</dt><dd>${escHtml(product.crops||"Please refer to the product label")}</dd><dt>Dose</dt><dd>${escHtml(product.dose||"Follow the product label")}</dd></dl><h2>Pack sizes</h2><ul>${sizes||pricedSizes.map(size=>`<li>${escHtml(size.label)}</li>`).join("")||"<li>Contact us for pack availability.</li>"}</ul>${features.length?`<h2>Features</h2><ul>${features.map(feature=>`<li>${escHtml(feature)}</li>`).join("")}</ul>`:""}<h2>Mode of action</h2><p>${escHtml(product.mode||"Use only as directed on the label.")}</p><aside class="seo-warning"><strong>Always follow the label.</strong> Read and follow all product label directions, precautions and safety instructions before use.</aside><p><a class="btn" href="/#p/${encodeURIComponent(product.id)}">Enquire / Buy</a> <a href="/#products">Back to the shop</a> · <a href="/#contact">Contact us</a></p><section><h2>Suitable crops</h2>${linkList(cropsForPage,crop=>`/crops/${encodeURIComponent(crop.slug)}`,crop=>crop.name)}</section><section><h2>Related ${escHtml(category)} products</h2>${linkList(related,item=>`/products/${encodeURIComponent(item.id)}`,item=>item.n)}</section></article>`;
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/products">Products</a> / ${escHtml(product.n)}</nav><h1>${escHtml(productName)}</h1><p class="intro">${escHtml(product.head||product.c||"Praveka Life Science")}</p>${firstImage?`<img src="${escHtml(assetUrl(firstImage))}" alt="${escHtml(product.n)}" loading="lazy" width="500" height="500">`:""}<p>${escHtml(product.desc||"Contact Praveka Life Science for product information.")}</p><dl><dt>Active ingredient</dt><dd>${escHtml(product.t||product.conc||"Please refer to the product label")}</dd><dt>Formulation</dt><dd>${escHtml([product.ftype,product.form].filter(Boolean).join(" — ")||"Please refer to the product label")}</dd><dt>Target pests</dt><dd>${escHtml(product.pests||"Please refer to the product label")}</dd><dt>Suitable crops</dt><dd>${escHtml(product.crops||"Please refer to the product label")}</dd><dt>Dose</dt><dd>${escHtml(product.dose||"Follow the product label")}</dd></dl><h2>Pack sizes</h2><ul>${sizes||pricedSizes.map(size=>`<li>${escHtml(size.label)}</li>`).join("")||"<li>Contact us for pack availability.</li>"}</ul>${features.length?`<h2>Features</h2><ul>${features.map(feature=>`<li>${escHtml(feature)}</li>`).join("")}</ul>`:""}<h2>Mode of action</h2><p>${escHtml(product.mode||"Use only as directed on the label.")}</p><aside class="seo-warning"><strong>Always follow the label.</strong> Read and follow all product label directions, precautions and safety instructions before use.</aside><p><a class="btn" href="/buy/${encodeURIComponent(product.id)}">Select pack &amp; add to cart</a></p><p>Choose an available pack size and quantity on the interactive product page. <a href="/products">Back to the shop</a> · <a href="/contact">Contact us</a></p><section><h2>Suitable crops</h2>${linkList(cropsForPage,crop=>`/crops/${encodeURIComponent(crop.slug)}`,crop=>crop.name)}</section><section><h2>Related ${escHtml(category)} products</h2>${linkList(related,item=>`/products/${encodeURIComponent(item.id)}`,item=>item.n)}</section></article>`;
   return seoPage({title,description,url:pageUrl,image:/^https?:\/\//i.test(image)?image:`${SEO_BASE}${image}`,schema:[schema,breadcrumb],body});
 }
 function cropSeoPage(crop,products,crops){
@@ -604,12 +644,12 @@ function cropSeoPage(crop,products,crops){
   const pageUrl=`${SEO_BASE}/crops/${encodeURIComponent(crop.slug)}`;
   const breadcrumb={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
     {"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},
-    {"@type":"ListItem",position:2,name:"Crops",item:SEO_BASE+"/#crops"},
+    {"@type":"ListItem",position:2,name:"Crops",item:SEO_BASE+"/crops"},
     {"@type":"ListItem",position:3,name:crop.name,item:pageUrl}
   ]};
   const matched=productsForCrop(crop,products).slice(0,20);
   const otherCrops=crops.filter(item=>item.slug!==crop.slug).slice(0,8);
-  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/#crops">Crops</a> / ${escHtml(crop.name)}</nav><h1>${escHtml(crop.name)} Crop Guide</h1><p class="intro">${escHtml(crop.local||"")} · ${escHtml(crop.season||"Growing season varies")} · ${escHtml(crop.duration||"Duration varies")}</p><dl><dt>Growing season</dt><dd>${escHtml(crop.season||"Varies by region")}</dd><dt>Typical duration</dt><dd>${escHtml(crop.duration||"Varies by crop variety")}</dd><dt>Soil and climate</dt><dd>${escHtml(crop.soil||"Choose conditions suitable for the local crop variety.")}</dd><dt>Sowing</dt><dd>${escHtml(crop.sowing||"Follow local agronomic guidance.")}</dd></dl><h2>Growing guidance</h2><p>${escHtml(crop.grow||"Use locally appropriate agronomic practices.")}</p><h2>Crop maintenance</h2><p>${escHtml(crop.maintain||"Monitor crop health and follow local agronomic guidance.")}</p><h2>Harvest</h2><p>${escHtml(crop.harvest||"Harvest at the suitable maturity for your crop variety.")}</p><p><strong>Always follow the product label</strong> and consult a qualified local agronomist before using crop-protection products.</p><section><h2>Products for ${escHtml(crop.name)}</h2>${matched.length?`<ul class="seo-product-list">${matched.map(productCard).join("")}</ul>`:"<p>Contact us for crop-specific product recommendations.</p>"}</section><section><h2>Explore other crops</h2>${linkList(otherCrops,item=>`/crops/${encodeURIComponent(item.slug)}`,item=>item.name)}</section><p><a href="/#products">Back to the shop</a> · <a href="/#contact">Contact us</a></p></article>`;
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/crops">Crops</a> / ${escHtml(crop.name)}</nav><h1>${escHtml(crop.name)} Crop Guide</h1><p class="intro">${escHtml(crop.local||"")} · ${escHtml(crop.season||"Growing season varies")} · ${escHtml(crop.duration||"Duration varies")}</p><dl><dt>Growing season</dt><dd>${escHtml(crop.season||"Varies by region")}</dd><dt>Typical duration</dt><dd>${escHtml(crop.duration||"Varies by crop variety")}</dd><dt>Soil and climate</dt><dd>${escHtml(crop.soil||"Choose conditions suitable for the local crop variety.")}</dd><dt>Sowing</dt><dd>${escHtml(crop.sowing||"Follow local agronomic guidance.")}</dd></dl><h2>Growing guidance</h2><p>${escHtml(crop.grow||"Use locally appropriate agronomic practices.")}</p><h2>Crop maintenance</h2><p>${escHtml(crop.maintain||"Monitor crop health and follow local agronomic guidance.")}</p><h2>Harvest</h2><p>${escHtml(crop.harvest||"Harvest at the suitable maturity for your crop variety.")}</p><p><strong>Always follow the product label</strong> and consult a qualified local agronomist before using crop-protection products.</p><section><h2>Products for ${escHtml(crop.name)}</h2>${matched.length?`<ul class="seo-product-list">${matched.map(productCard).join("")}</ul>`:"<p>Contact us for crop-specific product recommendations.</p>"}</section><section><h2>Explore other crops</h2>${linkList(otherCrops,item=>`/crops/${encodeURIComponent(item.slug)}`,item=>item.name)}</section><p><a href="/products">Back to the shop</a> · <a href="/contact">Contact us</a></p></article>`;
   return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:breadcrumb,body});
 }
 const CATEGORY_SLUGS={
@@ -624,35 +664,39 @@ function categorySeoPage(slug,category,products){
   const description=plain(`Explore ${category.toLowerCase()} products from Praveka Life Science in Rajkot, Gujarat. View product details and enquire online.`).slice(0,157);
   const pageUrl=`${SEO_BASE}/category/${encodeURIComponent(slug)}`;
   const items=products.filter(product=>product.hidden!==true&&product.c===category);
-  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/#products">Products</a> / ${escHtml(category)}</nav><h1>${escHtml(category)} products</h1><p>${escHtml(description)}</p><ul class="seo-product-list">${items.map(productCard).join("")}</ul><p><a href="/#products">Back to the shop</a> · <a href="/#contact">Contact us</a></p></article>`;
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/products">Products</a> / ${escHtml(category)}</nav><h1>${escHtml(category)} products</h1><p>${escHtml(description)}</p><ul class="seo-product-list">${items.map(productCard).join("")}</ul><p><a href="/products">Back to the shop</a> · <a href="/contact">Contact us</a></p></article>`;
   const breadcrumb={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
     {"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},
-    {"@type":"ListItem",position:2,name:"Products",item:SEO_BASE+"/#products"},
+    {"@type":"ListItem",position:2,name:"Products",item:SEO_BASE+"/products"},
     {"@type":"ListItem",position:3,name:category,item:pageUrl}
   ]};
   return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:breadcrumb,body});
 }
+app.get("/products",(q,r)=>r.type("html").send(productsIndexPage(rd("products",[]))));
+app.get("/crops",(q,r)=>r.type("html").send(cropsIndexPage(rd("crops",[]))));
+app.get("/buy/:id",(q,r)=>r.redirect(302,`/#p/${encodeURIComponent(q.params.id)}`));
 app.get("/products/:id",(q,r)=>{
   const products=rd("products",[]),product=products.find(item=>item.id===q.params.id&&item.hidden!==true);
-  if(!product)return r.status(404).type("html").send(seoPage({title:"Product not found | Praveka Life Science",description:"This product is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Product not found</h1><p>This product is unavailable or may have been removed.</p><p><a href="/#products">Back to the shop</a></p></article>',robots:"noindex"}));
+  if(!product)return r.status(404).type("html").send(seoPage({title:"Product not found | Praveka Life Science",description:"This product is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Product not found</h1><p>This product is unavailable or may have been removed.</p><p><a href="/products">Back to the shop</a></p></article>',robots:"noindex"}));
   r.type("html").send(productSeoPage(product,products,rd("crops",[])));
 });
 app.get("/crops/:slug",(q,r)=>{
   const crops=rd("crops",[]),crop=crops.find(item=>item.slug===q.params.slug);
-  if(!crop)return r.status(404).type("html").send(seoPage({title:"Crop not found | Praveka Life Science",description:"This crop guide is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Crop not found</h1><p>This crop guide is unavailable.</p><p><a href="/#crops">Explore crops</a></p></article>',robots:"noindex"}));
+  if(!crop)return r.status(404).type("html").send(seoPage({title:"Crop not found | Praveka Life Science",description:"This crop guide is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Crop not found</h1><p>This crop guide is unavailable.</p><p><a href="/crops">Explore crops</a></p></article>',robots:"noindex"}));
   r.type("html").send(cropSeoPage(crop,rd("products",[]),crops));
 });
 app.get("/category/:slug",(q,r)=>{
   const category=CATEGORY_SLUGS[q.params.slug]||(q.params.slug==="pgr-nutrition"?CATEGORY_SLUGS["pgr-and-nutrition"]:undefined);
-  if(!category)return r.status(404).type("html").send(seoPage({title:"Category not found | Praveka Life Science",description:"This product category is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Category not found</h1><p><a href="/#products">Browse products</a></p></article>',robots:"noindex"}));
+  if(!category)return r.status(404).type("html").send(seoPage({title:"Category not found | Praveka Life Science",description:"This product category is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Category not found</h1><p><a href="/products">Browse products</a></p></article>',robots:"noindex"}));
   r.type("html").send(categorySeoPage(q.params.slug,category,rd("products",[])));
 });
 app.get("/sitemap.xml",(q,r)=>{
   const products=rd("products",[]).filter(item=>item.hidden!==true),crops=rd("crops",[]),lastmod=new Date().toISOString().slice(0,10);
-  const urls=[`${SEO_BASE}/`,...products.map(item=>`${SEO_BASE}/products/${encodeURIComponent(item.id)}`),...crops.map(item=>`${SEO_BASE}/crops/${encodeURIComponent(item.slug)}`),...Object.keys(CATEGORY_SLUGS).map(slug=>`${SEO_BASE}/category/${encodeURIComponent(slug)}`)];
+  const urls=[`${SEO_BASE}/`,`${SEO_BASE}/products`,`${SEO_BASE}/crops`,...products.map(item=>`${SEO_BASE}/products/${encodeURIComponent(item.id)}`),...crops.map(item=>`${SEO_BASE}/crops/${encodeURIComponent(item.slug)}`),...Object.keys(CATEGORY_SLUGS).map(slug=>`${SEO_BASE}/category/${encodeURIComponent(slug)}`)];
   r.type("application/xml").send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(url=>`<url><loc>${escHtml(url)}</loc><lastmod>${lastmod}</lastmod></url>`).join("")}</urlset>`);
 });
 
+app.get(["/about","/offers","/contact","/cart","/privacy","/terms","/refund","/shipping"],(q,r)=>r.sendFile(path.join(__dirname,"public","index.html")));
 app.use("/uploads",express.static(path.join(D,"uploads")));
 app.use(express.static(path.join(__dirname,"public")));
 app.get("/admin",(q,r)=>r.sendFile(path.join(__dirname,"public","admin.html")));

@@ -16,9 +16,12 @@ data/visits.json     Created automatically; starts at 50,000 and increments on e
 data/uploads/products Product photos and videos uploaded from the admin page.
 
 SEO ROUTES
+GET /products           Server-rendered directory of all visible products.
 GET /products/:id       Server-rendered product details and metadata.
+GET /crops              Server-rendered directory of all crop guides.
 GET /crops/:slug        Server-rendered crop guide and matching products.
 GET /category/:slug     Server-rendered category product listing.
+GET /buy/:id            Redirects to the interactive product enquiry view.
 GET /sitemap.xml        Dynamic sitemap for the homepage, products, crops and categories.
 GET /api/crops          Crop data used by the interactive website.
 

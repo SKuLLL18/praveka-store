@@ -192,13 +192,18 @@ function initVisitorCounter(){
 }
 function initAboutMetrics(){initIndiaMap();initVisitorCounter()}
 function closeMobileNav(){var nav=document.querySelector(".links"),button=$("bg");nav.classList.remove("open");button.setAttribute("aria-expanded","false");button.setAttribute("aria-label","Open navigation menu")}
-function route(){var h=location.hash.slice(1),m=h.match(/^p\/(.+)/),cm=h.match(/^crop\/(.+)/),pg=(m?"products":(cm?"crops":(PAGES.indexOf(h)>-1?h:"home"))),key=m?"detail":(cm?"cropdetail":pg);
+function route(){var h=location.hash.slice(1),pathPage={"/":"home","/about":"about","/offers":"offers","/contact":"contact","/cart":"cart","/privacy":"privacy","/terms":"terms","/refund":"refund","/shipping":"shipping"}[location.pathname.replace(/\/$/,"")||"/"],m=h.match(/^p\/(.+)/),cm=h.match(/^crop\/(.+)/),pg=(m?"products":(cm?"crops":(PAGES.indexOf(h)>-1?h:(pathPage||"home")))),key=m?"detail":(cm?"cropdetail":pg);
 document.querySelectorAll(".pg").forEach(function(e){e.classList.toggle("hide",e.dataset.p.split(" ").indexOf(key)<0)});
 if(m)detail(m[1]);if(cm)renderCropDetail(cm[1]);
 document.querySelectorAll(".links a").forEach(function(a){a.removeAttribute("aria-current");if(a.getAttribute("href")=="#"+pg)a.setAttribute("aria-current","page")});
 closeMobileNav();scrollTo(0,0);
 if(pg=="cart")renderCart();if(pg=="offers"){renderOffers();refreshStoreProducts()}}
 document.addEventListener("click",function(e){
+var productLink=e.target.closest('a[href^="/products/"]'),spaPaths=["/","/about","/offers","/contact","/cart","/privacy","/terms","/refund","/shipping"];
+if(productLink&&spaPaths.indexOf(location.pathname.replace(/\/$/,"")||"/")>-1&&!e.defaultPrevented&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.altKey&&(!productLink.target||productLink.target==="_self")){
+var productPath=productLink.getAttribute("href").match(/^\/products\/([^/?#]+)/);
+if(productPath){e.preventDefault();location.hash="p/"+decodeURIComponent(productPath[1]);return}
+}
 var season=e.target.closest("[data-season]");
 if(season){cropFilter=season.dataset.season;cropQuery="";renderCropFilters();renderCrops();setTimeout(function(){var d=$("cropDirectory");if(d)d.scrollIntoView({behavior:"smooth",block:"start"})},0);return}
 var c=e.target.closest("[data-c]");if(c){cat=c.dataset.c;term="";$("q").value="";cats();grid();return}
