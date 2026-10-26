@@ -2,7 +2,7 @@ PRAVEKA LIFE SCIENCE - WEBSITE + BACKEND
 
 FILES
 server.js            The backend (products, orders, admin login, forms).
-package.json         Lists the one library needed (express).
+package.json         Lists the server libraries (Express, compression and multer).
 .env.example         Copy to .env and set your admin password.
 public/index.html    Website text and layout.
 public/style.css     Colours and layout.
@@ -10,9 +10,17 @@ public/script.js     Website behaviour (cart, checkout, search).
 public/products.js   Backup product list (used only if the server is off).
 public/admin.html    Admin page (opens at /admin).
 data/products.json   Your products (managed from the admin page).
+data/crops.json      Crop guides used by both the website and SEO pages.
 data/orders.json     Created automatically when the first order arrives.
 data/visits.json     Created automatically; starts at 50,000 and increments on each website page load.
 data/uploads/products Product photos and videos uploaded from the admin page.
+
+SEO ROUTES
+GET /products/:id       Server-rendered product details and metadata.
+GET /crops/:slug        Server-rendered crop guide and matching products.
+GET /category/:slug     Server-rendered category product listing.
+GET /sitemap.xml        Dynamic sitemap for the homepage, products, crops and categories.
+GET /api/crops          Crop data used by the interactive website.
 
 PERSISTENT PRODUCT PHOTOS AND VIDEOS
 Admin uploads are saved in DATA_DIR/uploads/products. Locally, DATA_DIR defaults

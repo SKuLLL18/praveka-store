@@ -23,6 +23,28 @@ header.top .links a[aria-current]{color:#24352a}
 .tile i{display:block;width:72px!important;height:72px!important;border-radius:50%;margin:0 auto 8px!important;background:#fff;overflow:hidden}
 .tile i img{width:100%;height:100%;object-fit:cover;display:block}
 .tile{transition:transform .2s,border-color .2s}.tile:hover{transform:translateY(-4px)}
+.seo-discovery{padding:22px 0;background:linear-gradient(110deg,#f4f0df,#eff5eb);border-block:1px solid #d9dfd3}
+.seo-discovery .wrap{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px 24px}
+.seo-discovery h2{font-size:22px;margin:0}
+.seo-discovery nav{display:flex;flex-wrap:wrap;gap:8px}
+.seo-discovery nav a{padding:6px 12px;border:1px solid #cbd8c8;border-radius:999px;background:#fff;text-decoration:none;font-weight:600}
+.seo-discovery ul{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 20px;margin:0;padding-left:20px;font-size:14px}
+.seo-page{padding-inline:20px;line-height:1.65}
+.seo-page nav{margin:0 0 16px;color:var(--mute);font-size:14px}
+.seo-page h1{margin:0 0 12px;font-size:clamp(30px,4vw,44px)}
+.seo-page h2{margin:24px 0 8px;font-size:24px}
+.seo-page p{max-width:80ch}
+.seo-page dl{display:grid;grid-template-columns:minmax(130px,210px) 1fr;gap:8px 16px;max-width:850px}
+.seo-page dt{font-weight:700}
+.seo-page dd{margin:0}
+.seo-page>img{display:block;width:min(100%,440px);height:auto;object-fit:contain;margin:20px 0}
+.seo-page ul{padding-left:22px}
+.seo-warning{max-width:850px;margin:20px 0;padding:14px 18px;border-left:4px solid #e3a817;background:#fff8df}
+.seo-product-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;padding:0!important;list-style:none}
+.seo-product-list li{border:1px solid #d9dfd3;border-radius:12px;background:#fff;overflow:hidden}
+.seo-product-list a{display:flex;flex-direction:column;height:100%;padding:12px;text-decoration:none;font-weight:700}
+.seo-product-list img{width:100%;height:180px;object-fit:contain}
+@media(max-width:720px){.seo-discovery .wrap{grid-template-columns:1fr}.seo-discovery ul{grid-column:1}.seo-page dl{grid-template-columns:1fr;gap:0}.seo-page dt{margin-top:10px}}
 
 /* ===== HERO (header + hero + gold band = one screen) ===== */
 .hero{padding:0!important;min-height:500px!important;height:calc(100vh - var(--hh) - 46px)!important;overflow:hidden;background:radial-gradient(640px 420px at 0 0,rgba(127,207,152,.2),transparent 60%),linear-gradient(135deg,#0d2617,#1b4a2c 55%,#2d6a3f)!important;color:#f6f7f2}

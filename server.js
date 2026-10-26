@@ -1,11 +1,11 @@
 // SERVER.JS - Praveka Life Science backend (Express + JSON files).
-const express=require("express"),fs=require("fs"),path=require("path"),crypto=require("crypto"),os=require("os"),multer=require("multer");
+const express=require("express"),fs=require("fs"),path=require("path"),crypto=require("crypto"),os=require("os"),multer=require("multer"),compression=require("compression");
 try{fs.readFileSync(path.join(__dirname,".env"),"utf8").split(/\r?\n/).forEach(l=>{const m=l.match(/^\s*([A-Z_]+)\s*=\s*(.*?)\s*$/);if(m&&!(m[1] in process.env))process.env[m[1]]=m[2]})}catch(e){}
 const PASS=process.env.ADMIN_PASSWORD||"",PORT=process.env.PORT||3000,HOST=process.env.HOST||"0.0.0.0";
 if(PASS.length<8||PASS==="change-this-password"){console.error("\nFirst copy .env.example to .env and set ADMIN_PASSWORD to your own password (8+ characters).\n");process.exit(1)}
 const SEED=path.join(__dirname,"data"),D=process.env.DATA_DIR?path.resolve(process.env.DATA_DIR):SEED,PRODUCT_MEDIA_DIR=path.join(D,"uploads","products");fs.mkdirSync(D,{recursive:true});
 // If DATA_DIR points to a separate (persistent) disk, copy starter files from the repo's data/ folder the first time only.
-if(D!==SEED){["products.json","reviews.json"].forEach(f=>{try{const dst=path.join(D,f);if(!fs.existsSync(dst)&&fs.existsSync(path.join(SEED,f)))fs.copyFileSync(path.join(SEED,f),dst)}catch(e){console.error("Seed copy failed for "+f,e.message)}})}
+if(D!==SEED){["products.json","reviews.json","crops.json"].forEach(f=>{try{const dst=path.join(D,f);if(!fs.existsSync(dst)&&fs.existsSync(path.join(SEED,f)))fs.copyFileSync(path.join(SEED,f),dst)}catch(e){console.error("Seed copy failed for "+f,e.message)}})}
 fs.mkdirSync(PRODUCT_MEDIA_DIR,{recursive:true});
 if(process.env.NODE_ENV==="production"&&!process.env.DATA_DIR)console.warn("DATA_DIR is not set. Admin-uploaded product photos and videos may be lost when the service is redeployed; configure a persistent disk and set DATA_DIR to its mount path.");
 const rd=(n,d)=>{try{return JSON.parse(fs.readFileSync(path.join(D,n+".json"),"utf8"))}catch(e){return d}};
@@ -16,6 +16,15 @@ const hits={};
 const limit=(max,ms)=>(q,r,n)=>{const k=q.ip+q.path,t=Date.now();hits[k]=(hits[k]||[]).filter(x=>t-x<ms);if(hits[k].length>=max)return r.status(429).json({error:"Too many requests. Please try again later."});hits[k].push(t);n()};
 const app=express();app.disable("x-powered-by");
 app.set("trust proxy", 1);
+app.use(compression());
+app.use((q,r,n)=>{
+  const host=String(q.get("host")||"").toLowerCase().split(":")[0];
+  const canonicalHost=host==="pravekalifescience.net"||host==="www.pravekalifescience.net";
+  if(canonicalHost&&(host!=="www.pravekalifescience.net"||q.protocol!=="https")){
+    return r.redirect(301,"https://www.pravekalifescience.net"+q.originalUrl);
+  }
+  n();
+});
 app.use(express.json({limit:"1mb",verify:(q,r,buf)=>{q.rawBody=buf}}));
 app.use((q,r,n)=>{r.set({"X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"same-origin"});n()});
 
@@ -170,6 +179,7 @@ function cleanProduct(b){
   return{n,c:s(b.c,40),brand:s(b.brand,80),head:s(b.head,200),t:s(b.t,200),ftype:s(b.ftype,100),form:s(b.form,100),conc:s(b.conc,200),apptype:s(b.apptype,100),phys:s(b.phys,100),ptype:s(b.ptype,100),dose:s(b.dose,300),moq,
     desc:s(b.desc,2000),features:s(b.features,2500),mode:s(b.mode,600),pests:s(b.pests,500),crops:s(b.crops,500),deliverable:b.deliverable!==false,hidden:b.hidden===true,sizes,images,video:productVideo(b.video),brochure:url(b.brochure)}}
 app.get("/api/products",(q,r)=>r.json(rd("products",[]).filter(p=>p.hidden!==true)));
+app.get("/api/crops",(q,r)=>r.json(rd("crops",[])));
 app.get("/api/visits",(q,r)=>{
   try{
     const visitFile=path.join(D,"visits.json");
@@ -486,6 +496,162 @@ runBackup();setInterval(runBackup,6*3600e3).unref();
 app.get("/api/admin/backup",managerOnly,(q,r)=>{
   const out={exportedAt:new Date().toISOString()};fs.readdirSync(D).filter(f=>f.endsWith(".json")).forEach(f=>{out[f.replace(/\.json$/,"")]=rd(f.replace(/\.json$/,""),null)});
   r.set("Content-Disposition",'attachment; filename="praveka-backup-'+out.exportedAt.slice(0,10)+'.json"');r.json(out)});
+
+const SEO_BASE="https://www.pravekalifescience.net";
+const SEO_HOME=fs.readFileSync(path.join(__dirname,"public","index.html"),"utf8");
+const SEO_HEAD=(SEO_HOME.match(/<head>([\s\S]*?)<\/head>/i)||[])[1];
+const SEO_HEADER=(SEO_HOME.match(/<header\b[\s\S]*?<\/header>/i)||[])[0];
+const SEO_FOOTER=(SEO_HOME.match(/<footer\b[\s\S]*?<\/footer>/i)||[])[0];
+const escHtml=value=>String(value==null?"":value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+const escJson=value=>JSON.stringify(value).replace(/</g,"\\u003c").replace(/>/g,"\\u003e").replace(/&/g,"\\u0026");
+const text=value=>String(value==null?"":value).trim();
+const plain=value=>text(value).replace(/\s+/g," ");
+const titleUnder60=(value,suffix)=>value.length<60?value:`${value.slice(0,37).trimEnd()}… ${crypto.createHash("sha1").update(suffix).digest("hex").slice(0,6)} | Praveka`;
+function assetUrl(value){
+  const url=text(value);
+  if(/^https?:\/\//i.test(url))return url;
+  return "/"+url.replace(/^\/+/,"");
+}
+function seoHead({title,description,url,image,schema,robots}){
+  if(!SEO_HEAD||!SEO_HEADER||!SEO_FOOTER)throw new Error("SEO page template is missing required homepage markup");
+  let head=SEO_HEAD.replace(/<title>[\s\S]*?<\/title>/i,`<title>${escHtml(title)}</title>`)
+    .replace(/<meta name="description" content="[^"]*">/i,`<meta name="description" content="${escHtml(description)}">`)
+    .replace(/<link rel="canonical" href="[^"]*">/i,`<link rel="canonical" href="${escHtml(url)}">`)
+    .replace(/<meta property="og:type" content="[^"]*">/i,`<meta property="og:type" content="${Array.isArray(schema)&&schema.some(item=>item["@type"]==="Product")?"product":"website"}">`)
+    .replace(/<meta property="og:title" content="[^"]*">/i,`<meta property="og:title" content="${escHtml(title)}">`)
+    .replace(/<meta property="og:description" content="[^"]*">/i,`<meta property="og:description" content="${escHtml(description)}">`)
+    .replace(/<meta property="og:url" content="[^"]*">/i,`<meta property="og:url" content="${escHtml(url)}">`)
+    .replace(/<meta property="og:image" content="[^"]*">/i,`<meta property="og:image" content="${escHtml(image)}">`)
+    .replace(/<meta name="twitter:card" content="[^"]*">/i,`<meta name="twitter:card" content="summary_large_image">`)
+    .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/i,`<script type="application/ld+json">${escJson(schema)}</script>`);
+  head+=`<meta name="twitter:title" content="${escHtml(title)}"><meta name="twitter:description" content="${escHtml(description)}"><meta name="twitter:image" content="${escHtml(image)}">`;
+  if(robots)head+=`<meta name="robots" content="${escHtml(robots)}">`;
+  head=head.replace("<meta charset=\"utf-8\">","<meta charset=\"utf-8\">\n<base href=\"/\">");
+  return head;
+}
+function seoPage({title,description,url,image,schema,body,robots}){
+  const head=seoHead({title,description,url,image,schema,robots});
+  const header=SEO_HEADER.replace(/<button class="ic" id="cartBtn" aria-label="Cart">Cart \(<span id="cnt">0<\/span>\)<\/button>/,'<a class="ic" href="/#cart" aria-label="Cart">Cart</a>');
+  const menuScript='<script>(function(){var button=document.getElementById("bg"),nav=document.getElementById("mainNav");if(!button||!nav)return;button.addEventListener("click",function(){var open=nav.classList.toggle("open");button.setAttribute("aria-expanded",String(open));button.setAttribute("aria-label",open?"Close navigation menu":"Open navigation menu")});nav.addEventListener("click",function(event){if(event.target.closest("a")){nav.classList.remove("open");button.setAttribute("aria-expanded","false")}})})();</script>';
+  return `<!DOCTYPE html><html lang="en"><head>${head}</head><body>${header}<main>${body}</main>${SEO_FOOTER}${menuScript}</body></html>`;
+}
+function formatPrice(value){
+  return typeof value==="number"&&Number.isFinite(value)&&value>=0
+    ?new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR",maximumFractionDigits:2}).format(value)
+    :"";
+}
+function splitList(value){
+  return text(value).split(/\r?\n/).map(item=>item.replace(/^\s*(?:[-•*]|\d+[.)])\s*/,"").trim()).filter(Boolean);
+}
+function cropTokens(crop){
+  return [crop.name,crop.local,...text(crop.match).split(",")].map(v=>plain(v).toLowerCase()).filter(Boolean);
+}
+function productCropTokens(product){
+  return text(product.crops).split(/[,;]/).map(v=>plain(v).toLowerCase()).filter(Boolean);
+}
+function productsForCrop(crop,products){
+  const terms=cropTokens(crop);
+  return products.filter(product=>product.hidden!==true&&productCropTokens(product).some(term=>terms.some(cropTerm=>term===cropTerm||term.includes(cropTerm)||cropTerm.includes(term))));
+}
+function cropsForProduct(product,crops){
+  const terms=productCropTokens(product);
+  return crops.filter(crop=>cropTokens(crop).some(cropTerm=>terms.some(term=>term===cropTerm||term.includes(cropTerm)||cropTerm.includes(term))));
+}
+function linkList(items,href,label){
+  if(!items.length)return "<p>Contact us for product and crop recommendations.</p>";
+  return `<ul>${items.map(item=>`<li><a href="${escHtml(href(item))}">${escHtml(label(item))}</a></li>`).join("")}</ul>`;
+}
+function productCard(product){
+  const image=Array.isArray(product.images)?product.images.find(Boolean):"";
+  const img=image?`<img src="${escHtml(assetUrl(image))}" alt="${escHtml(product.n)}" loading="lazy" width="500" height="500">`:"";
+  return `<li><a href="/products/${encodeURIComponent(product.id)}">${img}<span>${escHtml(product.n)}</span></a></li>`;
+}
+function productSeoPage(product,products,crops){
+  const category=text(product.c)||"Agri Input";
+  const title=titleUnder60(`${product.n} | ${category} | Praveka Life Science`,product.id);
+  const description=plain(product.desc||`${product.n} ${product.c||"agri input"} from Praveka Life Science, Rajkot.`).slice(0,157);
+  const pageUrl=`${SEO_BASE}/products/${encodeURIComponent(product.id)}`;
+  const firstImage=Array.isArray(product.images)?product.images.find(Boolean):"";
+  const image=firstImage?assetUrl(firstImage):"/images/praveka-logo-display.png";
+  const absoluteImage=/^https?:\/\//i.test(image)?image:`${SEO_BASE}${image}`;
+  const pricedSizes=(Array.isArray(product.sizes)?product.sizes:[]).map(size=>({label:text(size&&size[0]),price:size&&typeof size[1]==="number"&&Number.isFinite(size[1])?size[1]:null})).filter(size=>size.label);
+  const prices=pricedSizes.map(size=>size.price).filter(price=>price!==null);
+  const schema={
+    "@context":"https://schema.org",
+    "@type":"Product",
+    name:text(product.n),
+    image:firstImage?[absoluteImage]:undefined,
+    description,
+    brand:product.brand?{"@type":"Brand",name:text(product.brand)}:undefined,
+    category,
+    offers:prices.length?{"@type":"Offer",price:Math.min(...prices),priceCurrency:"INR",availability:product.deliverable===false?"https://schema.org/OutOfStock":"https://schema.org/InStock"}:undefined
+  };
+  const breadcrumb={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},
+    {"@type":"ListItem",position:2,name:"Products",item:SEO_BASE+"/#products"},
+    {"@type":"ListItem",position:3,name:text(product.n),item:pageUrl}
+  ]};
+  const features=splitList(product.features);
+  const sizes=pricedSizes.map(size=>`<li>${escHtml(size.label)}${size.price===null?"":` — ${escHtml(formatPrice(size.price))}`}</li>`).join("");
+  const cropsForPage=cropsForProduct(product,crops).slice(0,12);
+  const related=products.filter(item=>item.id!==product.id&&item.hidden!==true&&item.c===product.c).slice(0,6);
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/#products">Products</a> / ${escHtml(product.n)}</nav><h1>${escHtml(product.n)}</h1><p class="intro">${escHtml(product.head||product.c||"Praveka Life Science")}</p>${firstImage?`<img src="${escHtml(assetUrl(firstImage))}" alt="${escHtml(product.n)}" loading="lazy" width="500" height="500">`:""}<p>${escHtml(product.desc||"Contact Praveka Life Science for product information.")}</p><dl><dt>Active ingredient</dt><dd>${escHtml(product.conc||product.t||"Please refer to the product label")}</dd><dt>Formulation</dt><dd>${escHtml([product.ftype,product.form].filter(Boolean).join(" — ")||"Please refer to the product label")}</dd><dt>Target pests</dt><dd>${escHtml(product.pests||"Please refer to the product label")}</dd><dt>Suitable crops</dt><dd>${escHtml(product.crops||"Please refer to the product label")}</dd><dt>Dose</dt><dd>${escHtml(product.dose||"Follow the product label")}</dd></dl><h2>Pack sizes</h2><ul>${sizes||pricedSizes.map(size=>`<li>${escHtml(size.label)}</li>`).join("")||"<li>Contact us for pack availability.</li>"}</ul>${features.length?`<h2>Features</h2><ul>${features.map(feature=>`<li>${escHtml(feature)}</li>`).join("")}</ul>`:""}<h2>Mode of action</h2><p>${escHtml(product.mode||"Use only as directed on the label.")}</p><aside class="seo-warning"><strong>Always follow the label.</strong> Read and follow all product label directions, precautions and safety instructions before use.</aside><p><a class="btn" href="/#p/${encodeURIComponent(product.id)}">Enquire / Buy</a> <a href="/#products">Back to the shop</a> · <a href="/#contact">Contact us</a></p><section><h2>Suitable crops</h2>${linkList(cropsForPage,crop=>`/crops/${encodeURIComponent(crop.slug)}`,crop=>crop.name)}</section><section><h2>Related ${escHtml(category)} products</h2>${linkList(related,item=>`/products/${encodeURIComponent(item.id)}`,item=>item.n)}</section></article>`;
+  return seoPage({title,description,url:pageUrl,image:/^https?:\/\//i.test(image)?image:`${SEO_BASE}${image}`,schema:[schema,breadcrumb],body});
+}
+function cropSeoPage(crop,products,crops){
+  const title=titleUnder60(`${crop.name} Crop Guide | Praveka Life Science`,crop.slug);
+  const description=plain(`${crop.name} crop guide: growing season ${crop.season||"varies"}, duration ${crop.duration||"varies"}. Explore crop-care products from Praveka Life Science.`).slice(0,157);
+  const pageUrl=`${SEO_BASE}/crops/${encodeURIComponent(crop.slug)}`;
+  const breadcrumb={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},
+    {"@type":"ListItem",position:2,name:"Crops",item:SEO_BASE+"/#crops"},
+    {"@type":"ListItem",position:3,name:crop.name,item:pageUrl}
+  ]};
+  const matched=productsForCrop(crop,products).slice(0,20);
+  const otherCrops=crops.filter(item=>item.slug!==crop.slug).slice(0,8);
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/#crops">Crops</a> / ${escHtml(crop.name)}</nav><h1>${escHtml(crop.name)} Crop Guide</h1><p class="intro">${escHtml(crop.local||"")} · ${escHtml(crop.season||"Growing season varies")} · ${escHtml(crop.duration||"Duration varies")}</p><dl><dt>Growing season</dt><dd>${escHtml(crop.season||"Varies by region")}</dd><dt>Typical duration</dt><dd>${escHtml(crop.duration||"Varies by crop variety")}</dd><dt>Soil and climate</dt><dd>${escHtml(crop.soil||"Choose conditions suitable for the local crop variety.")}</dd><dt>Sowing</dt><dd>${escHtml(crop.sowing||"Follow local agronomic guidance.")}</dd></dl><h2>Growing guidance</h2><p>${escHtml(crop.grow||"Use locally appropriate agronomic practices.")}</p><h2>Crop maintenance</h2><p>${escHtml(crop.maintain||"Monitor crop health and follow local agronomic guidance.")}</p><h2>Harvest</h2><p>${escHtml(crop.harvest||"Harvest at the suitable maturity for your crop variety.")}</p><p><strong>Always follow the product label</strong> and consult a qualified local agronomist before using crop-protection products.</p><section><h2>Products for ${escHtml(crop.name)}</h2>${matched.length?`<ul class="seo-product-list">${matched.map(productCard).join("")}</ul>`:"<p>Contact us for crop-specific product recommendations.</p>"}</section><section><h2>Explore other crops</h2>${linkList(otherCrops,item=>`/crops/${encodeURIComponent(item.slug)}`,item=>item.name)}</section><p><a href="/#products">Back to the shop</a> · <a href="/#contact">Contact us</a></p></article>`;
+  return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:breadcrumb,body});
+}
+const CATEGORY_SLUGS={
+  insecticide:"Insecticide",
+  fungicide:"Fungicide",
+  herbicide:"Herbicide",
+  "pgr-and-nutrition":"PGR & Nutrition",
+  fertilizer:"Fertilizer"
+};
+function categorySeoPage(slug,category,products){
+  const title=titleUnder60(`${category} Products | Praveka Life Science`,slug);
+  const description=plain(`Explore ${category.toLowerCase()} products from Praveka Life Science in Rajkot, Gujarat. View product details and enquire online.`).slice(0,157);
+  const pageUrl=`${SEO_BASE}/category/${encodeURIComponent(slug)}`;
+  const items=products.filter(product=>product.hidden!==true&&product.c===category);
+  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/#products">Products</a> / ${escHtml(category)}</nav><h1>${escHtml(category)} products</h1><p>${escHtml(description)}</p><ul class="seo-product-list">${items.map(productCard).join("")}</ul><p><a href="/#products">Back to the shop</a> · <a href="/#contact">Contact us</a></p></article>`;
+  const breadcrumb={"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},
+    {"@type":"ListItem",position:2,name:"Products",item:SEO_BASE+"/#products"},
+    {"@type":"ListItem",position:3,name:category,item:pageUrl}
+  ]};
+  return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:breadcrumb,body});
+}
+app.get("/products/:id",(q,r)=>{
+  const products=rd("products",[]),product=products.find(item=>item.id===q.params.id&&item.hidden!==true);
+  if(!product)return r.status(404).type("html").send(seoPage({title:"Product not found | Praveka Life Science",description:"This product is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Product not found</h1><p>This product is unavailable or may have been removed.</p><p><a href="/#products">Back to the shop</a></p></article>',robots:"noindex"}));
+  r.type("html").send(productSeoPage(product,products,rd("crops",[])));
+});
+app.get("/crops/:slug",(q,r)=>{
+  const crops=rd("crops",[]),crop=crops.find(item=>item.slug===q.params.slug);
+  if(!crop)return r.status(404).type("html").send(seoPage({title:"Crop not found | Praveka Life Science",description:"This crop guide is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Crop not found</h1><p>This crop guide is unavailable.</p><p><a href="/#crops">Explore crops</a></p></article>',robots:"noindex"}));
+  r.type("html").send(cropSeoPage(crop,rd("products",[]),crops));
+});
+app.get("/category/:slug",(q,r)=>{
+  const category=CATEGORY_SLUGS[q.params.slug]||(q.params.slug==="pgr-nutrition"?CATEGORY_SLUGS["pgr-and-nutrition"]:undefined);
+  if(!category)return r.status(404).type("html").send(seoPage({title:"Category not found | Praveka Life Science",description:"This product category is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Category not found</h1><p><a href="/#products">Browse products</a></p></article>',robots:"noindex"}));
+  r.type("html").send(categorySeoPage(q.params.slug,category,rd("products",[])));
+});
+app.get("/sitemap.xml",(q,r)=>{
+  const products=rd("products",[]).filter(item=>item.hidden!==true),crops=rd("crops",[]),lastmod=new Date().toISOString().slice(0,10);
+  const urls=[`${SEO_BASE}/`,...products.map(item=>`${SEO_BASE}/products/${encodeURIComponent(item.id)}`),...crops.map(item=>`${SEO_BASE}/crops/${encodeURIComponent(item.slug)}`),...Object.keys(CATEGORY_SLUGS).map(slug=>`${SEO_BASE}/category/${encodeURIComponent(slug)}`)];
+  r.type("application/xml").send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map(url=>`<url><loc>${escHtml(url)}</loc><lastmod>${lastmod}</lastmod></url>`).join("")}</urlset>`);
+});
 
 app.use("/uploads",express.static(path.join(D,"uploads")));
 app.use(express.static(path.join(__dirname,"public")));
