@@ -590,21 +590,6 @@ function productCard(product){
   const img=image?`<img src="${escHtml(assetUrl(image))}" alt="${escHtml(product.n)}" loading="lazy" width="500" height="500">`:"";
   return `<li><a href="/products/${encodeURIComponent(product.id)}">${img}<span>${escHtml(product.n)}</span></a></li>`;
 }
-function productsIndexPage(products){
-  const title="Crop Protection Products | Praveka Life Science";
-  const description="Browse insecticides, fungicides, herbicides, fertilizers and plant nutrition products from Praveka Life Science.";
-  const pageUrl=`${SEO_BASE}/products`;
-  const items=products.filter(product=>product.hidden!==true);
-  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Products</nav><h1>Products</h1><p>${escHtml(description)}</p><ul class="seo-product-list">${items.map(productCard).join("")}</ul></article>`;
-  return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},{"@type":"ListItem",position:2,name:"Products",item:pageUrl}]},body});
-}
-function cropsIndexPage(crops){
-  const title="Crop Guides | Praveka Life Science";
-  const description="Explore crop guides with growing seasons, duration, care advice and related crop-care products.";
-  const pageUrl=`${SEO_BASE}/crops`;
-  const body=`<article class="wrap sec seo-page"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Crops</nav><h1>Crop guides</h1><p>${escHtml(description)}</p><ul>${crops.map(crop=>`<li><a href="/crops/${encodeURIComponent(crop.slug)}">${escHtml(crop.name)}${crop.local?` — ${escHtml(crop.local)}`:""}</a></li>`).join("")}</ul></article>`;
-  return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem",position:1,name:"Home",item:SEO_BASE+"/"},{"@type":"ListItem",position:2,name:"Crops",item:pageUrl}]},body});
-}
 function productSeoPage(product,products,crops){
   const category=text(product.c)||"Agri Input";
   const productName=[product.brand,product.n].map(plain).filter(Boolean).join(" ");
@@ -672,9 +657,8 @@ function categorySeoPage(slug,category,products){
   ]};
   return seoPage({title,description,url:pageUrl,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:breadcrumb,body});
 }
-app.get("/products",(q,r)=>r.type("html").send(productsIndexPage(rd("products",[]))));
-app.get("/crops",(q,r)=>r.type("html").send(cropsIndexPage(rd("crops",[]))));
-app.get("/buy/:id",(q,r)=>r.redirect(302,`/#p/${encodeURIComponent(q.params.id)}`));
+app.get(["/products","/crops"],(q,r)=>r.sendFile(path.join(__dirname,"public","index.html")));
+app.get("/buy/:id",(q,r)=>r.sendFile(path.join(__dirname,"public","index.html")));
 app.get("/products/:id",(q,r)=>{
   const products=rd("products",[]),product=products.find(item=>item.id===q.params.id&&item.hidden!==true);
   if(!product)return r.status(404).type("html").send(seoPage({title:"Product not found | Praveka Life Science",description:"This product is unavailable.",url:`${SEO_BASE}${q.originalUrl}`,image:`${SEO_BASE}/images/praveka-logo-display.png`,schema:{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[]},body:'<article class="wrap sec seo-page"><h1>Product not found</h1><p>This product is unavailable or may have been removed.</p><p><a href="/products">Back to the shop</a></p></article>',robots:"noindex"}));
